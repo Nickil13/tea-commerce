@@ -1,0 +1,31 @@
+{
+  "name": "tea-commerce",
+  "version": "1.0.0",
+  "description": "a e-commerce app for tea built with the MERN stack",
+  "main": "server.js",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "mongoose": "^5.13.8",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  },
+  "scripts": {
+    "start": "node backend/server",
+    "server": "nodemon backend/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nickil13/tea-commerce.git"
+  },
+  "keywords": [],
+  "author": "nicki lindstrom",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nickil13/tea-commerce/issues"
+  },
+  "homepage": "https://github.com/Nickil13/tea-commerce#readme"
+}
