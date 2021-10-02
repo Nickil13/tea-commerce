@@ -17,6 +17,7 @@ As an admin:
 - HTML
 - SCSS
 - React JS
+- Redux
 - MongoDB, Mongoose
 - Nodejs, Express
 
