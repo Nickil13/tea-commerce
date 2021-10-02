@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useGlobalContext } from '../context';
 import Message from '../components/Message';
+import { useSelector} from 'react-redux';
 
 export default function Signup() {
     const[username,setUsername] = useState("");
@@ -9,15 +10,18 @@ export default function Signup() {
     const[password,setPassword] = useState("");
     const[confirmPassword,setConfirmPassword] = useState("");
     const[error, setError] = useState("");
-    const{register,isLoggedIn} = useGlobalContext();
+    const{register} = useGlobalContext();
     const history = useHistory();
+
+    const user = useSelector((state)=>state.user.userLogin);
+    const {userInfo} = user;
     
-    // useEffect(()=>{
-    //     if(isLoggedIn){
-    //         history.push("/account");
-    //     }
+    useEffect(()=>{
+        if(userInfo){
+            history.push("/account");
+        }
         
-    // },[])
+    },[userInfo,history])
     const handleSubmit = (e) => {
         e.preventDefault();
         setError("");

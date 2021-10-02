@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useGlobalContext } from '../context';
 import Message from '../components/Message';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../actions/userActions';
 
 export default function Login() {
     const[username,setUsername] = useState("");
     const[password,setPassword] = useState("");
-    const{login, isLoggedIn,error} = useGlobalContext();
+    const dispatch = useDispatch();
+
+    const user = useSelector((state)=>state.user.userLogin);
+    const { userInfo, error } = user;
     const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        login(username,password);
-        console.log(isLoggedIn);
+        dispatch(login(username,password));
+        console.log(userInfo);
     }
     useEffect(()=>{
-        if(isLoggedIn){
+        if(userInfo){
             history.push("/account");
         }
-    },[isLoggedIn])
+    },[userInfo])
     return (
         <div className="signup-container" onSubmit={handleSubmit}>
             <h1>Log in</h1>

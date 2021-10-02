@@ -5,7 +5,7 @@ import { GoPackage} from 'react-icons/go';
 
 
 
-export default function Account() {
+export default function UserProfile() {
     const{user,logout} = useGlobalContext();
     const{username,email,address,paymentInfo} = user;
     const{street,city,state,country,zipcode} = address;

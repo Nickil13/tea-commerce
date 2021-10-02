@@ -5,10 +5,10 @@ import AccordionItem from './AccordionItem';
 import { teaProductCategories as categories } from '../teaInfoData';
 
 export default function Sidebar() {
-    const{isSidebarOpen,closeSidebar} = useGlobalContext();
+    // const{isSidebarOpen,closeSidebar} = useGlobalContext();
     return (
         <>
-            <div className={`sidebar-container ${isSidebarOpen && 'sidebar-container show'}`}>
+            {/* <div className={`sidebar-container ${isSidebarOpen && 'sidebar-container show'}`}>
                 <div className="sidebar">
                     <button className="close-sidebar-btn"
                     onClick={closeSidebar}><FaTimes/></button>
@@ -22,7 +22,7 @@ export default function Sidebar() {
                     <FaUser/>
                 </div>
             </div>
-            <div className={`sidebar-overlay ${isSidebarOpen && 'sidebar-overlay show'}`}></div>
+            <div className={`sidebar-overlay ${isSidebarOpen && 'sidebar-overlay show'}`}></div> */}
         </>
         
     )

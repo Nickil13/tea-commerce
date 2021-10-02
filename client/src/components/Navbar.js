@@ -2,13 +2,26 @@ import React, { useState, useEffect, useRef } from 'react'
 import {Link, NavLink, useHistory} from "react-router-dom";
 import { FaShoppingCart, FaBars, FaUserCircle } from 'react-icons/fa';
 import { GiTeapot } from 'react-icons/gi';
-import { useGlobalContext } from '../context';
+import { useSelector, useDispatch} from 'react-redux';
+import { logout} from '../actions/userActions';
 // import { teaProductCategories as categories } from '../teaInfoData';
+
 export default function Navbar() {
+    const dispatch = useDispatch();
+
+    const user = useSelector((state)=>state.user.userLogin);
+    const {userInfo} = user;
+    
+    const cart = useSelector((state)=>state.cart);
+    const {cartItems} = cart;
+
     const[showDropdown,setShowDropdown] = useState(false);
-    const{openSidebar,cart,user,logout} = useGlobalContext();
+    // const{openSidebar,cart,user,logout} = useGlobalContext();
     const history = useHistory();
     const navbar = useRef(null) ;
+
+    const cartItemAmount = cartItems.reduce((acc,item)=>acc + item.amount, 0);
+
     const handleDropdownMenu = (e) => {
         if(navbar.current && !navbar.current.contains(e.target)){
             setShowDropdown(false);
@@ -21,11 +34,13 @@ export default function Navbar() {
             document.removeEventListener("mousedown", handleDropdownMenu);
         }
     },[])
+
     const handleLogoutClick = () => {
         setShowDropdown(false);
         history.push("/");
-        logout();
+        dispatch(logout());
     }
+
     const handleAccountClick = () => {
         setShowDropdown(false);
         history.push(`${user ? "/account" : "/login"}`);
@@ -34,23 +49,28 @@ export default function Navbar() {
     return (
         <div className="nav-container" ref={navbar}>
             <nav>
-                <div className="sidebar-toggle"
-                    onClick={openSidebar}><FaBars/></div>
+                {/* <div className="sidebar-toggle"
+                    onClick={openSidebar}><FaBars/></div> */}
+                    <div className="sidebar-toggle"><FaBars/></div>
                 <Link className="logo" to="/">Tea Commerce</Link>
                 
                 <ul className="nav-links">
                     <li>
-                        <NavLink className="nav-link" to="/shop">
-                            Shop</NavLink>
+                        <NavLink className="nav-link" to="/shop/loose-leaf">
+                            Loose Leaf</NavLink>
                     </li>
                     <li>
-                        <NavLink className="nav-link" to="/recipes">
-                            Recipes</NavLink>
+                        <NavLink className="nav-link" to="/shop/matcha">
+                            Matcha</NavLink>
+                    </li>
+                    <li>
+                        <NavLink className="nav-link" to="/shop/tea-mixes">
+                            Mixes</NavLink>
                     </li>
                     
                 </ul>
                 <ul className="nav-icons">
-                    {user ? 
+                    {userInfo ? 
                     <div className="nav-dropdown">
                         <FaUserCircle className="nav-icon nav-icon-loggedin" onClick={()=>setShowDropdown(true)}/>
                         {showDropdown &&
@@ -79,7 +99,7 @@ export default function Navbar() {
                     <li className="nav-link cart-link">
                         <NavLink to="/cart">
                             <FaShoppingCart className="nav-icon" />
-                            <span className="cart-icon-amount">{cart.length}</span>
+                            <span className="cart-icon-amount">{cartItemAmount}</span>
                         </NavLink>
                     </li>
                 </ul>

@@ -1,12 +1,18 @@
 import React from 'react'
-import { useGlobalContext } from '../context'
 import CartCard from '../components/CartCard'
 import { useHistory} from 'react-router-dom'
+import { useSelector, useDispatch} from 'react-redux';
+import { clearCart } from '../actions/cartActions';
 
 export default function Cart() {
-    const{cart,clearCart} = useGlobalContext();
+    const dispatch = useDispatch();
+    const cart = useSelector((state)=>state.cart);
+    const { cartItems} = cart;
+
     const history = useHistory();
-    if(!cart.length>0){
+    
+    
+    if(!cartItems.length>0){
         return(
             <main>
                 <div className="cart-container">
@@ -30,7 +36,7 @@ export default function Cart() {
                         <h1>My Cart</h1>
                     </div>
                     <div className="cart-items">
-                        {cart.length>0 ? cart.map((item,index)=>{
+                        {cartItems.length>0 ? cartItems.map((item,index)=>{
                             return(
                                 <CartCard key={index} {...item}/>
                             )
@@ -40,7 +46,7 @@ export default function Cart() {
                         <p>Total amount in cart: $0</p>
                     </div>
                     <div className="cart-btns">
-                        <button onClick={clearCart} className="btn btn-primary">Clear Cart</button>
+                        <button onClick={()=>{dispatch(clearCart())}} className="btn btn-primary">Clear Cart</button>
                         <button className="btn btn-primary">Checkout</button>
                     </div>
                     

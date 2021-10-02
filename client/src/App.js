@@ -8,14 +8,16 @@ import Shop from "./pages/Shop";
 import ItemProfile from "./pages/ItemProfile";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Recipes from "./pages/Recipes";
 import Sidebar from "./components/Sidebar";
-import Account from './pages/Account';
+import Account from './pages/UserProfile';
 import Alert from './components/Alert';
 import { useGlobalContext} from "./context";
+import { useSelector} from 'react-redux';
+
 
 function App() {
-  const{isLoggedIn} = useGlobalContext();
+  const user = useSelector((state)=>state.user.userLogin);
+  const {userInfo} = user;
 
   return (
     <div className="page-container">
@@ -26,15 +28,14 @@ function App() {
           <Route exact path="/"><Home/></Route>
           <Route path="/cart"><Cart/></Route>
           <Route path="/account">
-            {
-              isLoggedIn ? <Account/> : <Redirect to="/login"/> 
-            }
+            {/* {
+              userInfo ? <Account/> : <Redirect to="/login"/> 
+            } */}
           </Route>
           <Route path="/login"><Login/></Route>
           <Route path="/shop/:category/:type/:id"><ItemProfile/></Route>
           <Route path="/shop/:category?/:type?"><Shop/></Route>
           <Route path="/signup"><Signup/></Route>
-          <Route path="/recipes"><Recipes/></Route>
           <Route path="/itemProfile/:name"><ItemProfile/></Route>
         </Switch>
         <Footer/>

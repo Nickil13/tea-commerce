@@ -1,9 +1,12 @@
 import React from 'react'
 import {Link} from 'react-router-dom';
 import {FaTwitter, FaInstagram, FaPinterest} from 'react-icons/fa';
-import { useGlobalContext} from '../context';
+import { useSelector } from 'react-redux';
+
 export default function Footer() {
-    const{isLoggedIn} = useGlobalContext();
+    const user = useSelector((state)=>state.user.userLogin);
+    const {userInfo} = user;
+
     return (
         <footer>
             <div className="footer-items">
@@ -11,9 +14,8 @@ export default function Footer() {
                     <li ><Link to="/" className="footer-link">Home</Link></li>
                     <li><Link to="/shop" className="footer-link">Shop</Link></li>
                     <li><Link to="/cart" className="footer-link">Cart</Link></li>
-                    <li><Link to="/recipes" className="footer-link">Recipes</Link></li>
                 </ul>
-                {isLoggedIn ? 
+                {userInfo ? 
                 <ul className="account-links"> <strong>My Account</strong>
                     <li><Link to="/account" className="footer-link">Account Information</Link></li>
                     <li><Link to="/account" className="footer-link">Orders</Link></li>

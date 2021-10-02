@@ -1,20 +1,25 @@
 import React from 'react';
-import { useGlobalContext } from '../context';
 import { useHistory, useParams } from 'react-router-dom';
-
+import { useDispatch} from 'react-redux';
+import { addToCart } from '../actions/cartActions';
 export default function ShopCard({item}) {
-    const{addToCart} = useGlobalContext();
     const history = useHistory();
     const {category,type} = useParams();
     const{name,id,image,price} = item;
 
+    const dispatch = useDispatch();
+
+    const handleAddToCart = () =>{
+        dispatch((addToCart(item.id,1)));
+    }
     const handleCardClick = () =>{
         let currentPath = history.location.pathname;
+        console.log(currentPath);
         if(category){
             if(type){
-                history.push(`${currentPath}/${id}`);
+                history.push(`${currentPath}${id}`);
             }else{
-                history.push(`${currentPath}/${item.type.replace(" ","-")}/${id}`);
+                history.push(`${currentPath}${item.type.replace(" ","-")}/${id}`);
             }
             
         }else{
@@ -36,7 +41,7 @@ export default function ShopCard({item}) {
                 <p>{type}</p>
                 <p>$ {price}/50g</p>
                 <button className="btn btn-secondary"
-                onClick={()=>{addToCart(item)}}>Add to Cart</button>
+                onClick={handleAddToCart}>Add to Cart</button>
              </div>    
         </div>
     )
