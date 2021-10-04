@@ -1,0 +1,40 @@
+@use '../abstracts';
+
+  .dropdown-items{
+    position: absolute;
+    /* right:-50%; */
+    top: 100%;
+    right:-50%;
+    border: 1px solid abstracts.$color-dark;
+    // font-family: abstracts.$ff-secondary;
+    background-color: abstracts.$color-neutral;
+    padding: 1em;
+  }
+  .dropdown-link{
+    color: abstracts.$color-dark;
+  }
+  .dropdown-item{
+    padding: 0.5em;
+    background-color: abstracts.$color-neutral;
+    color: abstracts.$color-dark;
+  }
+  .dropdown-item:hover:not(.dropdown-username){
+    background-color: abstracts.$color-primary-light;
+  }
+  .dropdown-username{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-transform: capitalize;
+    font-weight: 400;
+    letter-spacing: 1px; 
+  }
+  .dropdown-icon{
+    font-size: 25px;
+    color: abstracts.$color-secondary;
+  }
+  .dropdown-btn{
+    width: 100%;
+    padding:0;
+    margin:0;
+  }

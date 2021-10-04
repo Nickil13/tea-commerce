@@ -1,10 +1,10 @@
 import React, { useState, useEffect ,useRef} from 'react'
-import itemData from "../teaItemData";
+import itemData from "../resources//teaItemData";
 import ShopCard from "../components/ShopCard";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { useParams ,useHistory} from 'react-router-dom';
 import { FaSearch} from 'react-icons/fa';
-import { teaProductCategories as categories} from '../teaInfoData';
+import { teaProductCategories as categories} from '../resources/teaInfoData';
 
 export default function Shop() {
     const[pageInfo,setPageInfo] = useState({title:"All tea",image: "/images/chamomile.jpg",description:"",bannerColor:"lemonchiffon"});

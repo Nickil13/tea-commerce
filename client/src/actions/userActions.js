@@ -1,6 +1,6 @@
 import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT } from "../constants/userConstants"
 
-import userData from '../userData';
+import userData from '../resources/userData';
 
 export const login = (username,password) => async (dispatch) => {
     try{

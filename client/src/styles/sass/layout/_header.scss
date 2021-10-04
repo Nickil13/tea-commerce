@@ -1,0 +1,106 @@
+@use '../abstracts';
+
+.nav-container{
+    position: fixed;
+    display:grid;
+    align-items: center;
+    top:0;
+    z-index: 1;
+    padding: 0 1em;
+    width: 100%;
+    height: abstracts.$nav-height;
+    background-color: abstracts.$color-neutral;
+  }
+  nav{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+    /* display: flex;
+    justify-content: space-between;
+    align-items: center; */
+    width: 100%;
+    max-width: 60rem;
+    margin: 0 auto;
+  }
+  
+  .nav-link{
+    padding: 1rem;
+    font-family: abstracts.$ff-secondary;
+    color:abstracts.$color-dark;
+  }
+  .nav-links{
+    display:none;
+  }
+  .cart-link{
+    position: relative;
+  }
+  .cart-icon-amount{
+    position: absolute;
+    display: grid;
+    place-items: center;
+    bottom: 5px;
+    right: 5px;
+    height: 24px;
+    width: 24px;
+    border-radius: 12px;
+    color: abstracts.$color-neutral;
+    background-color: abstracts.$color-primary;
+  }
+  
+  .nav-link:hover, .nav-icon:hover{
+    color: abstracts.$color-primary-light;
+  }
+  .nav-icons{
+    display: flex;
+    padding: 1em;
+    justify-self: right;
+  }
+  .nav-icon{
+    font-size: 25px;
+    color: abstracts.$color-dark;
+    cursor:pointer;
+  }
+  .nav-icon-loggedin{
+    color: abstracts.$color-secondary;
+      &:hover{
+        color: abstracts.$color-secondary-dark;
+      }
+  }
+  
+  .nav-dropdown{
+    position: relative;
+    padding: 1em;
+  }
+
+  @media screen and (min-width: 800px){
+    .nav-links{
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+    .nav-icons{
+      display: flex;
+      justify-content: space-around;
+      align-items:center;
+    }
+  }
+
+  //Logo
+  .logo, .sidebar-toggle{
+    &:hover{
+      color: abstracts.$color-dark;
+    }
+
+  }
+  
+  .logo{
+    font-size: 25px;
+    font-family: abstracts.$ff-secondary;
+    text-align: center;
+    justify-self: left;
+  }
+
+  //Hero
+  .hero{
+    height: abstracts.$hero-height;
+  }

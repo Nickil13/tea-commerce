@@ -30,7 +30,7 @@ export default function ShopCard({item}) {
     return (
         <div className="shop-card">
             <div className="img-container" onClick={handleCardClick}>
-                <img className="fit-image" src={image} alt={name} />
+                <img src={image} alt={name} />
                 {item.flavourImage &&
                 <div className="flavour-container">
                     <img className="fit-image" src={item.flavourImage} alt={name} />

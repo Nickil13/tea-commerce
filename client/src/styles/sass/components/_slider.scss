@@ -1,0 +1,85 @@
+@use '../abstracts'; 
+
+.slider{
+    position:relative;
+    background-color: abstracts.$color-dark;
+  }
+  
+  .slide-title{
+    max-width: 20ch;
+    text-align: center;
+    color: abstracts.$color-neutral;
+  }
+  .slide-dots{
+    display:flex;
+    position: absolute;
+    bottom:0;
+    width:100%;
+    justify-content: center;
+    color: abstracts.$color-neutral;
+
+      & li{
+        padding: 0.25em;
+        cursor: pointer;
+        transition: abstracts.$btn-transition;
+
+        &:hover{
+          color: abstracts.$color-neutral-gray; 
+        }
+      }
+  
+  }
+  
+  .slider-arrow{
+    position: absolute;
+    display:grid;
+    place-items:center;
+    top: 0;
+    color: abstracts.$color-neutral;
+    font-size: 50px;
+    padding: 1rem;
+    height:100%;
+    cursor: pointer;
+    transition: abstracts.$btn-transition;
+
+      &:hover{
+        color: abstracts.$color-neutral-gray;
+      }
+  }
+ 
+  .arrow-left{
+    left:0;
+  }
+  .arrow-right{
+    right:0;
+  }
+  .slide{
+    place-items:center;
+    background-position:center;
+    background-size: cover;
+    width:100%;
+    height:abstracts.$hero-height;
+    display: none;
+    animation: fade-in 1s ease-in;
+
+    
+  }
+  
+  .slide-active{
+    display:grid;
+    /* opacity:1; */
+  }
+  .slide-content{
+    display:grid;
+      
+      & p{
+        color:abstracts.$color-neutral;
+      }
+  }
+
+  @media screen and (min-width: 1000px){
+    #matcha-slide .slide-content{
+      justify-self:start;
+      margin-left: 2rem;
+    }
+  }

@@ -2,7 +2,7 @@ import React from 'react';
 import { FaTimes, FaUser} from 'react-icons/fa';
 import { useGlobalContext} from '../context';
 import AccordionItem from './AccordionItem';
-import { teaProductCategories as categories } from '../teaInfoData';
+import { teaProductCategories as categories } from '../resources/teaInfoData';
 
 export default function Sidebar() {
     // const{isSidebarOpen,closeSidebar} = useGlobalContext();

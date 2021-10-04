@@ -1,0 +1,37 @@
+@use '../abstracts';
+
+.btn{
+    font-size: 16px;
+    border:none;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    margin: 1em auto;
+    transition: abstracts.$btn-transition;
+
+      &:hover{
+        background-color: abstracts.$color-primary-light;
+      }
+  }
+  
+  .btn-primary{
+    background-color: abstracts.$color-primary;
+    color: abstracts.$color-neutral;
+      &:hover{
+        background-color: abstracts.$color-primary-dark;
+      }
+  }
+  .btn-primary-orange{
+    background-color: abstracts.$color-secondary;
+    color: abstracts.$color-neutral;
+      &:hover{
+        background-color: abstracts.$color-secondary-dark;
+      }
+  }
+  
+  .btn-secondary{
+    margin-top: 1em;
+    background-color: abstracts.$color-secondary;
+      &:hover{
+        background-color: abstracts.$color-secondary-dark;
+      }
+  }

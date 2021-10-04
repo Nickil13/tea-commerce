@@ -1,0 +1,60 @@
+@use '../abstracts';
+
+.sidebar{
+    position: relative;
+    padding: 5em 0;
+    
+  }
+.sidebar-toggle{
+    font-size: 25px;
+    cursor: pointer;
+    justify-self: left;
+}
+  .close-sidebar-btn{
+    position: absolute;
+    top:0;
+    right:0;
+    background-color: transparent;
+    color: abstracts.$color-primary;
+    border: none;
+    font-size: 25px;
+    padding: 1rem;
+    cursor: pointer;
+  }
+  
+  .sidebar-container{
+    position: fixed;
+    top:0;
+    left:0;
+    z-index: 2;
+    height:100%;
+    width: 80%;
+    max-width: 400px;
+    transform: translateX(-100%);
+    transition: all 500ms ease-in-out;
+    background-color:abstracts.$color-neutral;
+    overflow:hidden;
+  }
+  .sidebar-container.show{
+    transform: translateX(0);
+  }
+  .sidebar-overlay{
+    position:fixed;
+    display:none;
+    background-color: rgba(0, 0, 0, 0.50);
+    top:0;
+    left:0;
+    bottom:0;
+    width: 100%;
+    z-index: 1;
+  }
+  .sidebar-overlay.show{
+    display:block;
+  }
+
+  @media screen and (min-width: 800px){
+    .sidebar-toggle{
+      display:none;
+    }
+  }
+  

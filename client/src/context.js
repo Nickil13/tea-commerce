@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect} from 'react';
-import data from "./teaItemData";
-import userData from './userData';
+import data from "./resources/teaItemData";
+import userData from './resources/userData';
 const AppContext = React.createContext();
 
 export const AppProvider = ({children}) =>{

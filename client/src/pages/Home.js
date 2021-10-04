@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link,useHistory} from 'react-router-dom';
 import Slider from '../components/Slider';
+import Tabs from '../components/Tabs';
 
 
 export default function Home() {
@@ -13,31 +14,15 @@ export default function Home() {
     }
 
     
-
     return (
         <main>
             <div className="hero">
                 <Slider/>         
             </div>
+
             <section className="tea-tabs-section">
                 <h2>Loose leaf teas</h2>
-                <ul className="tea-tabs">
-                    <li>Black</li>
-                    <li>Green</li>
-                    <li>Red</li>
-                    <li>White</li>
-                    <li>Oolong</li>
-                </ul>
-                <div className="tea-tabs-content">
-                    <div className="tea-tabs-img-container">
-                        <img className="fit-image" src="images/chai.jpg" alt="" />
-                    </div>
-                    <div className="tea-tabs-info">
-                        <h3>Black Tea</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias quam nobis incidunt animi impedit laboriosam eveniet hic! Reiciendis sed ipsam pariatur molestiae?</p>
-                    </div>
-                    
-                </div>
+                <Tabs/>
             </section>
             <section className="seasonal-section">
                 <h2>Summer is Here!</h2>

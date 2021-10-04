@@ -1,0 +1,75 @@
+@use '../abstracts';
+
+.tea-tabs-section{
+    // background-color: abstracts.$color-primary-light;
+}
+
+.tea-tabs{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+
+    & li{
+        position: relative;
+        text-transform: capitalize;
+        padding: 0.50rem;
+        margin: 0 0.50rem;
+        cursor: pointer;
+
+        &:hover{
+            color: abstracts.$color-primary;
+        }
+    }
+}
+
+.active-tab{
+    color: abstracts.$color-primary-dark;
+
+    &::after{
+        position: absolute;
+        content: '';
+        height: 3px;
+        background: abstracts.$color-primary;
+        width:100%;
+        bottom:0;
+        left:0;
+    }
+}
+
+  .tea-tabs-img-container{
+    padding: 1em;
+    height: 300px;
+    
+
+    & img {
+      border: 6px solid abstracts.$color-primary-light;
+      @include abstracts.fit-image; 
+    }
+    
+  }
+ 
+  .tea-tabs-content{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .tea-tabs-info{
+    padding:1em;
+    display: grid;
+    align-content: center;
+
+        & h3{
+            font-weight: bold;
+            font-size: 30px;
+        }
+        & span{
+            font-size: 12px;
+            letter-spacing: 1px;
+            margin: 0.50rem 0;
+            text-transform: uppercase;
+            color: abstracts.$color-neutral-dark;
+        }
+  }
+
+

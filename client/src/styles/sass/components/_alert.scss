@@ -1,0 +1,24 @@
+@use '../abstracts';
+
+.alert-container{
+    position:fixed;
+    display:grid;
+    place-items:center;
+    top:0;
+    height: 100px;
+    transform: translateY(-100%);
+    background-color: abstracts.$color-secondary;
+    width: 100%;
+    z-index: 2;
+    transition: all 500ms ease-in;
+  }
+  .alert-container.show{
+    transform: translateY(0%);
+  }
+  .alert{
+    background-color: abstracts.$color-neutral;
+    width: 80%;
+    padding: 1em;
+    text-align: center;
+    // font-family: abstracts.$ff-primary;
+  }

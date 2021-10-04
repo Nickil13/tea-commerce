@@ -1,5 +1,5 @@
 import { CART_ADD_ITEM, CART_CLEAR_ITEMS } from '../constants/cartConstants';
-import teaItemData from '../teaItemData';
+import teaItemData from '../resources/teaItemData';
 
 export const addToCart = (id,amount) => (dispatch, getState) => {
     

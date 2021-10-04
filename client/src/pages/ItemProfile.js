@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react'
 import { useParams} from "react-router-dom";
 import {useGlobalContext} from "../context";
-import data from '../teaItemData';
+import data from '../resources/teaItemData';
 export default function ItemProfile() {
     const{id} = useParams();
     const{getItem, addToCart} = useGlobalContext();

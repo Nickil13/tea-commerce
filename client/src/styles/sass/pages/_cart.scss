@@ -1,0 +1,28 @@
+.cart-header{
+    padding: 3em 0;
+  }
+  .cart-container{
+    margin: 0 auto;
+    width: 80%;
+  }
+  .cart{
+    display: grid;
+    place-items: center;
+  }
+
+  /* Cart Card */
+  .cart-card{
+    padding: 1em;
+    display:flex;
+  }
+  .cart-card:nth-child(odd){
+    background-color: $color-primary-light;
+  }
+  .cart-image{
+    max-width: 150px;
+    max-height: 150px;
+  }
+  .cart-item-description{
+    padding: 1em;
+    width: 200px;
+  }

@@ -1,0 +1,76 @@
+@use '../abstracts';
+
+section{
+    min-height: 300px;
+    width: 100%;
+    padding: 2em 1em;
+
+    h2{
+      font-family: abstracts.$ff-secondary;
+      text-align: center;
+    }
+}
+
+  .seasonal-box{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+    justify-items: center;
+    align-items: center;
+    column-gap: 1em;
+    row-gap: 1em;
+    width:100%;
+    padding: 1em;
+  }
+  .seasonal-item{
+    position:relative;
+  }
+  .seasonal-thumb{
+    background-size: cover;
+    background-position: center;
+    height: 150px;
+    width:150px;
+    border-radius: 75px;
+    overflow:hidden;
+    cursor:pointer;
+  }
+  .thumb-cover{
+    display: none;
+    place-items: center;
+    background-color: abstracts.$color-dark-transparent;
+    color:abstracts.$color-neutral;
+    width:100%;
+    height: 100%;
+  }
+  .seasonal-thumb:hover .thumb-cover{
+    display:grid;
+  }
+  
+  .seasonal-item h3{
+    text-align: center;
+    margin-top: 1em;
+  }
+  
+  .seasonal-section{
+    background-color: abstracts.$color-secondary-light;
+  }
+  
+  /* Matcha Section & Teaparty Section */
+  .matcha-section,.teaparty-section{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    img{
+      @include abstracts.fit-image; 
+    }
+  }
+  .matcha-section-info,.teaparty-section-info{
+    display: grid;
+    place-items:center;
+    padding: 0 1em;
+  }
+  .teaparty-section{
+    background-color: abstracts.$color-secondary-light;
+  }
+  .teaparty-link{
+    color: abstracts.$color-neutral-dark;
+  }

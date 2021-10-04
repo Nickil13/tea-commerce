@@ -1,0 +1,32 @@
+@use '../abstracts';
+
+/*
+Primary font: Lato
+Secondary font: Lora
+*/
+h1{
+    font-family: abstracts.$ff-secondary;
+    text-transform: capitalize;
+}
+
+h2{
+  font-family: abstracts.$ff-secondary;
+  text-transform: capitalize;
+}
+
+h3{
+  font-family: abstracts.$ff-secondary;
+  text-transform: capitalize;
+}
+
+main{
+  font-family: abstracts.$ff-primary;
+}
+
+.btn{
+  font-family: abstracts.$ff-primary;
+}
+
+footer{
+  font-family: abstracts.$ff-primary;
+}

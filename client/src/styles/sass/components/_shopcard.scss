@@ -1,0 +1,30 @@
+@use '../abstracts';
+
+
+.shop-card{
+    position: relative;
+    padding: 1em;
+    margin: 1em;
+    background-color: abstracts.$color-primary-light;
+    /* box-shadow: var($box-shadow); */
+    overflow: hidden;
+    min-width: 300px;
+  }
+  .card-info{
+    display: grid;
+    place-items: center;
+    margin-top: 1em;
+  }
+  
+  .shop-card h2{
+    font-family: abstracts.$ff-secondary;
+  }
+  .img-container{
+    position: relative;
+    height: 200px;
+    cursor: pointer;
+
+      & img{
+        @include abstracts.fit-image;
+      }
+  }

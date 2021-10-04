@@ -1,0 +1,45 @@
+.container{
+    width: 80%;
+    margin: 2em auto;
+  }
+  .account-title-box{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: var($color-secondary); */
+  }
+  .account-title{
+    font-size: 25px;
+    padding: 0.5em;
+  }
+  .logout-btn{
+    margin: 0 1em;
+  }
+  .section-content{
+    padding: 1em;
+  }
+  .account-details-list>li{
+    padding: 1em 0;
+  }
+  .shipping-info{
+    padding: 1em 0;
+  }
+  .account-section{
+    position: relative;
+    border: 1px solid $color-dark;
+    border-radius: 1em;
+    margin: 2em 0;
+  }
+  .account-icon{
+    display: grid;
+    place-items: center;
+    position: absolute;
+    top:0;
+    left:0;
+    font-size: 40px;
+    height: 60px;
+    width: 60px;
+    border-radius: 30px;
+    transform: translate(-25%,-25%);
+    background-color: $color-secondary;
+  }

@@ -1,0 +1,16 @@
+
+@use '../abstracts';
+
+.message{
+    padding: 1em;
+    margin-bottom: 1em;
+  }
+  .message-default{
+    color: abstracts.$color-dark;
+  }
+  .message-error{
+    color: abstracts.$color-error;
+  }
+  .message-success{
+    color: abstracts.$color-primary-light;
+  }

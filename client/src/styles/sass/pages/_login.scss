@@ -1,0 +1,29 @@
+@use '../abstracts';
+
+.signup-container{
+    font-family: abstracts.$ff-primary;
+    margin: 2em auto;
+    padding: 2em;
+    max-width: 80%;
+    text-align: center;
+    border: 2px solid abstracts.$color-primary-light;
+  }
+  .signup-container h1{
+    font-family: abstracts.$ff-primary;
+    color: abstracts.$color-primary;
+    margin-bottom: 1em;
+  }
+  .signup-form{
+    display: grid;
+    place-items: center;
+    background-color: abstracts.$color-neutral;
+  }
+  .form-control input{
+    font-weight: 700;
+    /* text-transform: capitalize; */
+    border: 1px solid abstracts.$color-dark;
+    padding: 10px;
+    margin-bottom: 1em;
+    height: 40px;
+    width: 200px;
+  }

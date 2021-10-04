@@ -1,0 +1,9 @@
+
+ .breadcrumbs{
+    display: flex;
+    text-transform: uppercase;
+    padding: 1em;
+  }
+  .breadcrumbs li::after{
+    content: " > ";
+  }
