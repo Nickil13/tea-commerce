@@ -24,9 +24,14 @@
   }
   
   main{
-    /* width: 90%; */
     margin: 0 auto 1em auto;
     max-width: 60rem;
+  }
+  body{
+    min-height: 100vh;
+    position: relative;
+    padding-top: abstracts.$nav-height;
+    padding-bottom: abstracts.$footer-height;
   }
 
   p{

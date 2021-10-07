@@ -18,10 +18,12 @@
 
 @use 'layout/header';
 @use 'layout/footer';
-@use 'layout/main';
 
+@use 'pages/cart';
 @use 'pages/home';
 @use 'pages/login';
+@use 'pages/productProfile';
+@use 'pages/profile';
 @use 'pages/shop';
 
 

@@ -13,6 +13,20 @@
       }
   }
   
+  @mixin btn-base($text-color, $bg-color, $hover-color){
+    color: $text-color;
+    background-color: $bg-color;
+    font-size: 16px;
+    border:none;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    margin: 1em auto;
+    transition: abstracts.$btn-transition;
+
+      &:hover{
+        background-color: $hover-color;
+      }
+  }
   .btn-primary{
     background-color: abstracts.$color-primary;
     color: abstracts.$color-neutral;
@@ -29,9 +43,10 @@
   }
   
   .btn-secondary{
-    margin-top: 1em;
-    background-color: abstracts.$color-secondary;
-      &:hover{
-        background-color: abstracts.$color-secondary-dark;
-      }
+    @include btn-base(abstracts.$color-neutral, abstracts.$color-secondary, abstracts.$color-secondary-dark);
+    // margin-top: 1em;
+    // background-color: abstracts.$color-secondary;
+    //   &:hover{
+    //     background-color: abstracts.$color-secondary-dark;
+    //   }
   }

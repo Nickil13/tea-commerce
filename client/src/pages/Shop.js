@@ -1,47 +1,35 @@
 import React, { useState, useEffect ,useRef} from 'react'
-import itemData from "../resources//teaItemData";
 import ShopCard from "../components/ShopCard";
 import Breadcrumbs from "../components/Breadcrumbs";
-import { useParams ,useHistory} from 'react-router-dom';
+import Banner from '../components/Banner';
+import { useParams ,useHistory, useLocation} from 'react-router-dom';
 import { FaSearch} from 'react-icons/fa';
 import { teaProductCategories as categories} from '../resources/teaInfoData';
+import { useDispatch, useSelector} from 'react-redux';
+import { listProducts } from '../actions/productActions';
 
 export default function Shop() {
-    const[pageInfo,setPageInfo] = useState({title:"All tea",image: "/images/chamomile.jpg",description:"",bannerColor:"lemonchiffon"});
-    const[shopItems,setShopItems] = useState([]);
+    const dispatch = useDispatch();
+    const productList = useSelector((state)=>state.products.productList);
+    const {products, loading, error} = productList;
+
     const{category,type,id} = useParams();
     const[shopButtons,setShopButtons] = useState([]);
     const history = useHistory();
+    const location = useLocation();
 
     
     const handleSubmit = (e) =>{
         e.preventDefault();
         console.log("submitting form to search for item");
     }
+
+
     useEffect(()=>{
-        fetchShopItems();
+        dispatch(listProducts(category,type));
         updateShopButtons();
     },[category,type])
 
-    // useEffect(()=>{
-    //     //Load the shop items
-    //     fetchShopItems();    
-    // },[])
-
-    const fetchShopItems = () => {
-        let newItems = [];
-        if(category){
-            newItems = itemData.filter((item)=>item.category === category.replace("-"," "));
-
-            if(type){
-                newItems = newItems.filter((item)=>item.type === type.replace("-"," "));
-            }
-            
-        }else{
-            newItems = itemData;
-        }
-        setShopItems(newItems);
-    }
     
     const updateShopButtons = () =>{
         let newShopButtons = [];
@@ -54,26 +42,18 @@ export default function Shop() {
         setShopButtons(newShopButtons);
     }
     const handleShopButtonClick = (value) => {
-        let formattedValue = value.replace(" ","-");
+        // let formattedValue = value.replace(" ","-");
         if(category){
-            history.push(`/shop/${category}/${formattedValue}`);
+            history.push(`/shop/${category}/${value}`);
         }else{
-            history.push(`/shop/${formattedValue}`);
+            history.push(`/shop/${value}`);
         }
        
     }
 
     return (
-        <main>
-            <div className="hero shop-hero" style={{backgroundColor:`${pageInfo.bannerColor}`}}>
-                <div className="shop-hero-info"
-                >
-                    <h1 className="shop-hero-title">{pageInfo.title}</h1>
-                    <p>{pageInfo.description}</p>
-                </div>
-                <img className="fit-image"
-                 src={pageInfo.image} alt="chamomile" />
-            </div>
+        <div>
+            <Banner category={location.pathname.split('/')[2] ? location.pathname.split('/')[2] : 'all'}/>
             
             <div className="shop-btns">
                 {shopButtons.length>0 && shopButtons.map((category,index)=>{
@@ -83,31 +63,16 @@ export default function Shop() {
                     
                 })}
             </div>
-            {/* {!category ? 
-            <div className="shop-btns">
-                {categories.map((category)=>{
-                    return(
-                        <button key={category.id} className="btn" onClick={()=>handleCategoryClick(category.type)}>{category.type}</button>
-                    );
-                    
-                })}
-            </div> :
-            <div>
-                {category.list.map((item,index)=>{
-                    return(
-                        <button key={index} className="btn" onClick={()=>handleTypeClick(item)}>{item}</button>
-                    );
-                    
-                })}
-            </div>} */}
             
-            <div className="shop-list">
-                {shopItems.length>0 ? shopItems.map((item,index)=>{
+            {loading ? <h2>Loading...</h2> : error ? <h2>Error!{error}</h2> :
+                <div className="shop-list">
+                {products.length>0 ? products.map((item,index)=>{
                     return (
                         <ShopCard key={index} item={item}/>
                     );
                 }) : <h2>No items found.</h2>}
-            </div>
-        </main>
+                </div>
+            }
+        </div>
     )
 }

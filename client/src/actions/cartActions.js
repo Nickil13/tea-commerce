@@ -18,7 +18,12 @@ export const addToCart = (id,amount) => (dispatch, getState) => {
         }
     })
     
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+    // If there is no user logged in, add to the local storage cart.
+    const user = getState().user.userLogin;
+    if(!user.username){
+        localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+    }
+    
     
 }
 

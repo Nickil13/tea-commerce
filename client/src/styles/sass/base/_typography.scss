@@ -11,7 +11,9 @@ h1{
 
 h2{
   font-family: abstracts.$ff-secondary;
+  font-size: 24px;
   text-transform: capitalize;
+  margin-bottom: 1rem;
 }
 
 h3{
@@ -23,10 +25,25 @@ main{
   font-family: abstracts.$ff-primary;
 }
 
-.btn{
+p, li{
+  font-weight: 300;
+  // font-size: 14px;
+  font-size: 16px;
+}
+
+button,.btn{
   font-family: abstracts.$ff-primary;
 }
 
 footer{
   font-family: abstracts.$ff-primary;
+}
+
+@media screen and (min-width: 800px){
+  h2{
+    font-size: 36px;
+  }
+  p,li{
+    font-size: 17px;
+  }
 }

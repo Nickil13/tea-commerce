@@ -26,6 +26,8 @@ export const cartReducer = (state = {cartItems:[]},action) => {
                 }
             }
 
+            //Save the cart for the user
+
         case CART_REMOVE_ITEM:
             return
         case CART_CLEAR_ITEMS:

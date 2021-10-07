@@ -15,7 +15,7 @@ export default function Home() {
 
     
     return (
-        <main>
+        <div>
             <div className="hero">
                 <Slider/>         
             </div>
@@ -84,6 +84,6 @@ export default function Home() {
                 
                 
             </section>
-        </main>
+        </div>
     )
 }

@@ -12,8 +12,13 @@ if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'));
 }
 
+app.use(express.json());
 
 app.use('/api/products', productRoutes);
+
+app.use('/', (req,res)=>{
+    res.send('API is running!')
+})
 
 const PORT = process.env.PORT || 5000;
 app.listen(

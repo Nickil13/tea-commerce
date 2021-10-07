@@ -1,21 +1,23 @@
 import React from 'react';
-import { useGlobalContext } from '../context';
 import { FaCreditCard, FaAddressCard, FaRegStar} from 'react-icons/fa';
 import { GoPackage} from 'react-icons/go';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../actions/userActions';
 
 
 
 export default function UserProfile() {
-    const{user,logout} = useGlobalContext();
-    const{username,email,address,paymentInfo} = user;
+    const dispatch = useDispatch();
+    const user = useSelector((state)=>state.user.userLogin);
+    console.log(user);
+    const{username,email,address,paymentInfo, orders, wishlist} = user.userInfo;
     const{street,city,state,country,zipcode} = address;
 
     return (
-        <main>
             <div className="container">
                 <div className="account-title-box">
                     <h1 className="account-title">My Account: {username}</h1>
-                    <button className="btn logout-btn" onClick={logout}>Logout</button>
+                    <button className="btn logout-btn" onClick={()=>dispatch(logout())}>Logout</button>
                 </div>
                 
                 <section className="account-section account-details">
@@ -47,7 +49,7 @@ export default function UserProfile() {
                 <section className="account-section account-orders">
                     <h2>Orders</h2>
                     <div className="section-content">
-                        {user.orders.length>0 ? <p>I have orders</p> : <p>You have not made any orders.</p>}
+                        {orders.length>0 ? <p>I have orders</p> : <p>You have not made any orders.</p>}
                     </div>
                     <span className="account-icon"><GoPackage/></span>
                 </section>
@@ -55,14 +57,11 @@ export default function UserProfile() {
                 <section className="account-section account-wishlist">
                     <h2>Wishlist</h2>
                     <div className="section-content">
-                        {user.wishlist.length>0 ? <p>There's some items in my wishlist.</p> : <p>You haven't added any items to your wishlist!</p>}
+                        {wishlist.length>0 ? <p>There's some items in my wishlist.</p> : <p>You haven't added any items to your wishlist!</p>}
                     </div>
                     <span className="account-icon"><FaRegStar/></span>
                 </section>
                
             </div>
-            
-            
-        </main>
     )
 }

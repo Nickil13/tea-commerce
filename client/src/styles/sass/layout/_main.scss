@@ -1,8 +1,0 @@
-@use '../abstracts';
-
-.page-container{
-    min-height: 100vh;
-    position: relative;
-    padding-top: abstracts.$nav-height;
-    padding-bottom: abstracts.$footer-height;
-  }

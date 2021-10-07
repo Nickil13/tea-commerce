@@ -1,3 +1,5 @@
+@use '../abstracts';
+
 .cart-header{
     padding: 3em 0;
   }
@@ -16,7 +18,7 @@
     display:flex;
   }
   .cart-card:nth-child(odd){
-    background-color: $color-primary-light;
+    background-color: abstracts.$color-primary-light;
   }
   .cart-image{
     max-width: 150px;

@@ -1,3 +1,5 @@
+@use '../abstracts';
+
 .container{
     width: 80%;
     margin: 2em auto;
@@ -26,7 +28,7 @@
   }
   .account-section{
     position: relative;
-    border: 1px solid $color-dark;
+    border: 1px solid abstracts.$color-dark;
     border-radius: 1em;
     margin: 2em 0;
   }
@@ -41,5 +43,7 @@
     width: 60px;
     border-radius: 30px;
     transform: translate(-25%,-25%);
-    background-color: $color-secondary;
+    background-color: abstracts.$color-secondary;
   }
+
+ 

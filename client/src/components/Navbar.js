@@ -54,9 +54,12 @@ export default function Navbar() {
                     <div className="sidebar-toggle"><FaBars/></div>
                 <Link className="logo" to="/">Tea Commerce</Link>
                 
-                <ul className="nav-links">
+                <ul className="nav-links"><li>
+                        <NavLink className="nav-link" to="/shop/">
+                            Shop All</NavLink>
+                    </li>
                     <li>
-                        <NavLink className="nav-link" to="/shop/loose-leaf">
+                        <NavLink className="nav-link" to="/shop/loose leaf">
                             Loose Leaf</NavLink>
                     </li>
                     <li>
@@ -64,7 +67,7 @@ export default function Navbar() {
                             Matcha</NavLink>
                     </li>
                     <li>
-                        <NavLink className="nav-link" to="/shop/tea-mixes">
+                        <NavLink className="nav-link" to="/shop/tea mixes">
                             Mixes</NavLink>
                     </li>
                     

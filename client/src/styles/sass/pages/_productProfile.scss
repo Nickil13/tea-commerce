@@ -1,0 +1,175 @@
+@use '../abstracts';
+
+
+.product-profile{
+    display: grid;
+    // justify-items: center;
+    // grid-template-columns: "1fr 1fr";
+    // grid-template-rows: '2fr 1fr';
+    width: 80%;
+    margin: 0 auto;
+
+        & img {
+            @include abstracts.fit-image;
+        }
+
+        &-info{
+            // grid-column: 2;
+            width: 80%;
+            margin: 0 auto;
+            text-align: center;
+            
+            & p{
+                padding: 1rem 0;
+            } 
+
+            & span{
+                font-weight: bold;
+            }
+        }
+}
+.title-box{
+    text-align: center;
+    padding: 1rem 0 2rem 0;
+}
+
+.profile-ingredients{
+    & ul{
+        display: flex;
+        justify-content: center;
+        padding: 1rem 0;
+
+        & li{
+            margin-right: 0.40rem;
+            &:first-child{
+                text-transform: capitalize;
+            }
+            &:not(:last-child){
+                &::after{
+                    content: ",";
+                }  
+            }  
+        }
+    }
+}
+
+@media screen and (min-width: 800px){
+    .product-profile{
+        justify-items: center;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 3fr;
+
+        & img {
+            @include abstracts.fit-image;
+            grid-column: 1;
+            grid-row: 1 / span 2;
+            align-self: center;
+            max-height: 400px;
+        }
+
+        &-info{
+            grid-column: 2;
+            grid-row: 2;
+        }
+    }
+
+    .title-box{
+        grid-column: 2;
+    }
+}
+
+.review-section{
+    display: grid;
+    justify-items: center;
+    padding: 1rem;
+
+    h2{
+        margin-bottom: 2rem;
+    }
+}
+.average-rating{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+
+    & span {
+        margin-right: 1rem;
+    }
+
+    & .star-rating{
+        color: abstracts.$color-primary-light;
+    }
+}
+
+.product-review{
+    border-radius: 10px;
+    padding: 2rem 3rem;
+    margin-bottom: 2rem;
+    max-width: 30rem;
+
+    & .star-rating{
+        color: abstracts.$color-primary-light;
+    }
+    &-top{
+        background-color: abstracts.$color-secondary-light;
+
+        & .star-rating{
+            color: abstracts.$color-secondary-dark;
+        }
+    }
+}
+
+.review-info{
+    display: flex;
+
+    & .user-thumbnail {
+        width: 60px;
+        height: 60px;
+        border-radius: 100%;
+        overflow: hidden;
+        margin-right: 1rem;
+
+        & img{
+            @include abstracts.fit-image;
+        }
+    }
+   
+}
+
+.brewing-instruction-section{
+    background-color: abstracts.$color-primary-light;
+
+    & p{
+        max-width: 60ch;
+        margin: 0 auto;
+    }
+}
+
+ //Star rating
+  
+ .star-rating{
+    display: flex;
+    padding: 1rem 0;
+
+      & li{
+        padding: 0 0.25rem;
+      }
+  }
+
+  //Caffeine rating
+  .caffeine-rating{
+    display: grid;
+    justify-items: center;
+    padding: 1rem;
+    text-align: center;
+    
+
+    & div{
+      display: flex;
+      margin-top: 0.25rem;
+      width: 55px;
+      justify-content: space-between;
+      color: abstracts.$color-primary;
+    }
+  }
+

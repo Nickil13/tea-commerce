@@ -4,8 +4,8 @@ import { useDispatch} from 'react-redux';
 import { addToCart } from '../actions/cartActions';
 export default function ShopCard({item}) {
     const history = useHistory();
-    const {category,type} = useParams();
-    const{name,id,image,price} = item;
+    // const {category,type} = useParams();
+    const{name,category,productType,_id,image,price} = item;
 
     const dispatch = useDispatch();
 
@@ -13,18 +13,19 @@ export default function ShopCard({item}) {
         dispatch((addToCart(item.id,1)));
     }
     const handleCardClick = () =>{
-        let currentPath = history.location.pathname;
-        console.log(currentPath);
-        if(category){
-            if(type){
-                history.push(`${currentPath}${id}`);
-            }else{
-                history.push(`${currentPath}${item.type.replace(" ","-")}/${id}`);
-            }
+        history.push(`/shop/${category}/${productType}/${_id}`);
+        // let currentPath = history.location.pathname;
+        // console.log(currentPath);
+        // if(category){
+        //     if(type){
+        //         history.push(`${currentPath}${id}`);
+        //     }else{
+        //         history.push(`${currentPath}${item.type}/${id}`);
+        //     }
             
-        }else{
-            history.push(`${currentPath}/${item.category.replace(" ","-")}/${item.type.replace(" ","-")}/${id}`);
-        }
+        // }else{
+        //     history.push(`${currentPath}/${item.category}/${item.type}/${id}`);
+        // }
         
     }
     return (
@@ -38,8 +39,8 @@ export default function ShopCard({item}) {
             </div>
             <div className="card-info">
                 <h2>{name}</h2>
-                <p>{type}</p>
-                <p>$ {price}/50g</p>
+                <p>{productType}</p>
+                <p>$ {price.toFixed(2)}/50g</p>
                 <button className="btn btn-secondary"
                 onClick={handleAddToCart}>Add to Cart</button>
              </div>    

@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Shop from "./pages/Shop";
-import ItemProfile from "./pages/ItemProfile";
+import ItemProfile from "./pages/ProductProfile";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Sidebar from "./components/Sidebar";
@@ -20,29 +20,29 @@ function App() {
   const {userInfo} = user;
 
   return (
-    <div className="page-container">
       <Router>
         <Navbar/>
         <Sidebar/>
-        <Switch>
-          <Route exact path="/"><Home/></Route>
-          <Route path="/cart"><Cart/></Route>
-          <Route path="/account">
-            {/* {
-              userInfo ? <Account/> : <Redirect to="/login"/> 
-            } */}
-          </Route>
-          <Route path="/login"><Login/></Route>
-          <Route path="/shop/:category/:type/:id"><ItemProfile/></Route>
-          <Route path="/shop/:category?/:type?"><Shop/></Route>
-          <Route path="/signup"><Signup/></Route>
-          <Route path="/itemProfile/:name"><ItemProfile/></Route>
-        </Switch>
+        <main>
+          {/* <div className="container"> */}
+            <Switch>
+              <Route exact path="/"><Home/></Route>
+              <Route path="/cart"><Cart/></Route>
+              <Route path="/account">
+                {
+                  userInfo ? <Account/> : <Redirect to="/login"/> 
+                }
+              </Route>
+              <Route path="/login"><Login/></Route>
+              <Route path="/shop/:category/:type/:id"><ItemProfile/></Route>
+              <Route path="/shop/:category?/:type?"><Shop/></Route>
+              <Route path="/signup"><Signup/></Route>
+            </Switch>
+          {/* </div> */}
+        </main>
         <Footer/>
         <Alert/>
-      </Router>
-    </div>
-    
+      </Router>  
   );
 }
 
