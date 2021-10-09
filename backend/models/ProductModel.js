@@ -35,6 +35,12 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    flavourImage: {
+        type: String,
+    },
+    teaMixBase: {
+        type: String,
+    },
     category: {
         type: String,
         required: true

@@ -16,9 +16,34 @@
     transform: translateY(0%);
   }
   .alert{
-    background-color: abstracts.$color-neutral;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: abstracts.$color-neutral;
     width: 80%;
     padding: 1em;
     text-align: center;
-    // font-family: abstracts.$ff-primary;
+    
+    font-family: abstracts.$ff-primary;
+    
+    &-icon{
+      display:grid;
+      margin-right: 1rem;
+      font-size: 28px;
+    }
+
+    p{
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .alert-close-icon{
+    position: absolute;
+    top: 0;
+    right:0;
+    font-size: 28px;
+    cursor: pointer;
+    color: abstracts.$color-neutral;
+    margin: 1rem;
   }

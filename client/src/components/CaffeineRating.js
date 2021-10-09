@@ -3,11 +3,11 @@ import { FaCircle, FaRegCircle } from 'react-icons/fa';
 import {teaInfo} from '../resources/teaInfoData';
 
 export default function CaffeineRating({productType}) {
-    const tea = productType ? teaInfo.filter((tea)=>productType.includes(tea.type))[0] : {};
+    const tea = productType ? teaInfo.filter((tea)=>productType.split(" ").includes(tea.type))[0] : {};
     
-    if(tea.caffeine === 'caffeine-free'){
+    if(tea.caffeine === 'caffeine-free' || tea.caffeine === 'varies'){
         return(
-            <div>Caffeine free</div>
+            <div className="caffeine-rating">Caffeine free</div>
         )
     }
     return (

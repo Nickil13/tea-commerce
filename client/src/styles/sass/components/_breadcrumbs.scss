@@ -1,9 +1,25 @@
+@use '../abstracts';
 
  .breadcrumbs{
     display: flex;
-    text-transform: uppercase;
+    text-transform: capitalize;
     padding: 1em;
-  }
-  .breadcrumbs li::after{
-    content: " > ";
+
+    & li{
+      &:not(:last-child){
+        margin-right: 0.40rem;
+        &::after{
+          content: " /";
+        }
+      }
+
+      &:last-child{
+        font-weight: 600;
+      }
+
+      &:hover{
+        cursor: pointer;
+        color: lighten(abstracts.$color-neutral-dark, 15%);
+      }
+    }
   }

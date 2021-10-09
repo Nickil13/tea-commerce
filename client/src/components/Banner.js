@@ -6,12 +6,12 @@ export default function Banner({category}) {
     const{ type: name, image, bannerColor, description } = categoryInfo;
     
     return (
-        <div className="hero shop-hero" style={{backgroundColor:bannerColor}}>
+        <div className="shop-hero" style={{backgroundColor:bannerColor}}>
+            <img src={image} alt={name} />
             <div className="shop-hero-info">
                 <h1 className="shop-hero-title">{name}</h1>
                 <p>{description}</p>
             </div>
-            <img src={image} alt={name} />
         </div>
     )
 }

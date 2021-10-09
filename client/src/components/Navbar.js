@@ -20,7 +20,7 @@ export default function Navbar() {
     const history = useHistory();
     const navbar = useRef(null) ;
 
-    const cartItemAmount = cartItems.reduce((acc,item)=>acc + item.amount, 0);
+    const cartItemAmount = cartItems.reduce((acc,item)=>acc + item.countInStock, 0);
 
     const handleDropdownMenu = (e) => {
         if(navbar.current && !navbar.current.contains(e.target)){

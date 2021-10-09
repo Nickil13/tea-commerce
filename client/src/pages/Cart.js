@@ -20,7 +20,7 @@ export default function Cart() {
                         <h1>My Cart</h1>
                     </div>
                     <p>You don't have any items in your cart!</p>
-                    <button className="btn btn-primary" onClick={()=>history.push("/shop/loose-leaf/")}>Shop</button>
+                    <button className="btn btn-primary" onClick={()=>history.push("/shop/loose leaf/")}>Shop</button>
                 </div>
             </div>
         )

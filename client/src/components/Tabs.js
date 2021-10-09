@@ -1,14 +1,20 @@
 import React, { useState} from 'react';
-import { teaInfo } from '../resources/teaInfoData';
+import { teaInfo, teaProductCategories } from '../resources/teaInfoData';
 
 export default function Tabs() {
     const[currentIndex,setCurrentIndex] = useState(0);
-    const{image,type,caffeine,description} = teaInfo[currentIndex];
+    
+    const looseLeafList = (teaProductCategories.filter((tea)=>tea.type === "loose leaf")[0].items).map((name)=>{
+        return(
+            teaInfo.filter((tea)=>tea.type === name.split(" ")[0])[0]
+        )
+    });
+    const{image,type,caffeine,description} = looseLeafList[currentIndex];
     
     return (
         <div>
             <ul className="tea-tabs">
-                {teaInfo.map((tea,index)=>{
+                {looseLeafList.map((tea,index)=>{
                     return(
                         <li key={index} className={index===currentIndex ? 'active-tab' : ''} onClick={()=>setCurrentIndex(index)}>{tea.type}</li>
                     )

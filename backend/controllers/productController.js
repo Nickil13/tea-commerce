@@ -7,6 +7,9 @@ const Product = require('../models/ProductModel');
 // @access   Public
 
 const getProducts = asyncHandler(async (req,res) => {
+    const pageSize = 8;
+    const page = Number(req.query.page) || 1;
+
     let query = {};
 
     if(req.query.category !== 'undefined'){
@@ -16,9 +19,10 @@ const getProducts = asyncHandler(async (req,res) => {
         query = {...query, productType:req.query.type}
     }
 
-    console.log(query);
-    const products = await Product.find({...query});
-    res.json(products);
+    const count = await Product.countDocuments({...query});
+    const products = await Product.find({...query}).limit(pageSize).skip(pageSize * (page-1));
+    
+    res.json({products, page, pages: Math.ceil(count/pageSize)});
 })
 
 // @desc     Get product by ID

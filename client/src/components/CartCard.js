@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function CartCard({name,type,category,image,price,amount}) {
+export default function CartCard({name,type,category,image,price,countInStock}) {
     return (
         <article className="cart-card">
             <img className="cart-image fit-image"src={image} alt={name} />
@@ -15,7 +15,7 @@ export default function CartCard({name,type,category,image,price,amount}) {
             <div className="item-amount-info">
                 <div>
                     <span>plus</span>
-                    <p>{amount}</p>
+                    <p>{countInStock}</p>
                     <span>minus</span>
                 </div>
                 <button>Remove Item</button>

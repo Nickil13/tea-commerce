@@ -2,65 +2,109 @@
 
 .shop-list{
     display: grid;
-    /* grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); */
     grid-template-columns: repeat(auto-fill,minmax(300px, 1fr));
     justify-items: center;
-
     padding: 1em;
     
   }
   
   .shop-hero{
-    display:grid;
-    place-items:center;
-    height: 300px;
-    grid-template-columns: 2fr 3fr;
+      &-title{
+        max-width: 20ch;
+        margin-bottom: 0.5rem;
+      }
+
       & img{
-        @include abstracts.fit-image; 
+        @include abstracts.fit-image;
+        height: 300px;
+      }
+
+      &-info{
+        width: 80%;
+        margin: 0 auto;
+        padding: 3rem;
+
+        & p{
+          font-size: 18px;
+        }
       }
   }
-  .shop-hero-title{
-    font-family: abstracts.$ff-secondary;
-    max-width: 20ch;
-    margin-bottom: 0.5rem;
+
+  @media screen and (min-width: 600px){
+    .shop-hero{
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      place-items:center;
+
+      & img{
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      &-info{
+        grid-column: 1;
+        grid-row: 1;
+        padding: 0;
+      }
+      // height: abstracts.$hero-height;
+    }
   }
-  .shop-hero-info p{
-    font-size: 18px;
-  }
-  .shop-hero-info{
-    width: 80%;
-    margin: 0 auto;
-  }
-  .flavour-container{
-    position: absolute;
-    bottom:10px;
-    right:10px;
-    width:80px;
-    height:80px;
-    border-radius: 40px;
-    border: 2px solid abstracts.$color-neutral;
-    overflow: hidden;
-  }
-  .shop-filter-bar{
+  
+  .filter-bar{
     padding: 2em;
+    height: 200px;
   }
   .tea-filter{
     margin: 0 auto;
     width: 300px;
+
+    & label{
+      margin-right: 10px;
+    }
+
+    & select{
+      font-family: abstracts.$ff-primary;
+      font-size: 16px;
+      color: abstracts.$color-neutral-dark;
+      padding: 0.75em;
+    }
   }
-  .tea-filter label{
-    margin-right: 10px;
-  }
-  
-  .tea-filter select{
-    font-family: abstracts.$ff-primary;
-    font-size: 16px;
-    color: abstracts.$color-neutral-dark;
-    padding: 0.75em;
-  }
+ 
   .shop-btns{
     display:flex;
     flex-wrap: wrap;
     width: 80%;
     margin: 0 auto;
+  }
+
+  // Pagination
+  .pagination{
+    display: flex;
+    justify-content: end;
+  }
+
+  .page-indices{
+    display: flex;
+    padding: 1rem;
+
+    & li{
+      padding: 0.25rem 0.50rem;
+      margin: 0 0.05rem;
+      font-weight: 500;
+      cursor: pointer;
+
+      &:hover{
+        background-color: abstracts.$color-primary-light;
+      }
+    }
+  }
+  .index-link{
+    color: abstracts.$color-neutral-dark;
+  }
+  .active-index{
+    background-color: abstracts.$color-primary-light;
+  }
+
+  .active-page-btn{
+    text-decoration: underline;
   }

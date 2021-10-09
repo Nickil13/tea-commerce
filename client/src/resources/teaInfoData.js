@@ -28,7 +28,7 @@ export const teaInfo = [
         id: 4,
         type: "white",
         image: "/images/white-tea.jfif",
-        caffeine: "low-medium",
+        caffeine: "medium",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit ratione laboriosam inventore temporibus id et qui numquam optio iusto eveniet! Deserunt consectetur hic sit dolorem voluptates ut. Lorem ipsum dolor sit amet consectetur adipisicing elit.",
         brewingInstructions: "",
     },
@@ -44,7 +44,23 @@ export const teaInfo = [
         id: 6,
         type: "oolong",
         image: "/images/oolong-tea.jfif",
-        caffeine: "medium-high",
+        caffeine: "high",
+        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit ratione laboriosam inventore temporibus id et qui numquam optio iusto eveniet! ",
+        brewingInstructions: "",
+    },
+    {
+        id: 7,
+        type: "matcha",
+        image: "/images/matcha-banner.jfif",
+        caffeine: "high",
+        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit ratione laboriosam inventore temporibus id et qui numquam optio iusto eveniet! ",
+        brewingInstructions: "",
+    },
+    {
+        id: 8,
+        type: "mixes",
+        image: "/images/teaparty.jfif",
+        caffeine: "varies",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit ratione laboriosam inventore temporibus id et qui numquam optio iusto eveniet! ",
         brewingInstructions: "",
     }
@@ -79,13 +95,9 @@ export const teaProductCategories = [
     {
         id: 4,
         type: "matcha",
-        image:"/images/matcha.jpg",
-        bannerColor: "olivedrab",
+        image:"/images/matcha-banner.jfif",
+        bannerColor: "#6FC597",
         description: "Ground green tea known for its health benefits. Energize your day with our ceremonial blend or one of our flavoured matchas.",
         items: ["ceremonial matcha","flavoured matcha"],
     }
 ]
-
-
-// export teaInfo;
-// export  teaProductCategories;

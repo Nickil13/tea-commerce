@@ -1,28 +1,38 @@
 import { CART_ADD_ITEM, CART_CLEAR_ITEMS } from '../constants/cartConstants';
-import teaItemData from '../resources/teaItemData';
+import axios from 'axios';
 
-export const addToCart = (id,amount) => (dispatch, getState) => {
-    
-    const item = teaItemData.filter((tea)=>tea.id === id)[0];
-
-    dispatch({
-        type: CART_ADD_ITEM,
-        payload: {
-            id: item.id,
-            name: item.name,
-            category: item.category,
-            type: item.type,
-            image: item.image,
-            price: item.price,
-            amount
+export const addToCart = (id,countInStock) => async (dispatch, getState) => {
+    console.log(id,countInStock);
+    try{
+        const { data: item } = await axios.get(`/api/products/${id}`);
+        
+        dispatch({
+            type: CART_ADD_ITEM,
+            payload: {
+                _id: id,
+                name: item.name,
+                category: item.category,
+                productType: item.productType,
+                image: item.image,
+                price: item.price,
+                countInStock,
+                ingredients: item.ingredients,
+                rating: item.rating,
+                flavourImage: item.flavourImage
+            }
+        })
+        
+        // If there is no user logged in, add to the local storage cart.
+        const user = getState().user.userLogin;
+        if(!user.username){
+            localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
         }
-    })
-    
-    // If there is no user logged in, add to the local storage cart.
-    const user = getState().user.userLogin;
-    if(!user.username){
-        localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+    }catch(error){
+        console.log(`Error adding item to cart:${error}`);
     }
+
+
+    
     
     
 }

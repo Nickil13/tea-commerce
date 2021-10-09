@@ -1,31 +1,39 @@
-import React, { useState, useEffect} from 'react'
-import { useParams} from "react-router-dom";
-import {useGlobalContext} from "../context";
-import data from '../resources/teaItemData';
+import React, {useEffect} from 'react'
+import { useParams, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
 import { getProductDetails } from '../actions/productActions';
 import { addToCart } from '../actions/cartActions';
 import CaffeineRating from '../components/CaffeineRating';
 import Rating from '../components/Rating';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { useGlobalContext } from '../context';
 
 export default function ProductProfile() {
+    const{showAlert} = useGlobalContext();
     const dispatch = useDispatch();
     const productDetails = useSelector((state)=>state.products.productDetails);
-    
+    const location = useLocation();
     const{loading, error,product} = productDetails;
     
     const{id} = useParams();
     
+    const handleAddToCart = () =>{
+        dispatch((addToCart(product._id,1)));
+        showAlert(product.name,'cart',1);
+    }
 
     useEffect(()=>{
         dispatch(getProductDetails(id));
     },[dispatch])
 
-
     return (
         <div>
             {loading ? <h2>Loading...</h2> : error ? <h2>Error! {error}</h2>  : <>
+            <div className="product-breadcrumbs">
+                <Breadcrumbs path={location.pathname} productName={product.name}/>
+            </div>
             <section className="product-profile">
+                
                 <div className="title-box">
                     <h2>{product.name}</h2>
                     <span>{product.productType}</span>
@@ -34,14 +42,14 @@ export default function ProductProfile() {
                 <div className="product-profile-info">
                     <p>{product.description}</p>
                     <p><span>${product.price && product.price.toFixed(2)}</span> / 50g</p>
-                    <button className="btn-secondary" onClick={()=>dispatch(addToCart(product))}>Add to Cart</button>
+                    <button className="btn-secondary" onClick={handleAddToCart}>Add to Cart</button>
                 </div>
                 
                 
             </section>
             <section className="profile-ingredients">
                 <h2>Ingredients</h2>
-                <CaffeineRating productType={product.productType}/>
+                <CaffeineRating productType={product.teaMixBase ? product.teaMixBase : product.productType}/>
                 <ul>{product.ingredients && product.ingredients.length>0 && product.ingredients.map((ingredient,index)=>{
                     return(
                         <li key={index}>{ingredient}</li>

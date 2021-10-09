@@ -18,6 +18,7 @@ h2{
 
 h3{
   font-family: abstracts.$ff-secondary;
+  font-size: 20px;
   text-transform: capitalize;
 }
 
@@ -27,7 +28,6 @@ main{
 
 p, li{
   font-weight: 300;
-  // font-size: 14px;
   font-size: 16px;
 }
 
@@ -43,7 +43,10 @@ footer{
   h2{
     font-size: 36px;
   }
+  h3{
+    font-size: 24px;
+  }
   p,li{
-    font-size: 17px;
+    font-size: 18px;
   }
 }

@@ -1,20 +1,26 @@
 @use '../abstracts';
 
 
+// Profile Breadcrumbs
+.product-breadcrumbs {
+    background-color: abstracts.$color-secondary-light;
+    width: 100%;
+}
+
 .product-profile{
     display: grid;
-    // justify-items: center;
-    // grid-template-columns: "1fr 1fr";
-    // grid-template-rows: '2fr 1fr';
     width: 80%;
     margin: 0 auto;
 
+        h2{
+            font-size: 28px;
+        }
+        
         & img {
             @include abstracts.fit-image;
         }
 
         &-info{
-            // grid-column: 2;
             width: 80%;
             margin: 0 auto;
             text-align: center;
@@ -27,6 +33,7 @@
                 font-weight: bold;
             }
         }
+        
 }
 .title-box{
     text-align: center;
@@ -75,6 +82,7 @@
 
     .title-box{
         grid-column: 2;
+        grid-row: 1;
     }
 }
 
@@ -157,6 +165,7 @@
   }
 
   //Caffeine rating
+
   .caffeine-rating{
     display: grid;
     justify-items: center;

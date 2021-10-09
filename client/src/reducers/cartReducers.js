@@ -11,8 +11,8 @@ export const cartReducer = (state = {cartItems:[]},action) => {
                 return {
                     ...state,cartItems: state.cartItems.map((item)=>{
                         if(item.name === newItem.name){
-                            let newAmount = item.amount + newItem.amount;
-                            item.amount = newAmount;
+                            let newAmount = item.countInStock + newItem.countInStock;
+                            item.countInStock = newAmount;
                             return item;
                         }else{
                             return item;
