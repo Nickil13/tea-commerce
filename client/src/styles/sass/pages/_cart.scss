@@ -1,30 +1,85 @@
 @use '../abstracts';
 
-.cart-header{
-    padding: 3em 0;
+
+.cart, .empty-cart{
+  display: grid;
+  // grid-template-rows: 200px;
+  place-items: center;
+  padding: 2rem;
+
+  // & h1{
+  //   margin-bottom: 2rem;
+  // }
+
+}
+.cart-title{
+  @include abstracts.page-title;
+}
+
+.empty-cart{
+  & button{
+    margin-top: 5rem;
   }
-  .cart-container{
-    margin: 0 auto;
-    width: 80%;
+}
+.cart-items{
+  width: 90%;
+  margin: 0 auto;
+}
+.cart-container{
+  display: grid;
+  justify-items: center;
+}
+
+.cart-payment-section{
+  background-color: lighten(abstracts.$color-secondary-light, 20%);
+  max-width: 500px;
+  margin-top: 2rem;
+
+  & ul{
+    padding: 1rem;
+
+    & li{
+      margin-bottom: 0.50rem;
+      width: 200px;
+
+      &:last-child{
+        padding-top: 0.25rem;
+        border-top: 2px solid abstracts.$color-neutral-dark;
+        font-weight: 500;
+      }
+    }
   }
+}
+.shipping-info-bar{
+  background-color: abstracts.$color-primary-light;
+  text-align: center;
+  padding: 1rem;
+  
+  & p{
+    font-size: 20px;
+    font-family: abstracts.$ff-secondary;
+    font-weight: 600;
+  }
+}
+
+@media screen and (min-width: 900px){
   .cart{
     display: grid;
-    place-items: center;
+    grid-template-columns: 3fr 1fr;
+
+    // & h1{
+    //   grid-row: 1;
+    //   grid-column: 1 / span 2;
+    // }
+  }
+  .cart-container{
+    grid-column: 1;
+  }
+  .cart-payment-section{
+    grid-column: 2;
+    align-self: start;
   }
 
-  /* Cart Card */
-  .cart-card{
-    padding: 1em;
-    display:flex;
-  }
-  .cart-card:nth-child(odd){
-    background-color: abstracts.$color-primary-light;
-  }
-  .cart-image{
-    max-width: 150px;
-    max-height: 150px;
-  }
-  .cart-item-description{
-    padding: 1em;
-    width: 200px;
-  }
+}
+
+  

@@ -3,14 +3,18 @@
 
 .message{
     padding: 1em;
-    margin-bottom: 1em;
-  }
-  .message-default{
-    color: abstracts.$color-dark;
-  }
-  .message-error{
-    color: abstracts.$color-error;
-  }
-  .message-success{
-    color: abstracts.$color-primary-light;
-  }
+    text-align: center;
+    font-size: 18px;
+
+    &-default{
+      color: abstracts.$color-dark;
+    }
+
+    &-error{
+      color: abstracts.$color-error; 
+    }
+
+    &-success{
+      color: abstracts.$color-primary-light;
+    }
+}

@@ -1,0 +1,21 @@
+@use '../abstracts';
+
+.checkout-steps{
+    display: flex;
+    justify-content: center;
+    background-color: abstracts.$color-primary-light;
+    padding: 1rem;
+
+    & a {
+        margin-right: 1rem;
+        color: abstracts.$color-neutral-dark;
+
+        &:hover{
+            color:abstracts.$color-primary-dark;
+        }
+    }
+
+    & .active-step{
+        font-weight: 600;
+    }
+}

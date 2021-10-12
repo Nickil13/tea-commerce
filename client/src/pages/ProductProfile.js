@@ -24,7 +24,7 @@ export default function ProductProfile() {
 
     useEffect(()=>{
         dispatch(getProductDetails(id));
-    },[dispatch])
+    },[dispatch,id])
 
     return (
         <div>

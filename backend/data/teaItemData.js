@@ -7,7 +7,7 @@ const teaList = [
         image: "/images/earl-grey.jpg",
         price: 9.25,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 15
 
     },
     {
@@ -18,7 +18,7 @@ const teaList = [
         image: "/images/chai.jpg",
         price: 10.00,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 12
 
     },
     {
@@ -29,7 +29,7 @@ const teaList = [
         image: "/images/orange-pekoe.jpg",
         price: 9.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 25
 
     },
     {
@@ -40,7 +40,7 @@ const teaList = [
         image: "/images/jasmine.jpg",
         price: 12.00,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 54
 
     },
     {
@@ -51,7 +51,7 @@ const teaList = [
         image: "/images/caramel-rooibos.jpg",
         price: 10.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 31
 
     },
     {
@@ -62,7 +62,7 @@ const teaList = [
         image: "/images/matcha.jpg",
         price: 12.00,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 11
 
     },
     {
@@ -74,7 +74,7 @@ const teaList = [
         image: "/images/pink-iced-tea.jpg",
         price: 8.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 25
 
     },
     {
@@ -85,7 +85,7 @@ const teaList = [
         image: "/images/orange-dream.jpg",
         price: 9.00,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 62
 
     },
     {
@@ -96,7 +96,7 @@ const teaList = [
         image: "/images/chocolate-oolong.jpg",
         price: 10.25,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 15
 
     },
     {
@@ -107,7 +107,7 @@ const teaList = [
         image: "/images/white-rose.jpg",
         price: 10.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 13
 
     },
     {
@@ -118,7 +118,7 @@ const teaList = [
         image: "/images/chamomile.jpg",
         price: 9.80,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 19
 
     },
     {
@@ -130,7 +130,7 @@ const teaList = [
         flavourImage: "/images/maple.jfif",
         price: 12.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 31
 
     },
     {
@@ -142,7 +142,7 @@ const teaList = [
         flavourImage: "/images/strawberries.jfif",
         price: 12.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 21
 
     },
     {
@@ -154,7 +154,7 @@ const teaList = [
         flavourImage: "/images/peaches.jfif",
         price: 12.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 34
 
     },
     {
@@ -166,7 +166,7 @@ const teaList = [
         flavourImage: "/images/blueberry.jfif",
         price: 12.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 6
 
     },
     {
@@ -178,7 +178,7 @@ const teaList = [
         flavourImage: "/images/chocolate.jfif",
         price: 12.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 9
 
     },
     {
@@ -190,7 +190,7 @@ const teaList = [
         flavourImage: "/images/white-chocolate.jfif",
         price: 12.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 18
 
     },
     {
@@ -201,7 +201,7 @@ const teaList = [
         image: "/images/apple-tea.jfif",
         price: 9.80,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 38
 
     },
     {
@@ -212,7 +212,7 @@ const teaList = [
         image: "/images/hibiscus-tea.jfif",
         price: 9.80,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 5
 
     },
     {
@@ -223,7 +223,7 @@ const teaList = [
         image: "/images/sleepy-tea.jfif",
         price: 9.80,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 7
 
     },
     {
@@ -235,7 +235,7 @@ const teaList = [
         image: "/images/white-margarita.jfif",
         price: 9.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 11
     },
     {
         name: "strawberry green tea daiquiri",
@@ -246,7 +246,7 @@ const teaList = [
         image: "/images/green-daiquiri.jfif",
         price: "9.50",
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 24
     },
     {
         name: "irish cream tea",
@@ -257,7 +257,7 @@ const teaList = [
         image: "/images/irish-cream-tea.jfif",
         price: 9.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 28
     },
     {
         name: "blue dragonfruit",
@@ -268,7 +268,7 @@ const teaList = [
         image: "/images/blue-dragonfruit.jfif",
         price: 9.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 43
     },
     {
         name: "blueberry black tea",
@@ -279,7 +279,7 @@ const teaList = [
         image: "/images/blueberry-black-tea.jfif",
         price: 9.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 17
     },
     {
         name: "creamy chai",
@@ -290,7 +290,7 @@ const teaList = [
         image: "/images/chai-mix.jfif",
         price: 9.50,
         ingredients: ["apple","orange","banana","cinnamon","tea"],
-        countInStock: 1
+        countInStock: 12
     }
 ]
 module.exports = teaList;

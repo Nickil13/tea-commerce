@@ -2,14 +2,10 @@
 
 .sidebar{
     position: relative;
-    padding: 5em 0;
-    
+    padding: 5rem 2rem;
   }
-.sidebar-toggle{
-    font-size: 25px;
-    cursor: pointer;
-    justify-self: left;
-}
+
+
   .close-sidebar-btn{
     position: absolute;
     top:0;
@@ -17,7 +13,7 @@
     background-color: transparent;
     color: abstracts.$color-primary;
     border: none;
-    font-size: 25px;
+    font-size: 28px;
     padding: 1rem;
     cursor: pointer;
   }
@@ -34,10 +30,12 @@
     transition: all 500ms ease-in-out;
     background-color:abstracts.$color-neutral;
     overflow:hidden;
+
+    &.show{
+      transform: translateX(0);
+    }
   }
-  .sidebar-container.show{
-    transform: translateX(0);
-  }
+
   .sidebar-overlay{
     position:fixed;
     display:none;
@@ -47,14 +45,12 @@
     bottom:0;
     width: 100%;
     z-index: 1;
-  }
-  .sidebar-overlay.show{
-    display:block;
-  }
 
-  @media screen and (min-width: 800px){
-    .sidebar-toggle{
-      display:none;
+    &.show{
+      display:block;
     }
   }
+
+
+  
   

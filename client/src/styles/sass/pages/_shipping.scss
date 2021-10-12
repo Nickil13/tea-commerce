@@ -1,0 +1,18 @@
+@use '../abstracts';
+
+.shipping-title{
+    @include abstracts.page-title;
+}
+.shipping-section{
+    & button{
+        margin-top: 2rem;
+    }
+}
+.shipping-form{
+    @include abstracts.form-format;
+}
+
+
+
+
+

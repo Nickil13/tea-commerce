@@ -12,24 +12,37 @@
     background-color: abstracts.$color-neutral;
   }
   nav{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    place-items: center;
-    /* display: flex;
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center; */
     width: 100%;
-    max-width: 60rem;
+    max-width: 70rem;
+    padding: 0 1rem;
     margin: 0 auto;
-  }
-  
-  .nav-link{
-    padding: 1rem;
-    font-family: abstracts.$ff-secondary;
-    color:abstracts.$color-dark;
   }
   .nav-links{
     display:none;
+    align-self: center;
+    
+  }
+  .nav-link{
+    position: relative;
+    padding: 1rem;
+    margin: 0 0.25rem;
+    font-family: abstracts.$ff-secondary;
+    color:abstracts.$color-dark;
+  }
+  
+  .active-nav{
+    &::after{
+      position:absolute;
+      content: "";
+      bottom:0;
+      left:0;
+      width: 100%;
+      height: 3px;
+      background: abstracts.$color-primary-dark;
+    }
   }
   .cart-link{
     position: relative;
@@ -53,7 +66,8 @@
   .nav-icons{
     display: flex;
     padding: 1em;
-    justify-self: right;
+    justify-self: end;
+    align-self: end;
   }
   .nav-icon{
     font-size: 25px;
@@ -72,16 +86,27 @@
     padding: 1em;
   }
 
-  @media screen and (min-width: 800px){
+  @media screen and (min-width: 900px){
     .nav-links{
       display: flex;
-      justify-content: center;
-      width: 100%;
     }
+    
     .nav-icons{
       display: flex;
       justify-content: space-around;
       align-items:center;
+    }
+  }
+
+  //Menu toggle
+  .sidebar-toggle{
+    font-size: 25px;
+    cursor: pointer;
+    justify-self: left;
+  }
+  @media screen and (min-width: 900px){
+    .sidebar-toggle{
+      display:none;
     }
   }
 
@@ -96,6 +121,7 @@
   .logo{
     font-size: 25px;
     font-family: abstracts.$ff-secondary;
+    color: abstracts.$color-dark; 
     text-align: center;
     justify-self: left;
   }

@@ -1,0 +1,91 @@
+@use '../abstracts';
+
+.cart-card{
+    position: relative;
+    padding: 1em;
+    display:grid;
+    width: 300px;
+
+    & img{
+      @include abstracts.fit-image;
+      height: 150px;
+    }
+
+    &-description{
+      padding: 1em;
+      width: 100%;
+      min-width: 200px;
+
+      & h3{
+        margin-bottom: 1rem;
+      }
+      & ul{
+        & li{
+          margin-bottom: 0.50rem;
+        }   
+      }
+    }
+
+    &-total{
+      display: flex;
+      width: 100%;
+      justify-content: end;
+    }
+}
+.quantity-select{
+  margin-top: 1rem;
+  
+  & select{
+    margin-left: 0.50rem;
+    padding: 0.25rem;
+    border: 2px solid abstracts.$color-neutral-dark;
+  }
+}
+
+.item-amount-info{
+  display: flex;
+  
+  & p {
+    margin: 0 1rem;
+    font-weight: 600;
+  }
+
+  & span{
+    font-size: 20px;
+    text-align: center;
+    background-color: abstracts.$color-primary-light;
+    padding: 0.25rem;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 1rem;
+    cursor: pointer;
+
+    &:hover{
+      background-color: lighten(abstracts.$color-primary-light, 15%);
+    }
+  }
+}
+
+.remove-item-btn{
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 600px){
+  .cart-card{
+    grid-template-columns: 1fr 2fr;
+    width: auto;
+
+    & img{
+      grid-column: 1;
+      width: 200px;
+      height: 200px;
+    }
+    &-description{
+      grid-column: 2;
+    }
+  }
+ 
+}

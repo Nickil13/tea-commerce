@@ -37,3 +37,13 @@
   p{
     line-height: 1.6rem;
   }
+
+  button{
+    display: block;
+    margin: 0 auto;
+  }
+  /*Input */
+  input[type=text]{
+    padding: 0.75rem;
+    // border: 2px solid abstracts.$color-primary;
+  }

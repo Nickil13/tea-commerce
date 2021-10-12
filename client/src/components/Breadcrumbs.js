@@ -30,7 +30,7 @@ export default function Breadcrumbs({path,productName}) {
             crumbs.push({name:productName, url: path});
         }
         setBreadcrumbs(crumbs);
-    },[path])
+    },[path, productName])
 
     const handleClick = (breadcrumb) =>{
         history.push(breadcrumb.url);

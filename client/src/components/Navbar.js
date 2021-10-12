@@ -4,7 +4,7 @@ import { FaShoppingCart, FaBars, FaUserCircle } from 'react-icons/fa';
 import { GiTeapot } from 'react-icons/gi';
 import { useSelector, useDispatch} from 'react-redux';
 import { logout} from '../actions/userActions';
-// import { teaProductCategories as categories } from '../teaInfoData';
+import { useGlobalContext } from '../context';
 
 export default function Navbar() {
     const dispatch = useDispatch();
@@ -16,11 +16,11 @@ export default function Navbar() {
     const {cartItems} = cart;
 
     const[showDropdown,setShowDropdown] = useState(false);
-    // const{openSidebar,cart,user,logout} = useGlobalContext();
+    const{openSidebar} = useGlobalContext();
     const history = useHistory();
     const navbar = useRef(null) ;
 
-    const cartItemAmount = cartItems.reduce((acc,item)=>acc + item.countInStock, 0);
+    const cartItemAmount = cartItems.reduce((acc,item)=>acc + Number(item.quantity), 0);
 
     const handleDropdownMenu = (e) => {
         if(navbar.current && !navbar.current.contains(e.target)){
@@ -49,25 +49,28 @@ export default function Navbar() {
     return (
         <div className="nav-container" ref={navbar}>
             <nav>
-                {/* <div className="sidebar-toggle"
-                    onClick={openSidebar}><FaBars/></div> */}
-                    <div className="sidebar-toggle"><FaBars/></div>
+                <div className="sidebar-toggle"
+                    onClick={openSidebar}><FaBars/></div>
+
                 <Link className="logo" to="/">Tea Commerce</Link>
-                
+
                 <ul className="nav-links"><li>
-                        <NavLink className="nav-link" to="/shop/">
+                        <NavLink activeClassName="active-nav" className="nav-link" to="/shop" exact>
                             Shop All</NavLink>
                     </li>
                     <li>
-                        <NavLink className="nav-link" to="/shop/loose leaf">
+                        <NavLink
+                        activeClassName="active-nav" className="nav-link" to="/shop/loose leaf">
                             Loose Leaf</NavLink>
                     </li>
                     <li>
-                        <NavLink className="nav-link" to="/shop/matcha">
+                        <NavLink
+                        activeClassName="active-nav"  className="nav-link" to="/shop/matcha">
                             Matcha</NavLink>
                     </li>
                     <li>
-                        <NavLink className="nav-link" to="/shop/tea mixes">
+                        <NavLink
+                        activeClassName="active-nav" className="nav-link" to="/shop/tea mixes">
                             Mixes</NavLink>
                     </li>
                     
@@ -81,7 +84,7 @@ export default function Navbar() {
                             <li className="dropdown-username">
                             <GiTeapot className="dropdown-icon"/>{user.username}</li>
                             <li>
-                                <button onClick={handleAccountClick} className=" btn dropdown-btn"> My Account
+                                <button onClick={handleAccountClick} className="btn dropdown-btn"> My Account
                                     </button>
                             </li>
                             <li>
@@ -106,8 +109,7 @@ export default function Navbar() {
                         </NavLink>
                     </li>
                 </ul>
-            </nav>
-            <span className=""></span>       
+            </nav>      
         </div>
     )
 }

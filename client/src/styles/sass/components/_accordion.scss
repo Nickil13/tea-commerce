@@ -1,7 +1,7 @@
 @use '../abstracts';
 
 .accordion-item{
-    width:100%;
+    // width:100%;
     // font-family: abstracts.$ff-secondary;
   }
   .title-bar{
@@ -9,7 +9,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    color: abstracts.$color-primary;
     border-bottom: 1px solid abstracts.$color-primary;
   }
   .accordion-content{
@@ -31,4 +30,19 @@
   }
   .accordion-btn{
     cursor: pointer;
+  }
+
+
+  //Sidebar footer search button
+  .search-btn{
+    display: flex;
+    place-items: center;
+    
+    &-icon{
+      font-size: 20px;
+    }
+    & span{
+      margin-left: 1rem;
+      font-size: 20px;
+    }
   }

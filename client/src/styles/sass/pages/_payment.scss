@@ -1,0 +1,9 @@
+@use '../abstracts';
+
+.payment-title{
+    @include abstracts.page-title;
+}
+
+.payment-form{
+    @include abstracts.form-format;
+}

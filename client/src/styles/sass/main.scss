@@ -8,6 +8,8 @@
 @use 'components/alert';
 @use 'components/breadcrumbs';
 @use 'components/buttons';
+@use 'components/cartcard';
+@use 'components/checkoutSteps';
 @use 'components/dropdown';
 @use 'components/loader';
 @use 'components/message';
@@ -23,8 +25,10 @@
 @use 'pages/cart';
 @use 'pages/home';
 @use 'pages/login';
+@use 'pages/payment';
 @use 'pages/productProfile';
 @use 'pages/profile';
+@use 'pages/shipping';
 @use 'pages/shop';
 
 
