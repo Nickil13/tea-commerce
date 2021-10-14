@@ -1,0 +1,51 @@
+@use '../abstracts';
+
+.place-order-title{
+    @include abstracts.page-title;
+}
+.order-shipping-section, .order-payment-section{
+    display: grid;
+    place-items: start;
+    min-height: auto;
+
+    & h3{
+        margin-bottom: 1rem;
+    }
+}
+.order-items-section{
+    table{
+        padding: 1rem;
+    }
+}
+.order-item{
+    th{
+        text-align: start;
+    }
+    td{
+        min-width: 100px;
+        padding: 1rem;
+    }
+    img{
+        @include abstracts.fit-image;
+        height: 100px;
+        width: 100px;
+    }
+}
+
+.order-summary{
+
+    & ul{
+    padding: 1rem;
+
+    & li{
+      margin-bottom: 0.50rem;
+      width: 200px;
+
+      &:last-child{
+        padding-top: 0.25rem;
+        border-top: 2px solid abstracts.$color-neutral-dark;
+        font-weight: 500;
+      }
+    }
+  }
+}
