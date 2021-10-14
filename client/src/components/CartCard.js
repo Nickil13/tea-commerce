@@ -30,7 +30,7 @@ export default function CartCard({name,_id,productType,category,image,price,quan
                     <span>Quantity: </span>
                     <select onChange={handleSelectChange}>
                         <option value={quantity} hidden>{quantity}</option>
-                        {[...Array(countInStock).keys()].map((amount,index)=>{
+                        {[...Array(countInStock).keys()].slice(1,-1).map((amount,index)=>{
                             return(
                                 <option key={index} value={amount}>{amount}</option>
                             )

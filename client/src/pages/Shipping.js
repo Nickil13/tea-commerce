@@ -70,6 +70,7 @@ export default function Shipping() {
             setError(error.message);
         }
     }
+    
     return (
         <div>
             <CheckoutSteps currentStepNum={2}/>

@@ -1,15 +1,5 @@
 @use '../abstracts';
 
-section{
-    min-height: 300px;
-    width: 100%;
-    padding: 2em 1em;
-
-    h2{
-      font-family: abstracts.$ff-secondary;
-      text-align: center;
-    }
-}
 
   .seasonal-box{
     display:grid;

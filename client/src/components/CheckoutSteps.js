@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 export default function CheckoutSteps({currentStepNum}) {
-    console.log(currentStepNum);
+    
     return (
         <div className="checkout-steps">
             <Link to='/login' className={currentStepNum===1 ? 'active-step' : ''}>Login</Link>

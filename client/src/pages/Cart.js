@@ -15,11 +15,7 @@ export default function Cart() {
 
     const subtotal = cartItems.reduce((acc,item)=>acc + (item.price*item.quantity),0).toFixed(2);
 
-    const shipping = subtotal < 80.00 ? (subtotal*0.15).toFixed(2) : 0;
-
-    const taxes = (subtotal * 0.05).toFixed(2);
-
-    const total = (Number(subtotal)+Number(shipping) + Number(taxes)).toFixed(2);
+    
     
     if(!cartItems.length>0){
         return(
@@ -43,7 +39,7 @@ export default function Cart() {
             <h1 className="cart-title">My Cart</h1>
             <div className="cart">
                 <div className="cart-container">
-                    <div className="cart-items">
+                    <div>
                         {cartItems.length>0 ? cartItems.map((item,index)=>{
                             return(
                                 <CartCard key={index} {...item}/>
@@ -52,17 +48,12 @@ export default function Cart() {
                     </div>
                     <button onClick={()=>{dispatch(clearCart())}} className="btn btn-primary">Clear Cart</button>
                     </div> 
-                <section className="cart-payment-section">
+                <div className="cart-total">
                     <h3>Subtotal ({totalItems}) {totalItems>1 ? 'items' : 'item'}</h3>
-                    <ul>
-                        <li>${subtotal}</li>
-                        <li>Shipping cost: ${shipping}</li>
-                        <li>Taxes: ${taxes}</li>
-                        <li>Total: ${total}</li>
-                    </ul>
+                    <p>${subtotal}</p>
                     
                     <Link to='/shipping'><button className=" btn-secondary" >Proceed to Checkout</button></Link>
-                </section> 
+                </div> 
                   
             </div>
         </div>

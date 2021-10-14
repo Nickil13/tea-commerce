@@ -10,7 +10,8 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "mongoose": "^5.13.8",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "stripe": "^8.181.0"
   },
   "devDependencies": {
     "concurrently": "^6.3.0",
