@@ -12,12 +12,12 @@ const convertToCents = (price) =>{
 const router = express.Router();
 
 
-router.post('/', async (req, res)=>{
+router.post('/sessions', async (req, res)=>{
     try{
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
-            success_url: `${process.env.CLIENT_URL}/account/`,
+            success_url: `${process.env.CLIENT_URL}/ordersuccess/`,
             cancel_url: `${process.env.CLIENT_URL}`,
             line_items: req.body.map((item)=>{
                 return {
@@ -33,9 +33,18 @@ router.post('/', async (req, res)=>{
                 }
             })
         })
-        res.json({url: session.url});
+        res.json({url: session.url, id: session.id, payment_status: session.payment_status});
     }catch(error){
         res.status(500).json({error: error.message});
+    }
+})
+
+router.get('/sessions/:id', async (req,res)=>{
+    try{
+        const session = await stripe.checkout.sessions.retrieve(req.params.id);
+        res.json(session);
+    }catch(error){
+        res.status(404).json(error);
     }
 })
 

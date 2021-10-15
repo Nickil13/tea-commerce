@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
 const productRoutes = require('./routes/productRoutes.js');
+const orderRoutes = require('./routes/orderRoutes');
 const stripeRoutes = require('./routes/stripeRoutes');
 
 dotenv.config();
@@ -17,6 +18,7 @@ if(process.env.NODE_ENV === 'development'){
 app.use(express.json());
 
 app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
 app.use('/api/stripe', stripeRoutes);
 
 app.use('/', (req,res)=>{

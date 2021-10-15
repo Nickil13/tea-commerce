@@ -1,7 +1,8 @@
 import React from 'react'
 import { CheckoutSteps } from '../components'
-import { useSelector } from 'react-redux';
-import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { createCheckoutSession } from '../actions/checkoutActions';
+import { createOrder } from '../actions/orderActions';
 
 export default function PlaceOrder() {
     const cart = useSelector((state)=>state.cart);
@@ -15,20 +16,25 @@ export default function PlaceOrder() {
 
     const total = (Number(subtotal)+Number(shipping) + Number(taxes)).toFixed(2);
 
-    const handlePlaceOrder = async () =>{
-        try{
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-            const {data} = await axios.post('/api/stripe', cartItems,config);
-            window.location = data.url;
-        }catch(error){
-            console.log(error);
+    const dispatch = useDispatch();
+
+    const checkout = useSelector((state)=>state.checkout);
+    const {checkoutSession} = checkout;
+
+    const createOrderReducer = useSelector((state)=>state.orders.createOrderReducer);
+    const {loading, success, error, order} = createOrderReducer;
+
+    const handlePlaceOrder = () =>{
+        dispatch(createOrder(
+            {cartItems, shippingInfo, paymentMethod:paymentInfo.cardType, subtotal, taxes, shipping, total}
+        ));
+        if(success){
+            dispatch(createCheckoutSession(cartItems));
+            if(checkoutSession && checkoutSession.url){
+                window.location = checkoutSession.url;
+            }  
         }
-        
-        
+           
     }
     return (
         <div>

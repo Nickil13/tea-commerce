@@ -40,7 +40,7 @@ function App() {
                 <Route path="/shipping"><Shipping/></Route>
                 <Route path="/payment"><Payment/></Route>
                 <Route path="/placeorder"><PlaceOrder/></Route>
-                <Route path="/ordersuccess/:id"><OrderSuccess/></Route>
+                <Route path="/ordersuccess/"><OrderSuccess/></Route>
               </Switch>
           </main>
           <Footer/>
