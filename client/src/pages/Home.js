@@ -78,7 +78,7 @@ export default function Home() {
                         <li><Link to="/shop" className="teaparty-link">strawberry green tea daiquiri</Link></li>
                         <li><Link to="/shop" className="teaparty-link">irish cream tea</Link></li>
                     </ul>
-                    <p>If you're still craving that buzz, here are <Link to="/recipes">some great recipes to check out!</Link></p>
+                    <p>If you're still craving that buzz, these mixes taste great with alcohol!</p>
                     
                 </div>
                 

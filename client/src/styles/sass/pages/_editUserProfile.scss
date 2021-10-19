@@ -1,0 +1,10 @@
+@use '../abstracts';
+
+.edit-profile-title{
+    @include abstracts.page-title;
+}
+
+.edit-profile-form{
+    @include abstracts.form-format;
+    margin: 5rem 0 5rem 0;
+}

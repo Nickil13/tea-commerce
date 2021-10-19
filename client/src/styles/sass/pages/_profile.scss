@@ -46,4 +46,14 @@
     background-color: abstracts.$color-secondary;
   }
 
+  .wishlist-item{
+    padding: 1rem;
+
+    & img {
+      @include abstracts.fit-image;
+      width: 200px;
+      height: 200px;
+    }
+  }
+
  

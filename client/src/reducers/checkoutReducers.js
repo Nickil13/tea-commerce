@@ -32,6 +32,7 @@ const checkoutSessionReducer = (state = {}, action) =>{
         case CREATE_CHECKOUT_SESSION_SUCCESS:
             return {
                 loading: false,
+                success: true,
                 url: action.payload.url,
                 id: action.payload.id
             }

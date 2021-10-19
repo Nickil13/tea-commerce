@@ -85,6 +85,7 @@ export const saveShippingInfo = (address,city,province,country,postalCode) => (d
         }
     })
 
+
     localStorage.setItem('shippingInfo', JSON.stringify(getState().cart.shippingInfo));
 }
 

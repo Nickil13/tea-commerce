@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useState,useEffect} from 'react'
 import { useParams, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
 import { getProductDetails } from '../actions/productActions';
@@ -7,6 +7,8 @@ import CaffeineRating from '../components/CaffeineRating';
 import Rating from '../components/Rating';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { useGlobalContext } from '../context';
+import { FaHeart, FaRegHeart} from 'react-icons/fa';
+import { addToWishlist, getUserProfile} from '../actions/userActions';
 
 export default function ProductProfile() {
     const{showAlert} = useGlobalContext();
@@ -14,18 +16,46 @@ export default function ProductProfile() {
     const productDetails = useSelector((state)=>state.products.productDetails);
     const location = useLocation();
     const{loading, error,product} = productDetails;
-    
+    const userProfile = useSelector((state)=>state.user.userProfile);
+    const {user, success: profileSuccess} = userProfile;
     const{id} = useParams();
+    const [isInWishlist, setIsInWishlist] = useState(false);
     
-    const handleAddToCart = () =>{
-        dispatch((addToCart(product._id,1)));
-        showAlert(product.name,'cart',1);
-    }
+    useEffect(()=>{
+        if(profileSuccess){
+            checkWishlist();
+        }else{
+            dispatch(getUserProfile());
+        }   
+    },[profileSuccess,dispatch])
 
     useEffect(()=>{
         dispatch(getProductDetails(id));
     },[dispatch,id])
 
+    const checkWishlist = () =>{
+        if(userProfile.user){
+            const wishlist = userProfile.user.wishlist;
+            const itemExists = wishlist.filter((item)=>item._id === id);
+            if(itemExists.length===0){
+                console.log('item is NOT in wishlist');
+                setIsInWishlist(false);
+            }else{
+                console.log('item is in wishlist');
+                setIsInWishlist(true);
+            }
+        }
+    }
+
+    const handleAddToCart = () =>{
+        dispatch((addToCart(product._id,1)));
+        showAlert(product.name,'cart',1);
+    }
+
+    const handleHeartClick = () =>{
+        dispatch((addToWishlist(id)));
+    }
+    console.log("Wishlist:" + isInWishlist);
     return (
         <div>
             {loading ? <h2>Loading...</h2> : error ? <h2>Error! {error}</h2>  : <>
@@ -45,7 +75,7 @@ export default function ProductProfile() {
                     <button className="btn-secondary" onClick={handleAddToCart}>Add to Cart</button>
                 </div>
                 
-                
+                {isInWishlist ? <span className="wishlist-heart"><FaHeart/></span> : <span className="wishlist-heart" onClick={handleHeartClick}><FaRegHeart/></span>}
             </section>
             <section className="profile-ingredients">
                 <h2>Ingredients</h2>

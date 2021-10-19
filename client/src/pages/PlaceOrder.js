@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CheckoutSteps } from '../components'
 import { useSelector, useDispatch } from 'react-redux';
 import { createCheckoutSession } from '../actions/checkoutActions';
 import { createOrder } from '../actions/orderActions';
+import { Message } from '../components';
 
 export default function PlaceOrder() {
     const cart = useSelector((state)=>state.cart);
@@ -20,22 +21,29 @@ export default function PlaceOrder() {
 
     const checkout = useSelector((state)=>state.checkout);
     const {checkoutSession} = checkout;
+    const {url, success: checkoutSessionSuccess} = checkoutSession;
 
-    const createOrderReducer = useSelector((state)=>state.orders.createOrderReducer);
-    const {loading, success, error, order} = createOrderReducer;
+    const createdOrder = useSelector((state)=>state.orders.createdOrder);
+    const {loading, success, error} = createdOrder;
+
+    useEffect(()=>{
+        if(success){
+            dispatch(createCheckoutSession(cartItems)); 
+        }
+    },[success,dispatch])
+
+    useEffect(()=>{
+        if(checkoutSessionSuccess && url){
+            window.location = checkoutSession.url;
+        }
+    },[checkoutSessionSuccess])
 
     const handlePlaceOrder = () =>{
         dispatch(createOrder(
             {cartItems, shippingInfo, paymentMethod:paymentInfo.cardType, subtotal, taxes, shipping, total}
         ));
-        if(success){
-            dispatch(createCheckoutSession(cartItems));
-            if(checkoutSession && checkoutSession.url){
-                window.location = checkoutSession.url;
-            }  
-        }
-           
     }
+
     return (
         <div>
             <CheckoutSteps currentStepNum={4}/>
@@ -89,6 +97,8 @@ export default function PlaceOrder() {
                     <li>Total: ${total}</li>
                 </ul>
                 <button className="btn-secondary" onClick={handlePlaceOrder}>Place Order</button>
+                {loading && <p>Placing order...</p>}
+                {error && <Message>{error}</Message>}
             </section>
             
         </div>

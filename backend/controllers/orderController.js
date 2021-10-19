@@ -1,13 +1,15 @@
+const asyncHandler = require('express-async-handler');
 const Order = require('../models/OrderModel');
 
 
 // @desc     Get logged in user orders
-// @route    GET /api/myorders
+// @route    GET /api/orders/myorders
 // @access   Private
-const getMyOrders = async (req, res) =>{
-    const orders = await Order.find({});
+const getMyOrders = asyncHandler(async (req, res) =>{
+    const orders = await Order.find({user: req.user._id});
     res.json(orders);
-}
+    
+})
 
 // @desc     Get order by id
 // @route    GET /api/orders/:id
@@ -27,24 +29,13 @@ const getOrderById = async(req, res)=>{
 // @route    POST /api/orders
 // @access   Private
 const createOrder = async(req,res)=>{
-    // const {cartItems, shippingInfo, paymentMethod, subtotal, taxes, shipping, total} = req.body;
     const {cartItems, shippingInfo, paymentMethod, subtotal, taxes, shipping, total} = req.body;
     
-
     if(cartItems && cartItems.length === 0){
         res.status(400).json("No order items.");
     }else{
-        // const order = new Order({
-        //     user: req.user._id,
-        //     cartItems,
-        //     shippingInfo,
-        //     paymentMethod,
-        //     subtotal,
-        //     taxes,
-        //     shipping,
-        //     total
-        // })
         const order = new Order({
+            user: req.user._id,
             orderItems: cartItems,
             shippingAddress: shippingInfo,
             paymentMethod,

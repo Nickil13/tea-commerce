@@ -9,6 +9,7 @@
 
 .product-profile{
     display: grid;
+    position: relative;
     width: 80%;
     margin: 0 auto;
 
@@ -180,5 +181,21 @@
       justify-content: space-between;
       color: abstracts.$color-primary;
     }
+  }
+
+  //Wishlist heart
+  .wishlist-heart{
+      position: absolute;
+      top: 20px;
+      right: 5px;
+      font-size: 30px;
+      cursor: pointer;
+      transition: all 500ms ease-in-out;
+        &-active{
+            color: abstracts.$color-error;
+        }
+        &:hover{
+            transform: scale(1.2);
+        }
   }
 

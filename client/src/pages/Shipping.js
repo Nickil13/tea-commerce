@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { CheckoutSteps, Message } from '../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveShippingInfo } from '../actions/cartActions';
+import { updateUserProfile } from '../actions/userActions';
 import { useHistory } from 'react-router';
 
 export default function Shipping() {
@@ -63,7 +64,11 @@ export default function Shipping() {
         e.preventDefault();
         try{
             validate();
-            dispatch(saveShippingInfo(address,city,province,country,postalCode));
+            dispatch(saveShippingInfo(
+                address,city,province,country,postalCode
+            ));
+            const shippingAddress = {address,city,province,country,postalCode}
+            dispatch(updateUserProfile({shippingAddress}));
             history.push('/payment');
             setError("");
         }catch(error){

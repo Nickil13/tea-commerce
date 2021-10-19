@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import {BrowserRouter as Router, Route, Switch, Redirect, useLocation} from "react-router-dom";
-import { Cart, Shipping, Home, Login, OrderSuccess,Payment, PlaceOrder, ProductProfile, Shop, Signup, UserProfile} from "./pages";
+import { Cart, Shipping, Home, Login, OrderSuccess,Payment, PlaceOrder, ProductProfile, Shop, Signup, UserProfile, EditUserProfile} from "./pages";
 import {Navbar, Footer, Sidebar, Alert} from './components';
 import { useSelector} from 'react-redux';
 
@@ -28,6 +28,11 @@ function App() {
               <Switch>
                 <Route exact path="/"><Home/></Route>
                 <Route path="/cart"><Cart/></Route>
+                <Route path="/account/edit-profile">
+                  {
+                    userInfo ? <EditUserProfile/> : <Redirect to="/login"/> 
+                  }
+                </Route>
                 <Route path="/account">
                   {
                     userInfo ? <UserProfile/> : <Redirect to="/login"/> 

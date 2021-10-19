@@ -1,61 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useGlobalContext } from '../context';
 import Message from '../components/Message';
-import { useSelector} from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
+import { registerUser } from '../actions/userActions';
+import { Loader } from '../components';
 
 export default function Signup() {
     const[username,setUsername] = useState("");
     const[email,setEmail] = useState("");
     const[password,setPassword] = useState("");
     const[confirmPassword,setConfirmPassword] = useState("");
-    const[error, setError] = useState("");
-    const{register} = useGlobalContext();
     const history = useHistory();
+    const dispatch = useDispatch();
 
-    const user = useSelector((state)=>state.user.userLogin);
-    const {userInfo} = user;
+    const {userRegister, userLogin} = useSelector((state)=>state.user);
+    const {loading,error,userInfo} = userRegister;
     
     useEffect(()=>{
-        if(userInfo){
+        if(userLogin.userInfo || userInfo){
             history.push("/account");
-        }
-        
-    },[userInfo,history])
-    const handleSubmit = (e) => {
+        }    
+    },[history,userInfo])
+
+    const handleSubmit = (e) =>{
         e.preventDefault();
-        setError("");
-        if(username && email && password){
-            let unique = false;
-            let savedUser = localStorage.getItem("userInfo");
-            let userInfo = {};
-            if(savedUser){
-                userInfo = JSON.parse(savedUser);
-            }
-            //Check if that username already exists
-            if(userInfo){
-                if(userInfo.username === username || userInfo.email === email){
-                    unique = false;
-                    setError("User already exists.");
-                }else{
-                    unique = true;
-                }
-            }else{
-                unique = true;
-            }
-            //Confirm passwords and unique account
-            if(unique && password === confirmPassword){
-                let user = {username,email,password}
-                register(user);
-                history.push("/account");
-            }
-            if(password !== confirmPassword){
-                setError("Passwords do not match.");
-            }
-            
-        }else{
-            setError("Fill in all required fields.");
-        }
+        dispatch(registerUser(username, email, password, confirmPassword));
+        
         
     }
     return (
@@ -64,7 +34,7 @@ export default function Signup() {
             {error && <Message type="error">{error}</Message>}
             <form className="signup-form">
                 <div className="form-control">
-                    <input type="text" name="username" id="username" placeholder="username" value={username} onChange={(e)=>setUsername(e.target.value)}/>           
+                    <input type="text" name="username" id="username" placeholder="username" style={{textTransform:"capitalize"}} value={username} onChange={(e)=>setUsername(e.target.value)}/>           
                 </div>
                 <div className="form-control">
                     <input type="email" name="email" id="email" placeholder="email" value={email} onChange={(e)=>setEmail(e.target.value)}/>           
@@ -78,6 +48,7 @@ export default function Signup() {
                 <button type="submit" className="btn btn-primary">Sign up</button>
             </form>
             <p>Already have an account? <Link to="/login">Log in</Link></p>
+            {loading && <Loader/>}
         </div>
     )
 }
