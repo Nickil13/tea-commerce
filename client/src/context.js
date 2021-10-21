@@ -3,10 +3,10 @@ import React, { useState, useContext} from 'react';
 const AppContext = React.createContext();
 
 export const AppProvider = ({children}) =>{
-    
-    const[isSidebarOpen,setIsSidebarOpen] = useState(false);
-    const[isAlertShowing,setIsAlertShowing] = useState(false);
-    const[alertContent,setAlertContent] = useState({});
+    const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+    const [isSidebarOpen,setIsSidebarOpen] = useState(false);
+    const [isAlertShowing,setIsAlertShowing] = useState(false);
+    const [alertContent,setAlertContent] = useState({});
 
 
     const showAlert = (name,alertType,qty) =>{
@@ -26,6 +26,14 @@ export const AppProvider = ({children}) =>{
         setIsSidebarOpen(true);
         document.body.style.overflow = "hidden";
     }
+
+    const openSearchModal = () =>{
+        setIsSearchModalOpen(true);
+    }
+
+    const closeSearchModal = () =>{
+        setIsSearchModalOpen(false);
+    }
     
     return <AppContext.Provider 
     
@@ -38,6 +46,9 @@ export const AppProvider = ({children}) =>{
         showAlert,
         closeAlert,
         alertContent,
+        openSearchModal,
+        isSearchModalOpen,
+        closeSearchModal
     }}>
         {children}
     </AppContext.Provider>

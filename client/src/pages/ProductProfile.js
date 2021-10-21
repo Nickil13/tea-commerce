@@ -9,6 +9,7 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import { useGlobalContext } from '../context';
 import { FaHeart, FaRegHeart} from 'react-icons/fa';
 import { addToWishlist, getUserProfile} from '../actions/userActions';
+import { WISHLIST_ADD_ITEM_RESET } from '../constants/userConstants';
 
 export default function ProductProfile() {
     const{showAlert} = useGlobalContext();
@@ -16,32 +17,37 @@ export default function ProductProfile() {
     const productDetails = useSelector((state)=>state.products.productDetails);
     const location = useLocation();
     const{loading, error,product} = productDetails;
-    const userProfile = useSelector((state)=>state.user.userProfile);
-    const {user, success: profileSuccess} = userProfile;
+    const {userProfile, userAddWishlist} = useSelector((state)=>state.user);
+    const {user} = userProfile;
+    const {success: wishlistSuccess} = userAddWishlist;
     const{id} = useParams();
     const [isInWishlist, setIsInWishlist] = useState(false);
     
     useEffect(()=>{
-        if(profileSuccess){
+        dispatch(getProductDetails(id));
+        // Once the user profile is successfully loaded, check the wishlist for the current product. Otherwise, fetch the user profile information.
+        if(user){
             checkWishlist();
         }else{
             dispatch(getUserProfile());
         }   
-    },[profileSuccess,dispatch])
+    },[user,id,dispatch])
 
     useEffect(()=>{
-        dispatch(getProductDetails(id));
-    },[dispatch,id])
+        if(wishlistSuccess){
+            dispatch({type: WISHLIST_ADD_ITEM_RESET});
+            showAlert(product.name,'wishlist');
+            dispatch(getUserProfile());
+        }
+    },[wishlistSuccess])
 
     const checkWishlist = () =>{
         if(userProfile.user){
             const wishlist = userProfile.user.wishlist;
             const itemExists = wishlist.filter((item)=>item._id === id);
             if(itemExists.length===0){
-                console.log('item is NOT in wishlist');
                 setIsInWishlist(false);
             }else{
-                console.log('item is in wishlist');
                 setIsInWishlist(true);
             }
         }
@@ -53,9 +59,9 @@ export default function ProductProfile() {
     }
 
     const handleHeartClick = () =>{
+        console.log('clicking heart');
         dispatch((addToWishlist(id)));
     }
-    console.log("Wishlist:" + isInWishlist);
     return (
         <div>
             {loading ? <h2>Loading...</h2> : error ? <h2>Error! {error}</h2>  : <>
@@ -75,7 +81,7 @@ export default function ProductProfile() {
                     <button className="btn-secondary" onClick={handleAddToCart}>Add to Cart</button>
                 </div>
                 
-                {isInWishlist ? <span className="wishlist-heart"><FaHeart/></span> : <span className="wishlist-heart" onClick={handleHeartClick}><FaRegHeart/></span>}
+                {isInWishlist ? <span className="wishlist-heart wishlist-heart-active"><FaHeart/></span> : <span className="wishlist-heart" onClick={handleHeartClick}><FaRegHeart/></span>}
             </section>
             <section className="profile-ingredients">
                 <h2>Ingredients</h2>

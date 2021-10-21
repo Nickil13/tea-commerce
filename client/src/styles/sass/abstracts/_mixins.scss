@@ -26,3 +26,18 @@
     }
   }
 }
+
+@mixin overlay{
+    position:fixed;
+    display:none;
+    background-color: rgba(0, 0, 0, 0.50);
+    top:0;
+    left:0;
+    bottom:0;
+    width: 100%;
+    z-index: 1;
+
+    &.show{
+      display:block;
+    }
+}

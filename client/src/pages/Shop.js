@@ -29,7 +29,6 @@ export default function Shop() {
 
 
     useEffect(()=>{
-        console.log(pageNumber);
         dispatch(listProducts(category,type,pageNumber));
         updateShopButtons();
     },[category,type,pageNumber,dispatch])

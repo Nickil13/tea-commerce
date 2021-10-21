@@ -1,4 +1,4 @@
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_PROFILE_FAIL, GET_USER_PROFILE_REQUEST, GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_FAIL, WISHLIST_ADD_ITEM_REQUEST, WISHLIST_ADD_ITEM_FAIL, WISHLIST_ADD_ITEM_SUCCESS, USER_REGISTER_REQUEST, USER_REGISTER_FAIL, USER_REGISTER_SUCCESS } from "../constants/userConstants"
+import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_PROFILE_FAIL, GET_USER_PROFILE_REQUEST, GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_FAIL, WISHLIST_ADD_ITEM_REQUEST, WISHLIST_ADD_ITEM_FAIL, WISHLIST_ADD_ITEM_SUCCESS, USER_REGISTER_REQUEST, USER_REGISTER_FAIL, USER_REGISTER_SUCCESS, WISHLIST_REMOVE_ITEM_REQUEST, WISHLIST_REMOVE_ITEM_SUCCESS, WISHLIST_REMOVE_ITEM_FAIL } from "../constants/userConstants"
 import axios from "axios";
 
 export const login = (username,password) => async (dispatch) => {
@@ -189,10 +189,8 @@ export const addToWishlist = (id) => async (dispatch, getState)=>{
             }
         }
         const { data: user } = await axios.get('/api/users/profile', config);
-        console.log(user);
 
         const {data: product} = await axios.get(`/api/products/${id}`);
-        console.log(product);
 
         // Check if the item is already in the wishlist
         if(user.wishlist.find((item)=>item._id === product._id)){
@@ -223,6 +221,46 @@ export const addToWishlist = (id) => async (dispatch, getState)=>{
     }catch(error){
         dispatch({
             type: WISHLIST_ADD_ITEM_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+        })
+    }
+}
+
+export const removeWishlistItem = (id) => async (dispatch, getState)=>{
+    try{
+
+        dispatch({
+            type: WISHLIST_REMOVE_ITEM_REQUEST,
+        })
+        // Get the user details
+        const {user: {userLogin: {userInfo}}} = getState();
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${userInfo.token}`
+            }
+        }
+        const { data: user } = await axios.get('/api/users/profile', config);
+
+        const newUser = {
+            wishlist: user.wishlist.filter((item)=>item._id !==id)
+        }
+
+        const postConfig = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userInfo.token}`
+            }
+        }
+
+        await axios.put('/api/users/profile', newUser, postConfig);
+        
+        dispatch({
+            type: WISHLIST_REMOVE_ITEM_SUCCESS,
+        })
+        
+    }catch(error){
+        dispatch({
+            type: WISHLIST_REMOVE_ITEM_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }

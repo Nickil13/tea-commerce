@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { FaPlus, FaMinus} from 'react-icons/fa';
+import {AiOutlinePlus, AiOutlineMinus} from 'react-icons/ai';
 import { VscClose} from 'react-icons/vsc';
 import { Link } from 'react-router-dom';
 import { useGlobalContext} from '../context';
 
-export default function AccordionItem({type,description,route,items}) {
-    const[isExpanded,setIsExpanded] = useState(false);
+export default function AccordionItem({type, items, expanded}) {
+    const[isExpanded,setIsExpanded] = useState(expanded);
     const{closeSidebar} = useGlobalContext();
 
     return (
@@ -13,14 +14,14 @@ export default function AccordionItem({type,description,route,items}) {
             <div className="accordion-item">
                 <div className="title-bar">
                     <h2>{type}</h2>
-                    {isExpanded ? <VscClose className="accordion-btn" onClick={()=>{setIsExpanded(false)}}/> : <VscClose className="accordion-btn" onClick={()=>{setIsExpanded(true)}}/>}
+                    {isExpanded ? <AiOutlineMinus className="accordion-btn" onClick={()=>{setIsExpanded(false)}}/> : <AiOutlinePlus className="accordion-btn" onClick={()=>{setIsExpanded(true)}}/>}
                 </div>
                 
                 <ul className={`accordion-content ${isExpanded && 'accordion-content show'}`}>
                     {items.map((item,index)=>{
                         return(
                             <li key={index}>
-                                <Link onClick={closeSidebar}to={`/shop`}>{item}</Link>
+                                <Link className="sidebar-link" onClick={closeSidebar}to={type==='all' ? `/shop/${item}` : `/shop/${type}/${item}`}>{item}</Link>
                             </li>
                         )
                     })}

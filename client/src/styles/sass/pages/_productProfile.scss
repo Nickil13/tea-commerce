@@ -190,7 +190,7 @@
       right: 5px;
       font-size: 30px;
       cursor: pointer;
-      transition: all 500ms ease-in-out;
+      transition: transform 500ms ease-in-out;
         &-active{
             color: abstracts.$color-error;
         }

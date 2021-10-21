@@ -6,7 +6,13 @@ import AccordionItem from './AccordionItem';
 import { teaProductCategories as categories } from '../resources/teaInfoData';
 
 export default function Sidebar() {
-    const{isSidebarOpen,closeSidebar} = useGlobalContext();
+    const{isSidebarOpen,closeSidebar,openSearchModal} = useGlobalContext();
+
+    const handleOpenSearchModal = () =>{
+        closeSidebar();
+        openSearchModal();
+    }
+
     return (
         <>
             <div className={`sidebar-container ${isSidebarOpen && 'sidebar-container show'}`}>
@@ -14,20 +20,19 @@ export default function Sidebar() {
                     <button className="close-sidebar-btn"
                     onClick={closeSidebar}><VscClose/></button>
                     <div className="accordion-items">
-                        {categories.map((category)=>{
+                        {categories.map((category,index)=>{
                             return(
-                                <AccordionItem key={category.id} {...category}/>
+                                <AccordionItem key={category.id} {...category} expanded={index ===0 ? true : false}/>
                             );
                         })}
                     </div>
-                   
-                </div>
-                <div className="sidebar-footer">
-                    <button className="btn search-btn">
-                    <GoSearch className="search-btn-icon"/><span>Search for a product</span>
+                    <div className="sidebar-footer">
+                    <button className="btn search-btn" onClick={handleOpenSearchModal}>
+                        <GoSearch className="search-btn-icon"/><span>Search for a product</span>
                     </button>
-                    
+                    </div>
                 </div>
+                
             </div>
             <div className={`sidebar-overlay ${isSidebarOpen && 'sidebar-overlay show'}`}></div>
         </>

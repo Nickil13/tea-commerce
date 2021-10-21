@@ -1,48 +1,36 @@
 @use '../abstracts';
 
 .accordion-item{
-    // width:100%;
-    // font-family: abstracts.$ff-secondary;
-  }
+    margin-bottom: 1rem;
+}
   .title-bar{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding: 0.50rem;
+    margin: 0.50rem;
     border-bottom: 1px solid abstracts.$color-primary;
   }
   .accordion-content{
     display:none;
-    // font-family: abstracts.$ff-primary;
     margin-left: 20px;
-  }
-  .accordion-content li{
-    padding: 2px;
-    cursor: pointer;
-    text-transform: capitalize;
-  }
-  .accordion-content li:hover{
-    color: abstracts.$color-primary;
+
+      &.show{
+        display:block;
+      }
+      & li{
+        padding: 2px;
+        text-transform: capitalize;
+
+        &:hover{
+          color: abstracts.$color-primary;
+        }
+      }
   }
   
-  .accordion-content.show{
-    display:block;
-  }
   .accordion-btn{
     cursor: pointer;
   }
 
 
-  //Sidebar footer search button
-  .search-btn{
-    display: flex;
-    place-items: center;
-    
-    &-icon{
-      font-size: 20px;
-    }
-    & span{
-      margin-left: 1rem;
-      font-size: 20px;
-    }
-  }
+  

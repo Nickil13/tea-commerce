@@ -2,9 +2,10 @@
 
 .sidebar{
     position: relative;
-    padding: 5rem 2rem;
+    padding: 5rem 0rem; 
+    padding-bottom: 100px;
+    min-height: 100vh;
   }
-
 
   .close-sidebar-btn{
     position: absolute;
@@ -29,25 +30,46 @@
     transform: translateX(-100%);
     transition: all 500ms ease-in-out;
     background-color:abstracts.$color-neutral;
-    overflow:hidden;
-
+    overflow-y: scroll;
+    height: 100%;
     &.show{
       transform: translateX(0);
     }
   }
 
   .sidebar-overlay{
-    position:fixed;
-    display:none;
-    background-color: rgba(0, 0, 0, 0.50);
-    top:0;
-    left:0;
+    @include abstracts.overlay;
+  }
+  .accordion-items{
+    padding: 0 2rem;
+  }
+
+  .sidebar-footer{
+    position: absolute;
     bottom:0;
     width: 100%;
-    z-index: 1;
+    height: 100px;
+  }
 
-    &.show{
-      display:block;
+  .sidebar-link{
+    color: lighten(abstracts.$color-neutral-dark, 15%);
+    font-family: abstracts.$ff-primary;
+    &:hover{
+      color: abstracts.$color-primary-light;
+    }
+  }
+
+  //Sidebar footer search button
+  .search-btn{
+    display: flex;
+    place-items: center;
+    
+    &-icon{
+      font-size: 20px;
+    }
+    & span{
+      margin-left: 1rem;
+      font-size: 20px;
     }
   }
 

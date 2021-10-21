@@ -10,9 +10,10 @@ import Message from "./Message";
 import Navbar from "./Navbar";
 import Pagination from "./Pagination";
 import Rating from "./Rating";
+import SearchModal from "./SearchModal";
 import ShopCard from "./ShopCard";
 import Sidebar from "./Sidebar";
 import Slider from "./Slider";
 import Tabs from "./Tabs";
 
-export {Alert, Banner, Breadcrumbs, CaffeineRating, CartCard, CheckoutSteps, Footer, Loader, Message, Navbar, Pagination, Rating, ShopCard, Sidebar, Slider, Tabs};
+export {Alert, Banner, Breadcrumbs, CaffeineRating, CartCard, CheckoutSteps, Footer, Loader, Message, Navbar, Pagination, Rating, SearchModal, ShopCard, Sidebar, Slider, Tabs};

@@ -94,9 +94,8 @@ const getUserProfile = async(req,res) =>{
 // @access   Private
 const updateUserProfile = asyncHandler( async(req, res) =>{
     const user = await User.findById(req.user._id);
-    console.log(req.body);
+    
     if(user){
-        console.log("1:" + user);
         user.username = req.body.username || user.username;
         user.email = req.body.email || user.email;
         user.shippingAddress = req.body.shippingAddress || user.shippingAddress;
@@ -106,11 +105,8 @@ const updateUserProfile = asyncHandler( async(req, res) =>{
             user.password = req.body.password
         }
 
-        console.log("2:" + user);
-
         try{
             const updatedUser = await user.save();
-            console.log(updatedUser);
             res.json({
                 _id: updatedUser._id,
                 username: updatedUser.username,

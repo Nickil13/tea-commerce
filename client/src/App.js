@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import {BrowserRouter as Router, Route, Switch, Redirect, useLocation} from "react-router-dom";
 import { Cart, Shipping, Home, Login, OrderSuccess,Payment, PlaceOrder, ProductProfile, Shop, Signup, UserProfile, EditUserProfile} from "./pages";
-import {Navbar, Footer, Sidebar, Alert} from './components';
+import {Navbar, Footer, SearchModal, Sidebar, Alert} from './components';
 import { useSelector} from 'react-redux';
 
 const ScrollToTop = (props) =>{
@@ -24,6 +24,7 @@ function App() {
         <ScrollToTop>
           <Navbar/>
           <Sidebar/>
+          <SearchModal/>
           <main>
               <Switch>
                 <Route exact path="/"><Home/></Route>

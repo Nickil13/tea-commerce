@@ -1,0 +1,18 @@
+@use '../abstracts';
+
+.search-modal{
+    background-color: firebrick;
+    &-container{
+        position: fixed;
+        top:0;
+        left:0;
+        z-index: 2;
+        height: 100%;
+        width: 100%;
+        background-color: transparent;
+    }
+
+    &-overlay{
+        @include abstracts.overlay;
+    }
+}

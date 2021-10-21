@@ -4,20 +4,20 @@ import { GoPackage} from 'react-icons/go';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserProfile, logout } from '../actions/userActions';
+import { getUserProfile, logout, removeWishlistItem } from '../actions/userActions';
 import { listMyOrders } from '../actions/orderActions';
-
-
 
 
 export default function UserProfile() {
     const dispatch = useDispatch();
-    const userProfile = useSelector((state)=>state.user.userProfile);
+    const {userProfile, userRemoveWishlist} = useSelector((state)=>state.user);
     // const {user, loading} = userProfile;
     const user = userProfile.user || {};
+    const {success: removeWishlistSuccess} = userRemoveWishlist;
 
     const myOrders = useSelector((state)=>state.orders.myOrders);
     const {orders} = myOrders;
+
 
     const history = useHistory();
     
@@ -25,6 +25,14 @@ export default function UserProfile() {
         dispatch(getUserProfile())
         dispatch(listMyOrders())
     },[dispatch])
+
+    useEffect(()=>{
+        dispatch(getUserProfile())
+    },[removeWishlistSuccess])
+
+    const handleWishlistRemoveItem = (id) =>{
+        dispatch(removeWishlistItem(id))
+    }
 
     return (
             <div className="container">
@@ -81,8 +89,9 @@ export default function UserProfile() {
                         user.wishlist.map((item)=>{
                             return(
                                 <div key={item._id} className="wishlist-item">
-                                    <Link to={`/shop/${item.category}/${item.type}/${item._id}`}><img src={item.image} alt={item.name}/></Link>
+                                    <Link to={`/shop/${item.category}/${item.productType}/${item._id}`}><img src={item.image} alt={item.name}/></Link>
                                     <h3>{item.name}</h3>
+                                    <button className="btn" onClick={()=>handleWishlistRemoveItem(item._id)}>remove</button>
                                 </div>
                             )
                         }) : <p>You haven't added any items to your wishlist!</p>}
