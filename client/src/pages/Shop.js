@@ -1,9 +1,8 @@
-import React, { useState, useEffect ,useRef} from 'react'
+import React, { useState, useEffect} from 'react'
 import ShopCard from "../components/ShopCard";
 import Breadcrumbs from "../components/Breadcrumbs";
 import Banner from '../components/Banner';
 import { useParams ,useHistory, useLocation} from 'react-router-dom';
-import { FaSearch} from 'react-icons/fa';
 import { teaProductCategories as categories} from '../resources/teaInfoData';
 import { useDispatch, useSelector} from 'react-redux';
 import { listProducts } from '../actions/productActions';
@@ -29,7 +28,7 @@ export default function Shop() {
 
 
     useEffect(()=>{
-        dispatch(listProducts(category,type,pageNumber));
+        dispatch(listProducts(category ? category : '',type ? type: '',pageNumber));
         updateShopButtons();
     },[category,type,pageNumber,dispatch])
 

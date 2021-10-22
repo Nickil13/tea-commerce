@@ -12,13 +12,38 @@ const getProducts = asyncHandler(async (req,res) => {
 
     let query = {};
 
-    if(req.query.category !== 'undefined'){
+    //Query by product category (ex. loose leaf teas)
+    if(req.query.category){
         query = {...query, category:req.query.category}
     }
-    if(req.query.type !== 'undefined'){
+
+    //Query by product type (ex. black tea, matcha)
+    if(req.query.type){
         query = {...query, productType:req.query.type}
     }
 
+    //Query by keyword
+    if(req.query.keyword){
+        query = {...query, $or: [
+            {name: {
+                $regex: req.query.keyword,
+                $options: 'i'}
+            },
+            {productType: {
+                $regex: req.query.keyword,
+                $options: 'i'}
+            },
+            {category: {
+                $regex: req.query.keyword,
+                $options: 'i'}
+            },
+            {ingredients: {
+                $regex: req.query.keyword,
+                $options: 'i'}
+            },
+                    
+        ]}
+    }
     const count = await Product.countDocuments({...query});
     const products = await Product.find({...query}).limit(pageSize).skip(pageSize * (page-1));
     

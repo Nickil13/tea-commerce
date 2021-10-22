@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import {Link, NavLink, useHistory} from "react-router-dom";
 import { FaShoppingCart, FaBars, FaUserCircle } from 'react-icons/fa';
 import { GiTeapot } from 'react-icons/gi';
+import { GoSearch } from 'react-icons/go';
 import { useSelector, useDispatch} from 'react-redux';
 import { logout} from '../actions/userActions';
 import { useGlobalContext } from '../context';
@@ -76,6 +77,9 @@ export default function Navbar() {
                     
                 </ul>
                 <ul className="nav-icons">
+                    <li className="nav-link search-link">
+                        <GoSearch className="nav-icon"/>
+                    </li>
                     {userInfo ? 
                     <div className="nav-dropdown">
                         <FaUserCircle className="nav-icon nav-icon-loggedin" onClick={()=>setShowDropdown(true)}/>
@@ -96,17 +100,16 @@ export default function Navbar() {
                     </div>
                      :
                     <li className="nav-link">
-                        <NavLink to="/login">
+                        <Link to="/login">
                             <FaUserCircle className="nav-icon"/>
-                        </NavLink>
+                        </Link>
                     </li>
                     } 
-                    
                     <li className="nav-link cart-link">
-                        <NavLink to="/cart">
+                        <Link to="/cart">
                             <FaShoppingCart className="nav-icon" />
                             <span className="cart-icon-amount">{cartItemAmount}</span>
-                        </NavLink>
+                        </Link>
                     </li>
                 </ul>
             </nav>      

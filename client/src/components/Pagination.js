@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 
-export default function Pagination({page, pages}) {
+export default function Pagination({page, pages, modalPagination, setCurrentPage}) {
     const location = useLocation();
     const history = useHistory();
     
@@ -21,6 +21,39 @@ export default function Pagination({page, pages}) {
         
     }
 
+    const handlePreviousModalClick = () =>{
+        const newPage = page-1;
+        if(newPage>0){
+            setCurrentPage(newPage);
+        }
+        
+    }
+
+    const handleNextModalClick = () =>{
+        const newPage = page+1;
+        if(newPage<=pages){
+            setCurrentPage(newPage);
+        }
+        
+    }
+
+    if(modalPagination){
+        return pages>1 &&(
+            <div className="pagination">
+                <ul className="page-indices">
+                    <li className={(page-1>0) ?'active-page-btn' : ''} onClick={handlePreviousModalClick}>Previous</li>
+                    {[...Array(pages).keys()].map((pageNum)=>{
+                        return(
+                            <li key={pageNum+1} className={`${Number(page)===(pageNum+1) && 'active-index'}`} onClick={()=>setCurrentPage(pageNum+1)}>
+                                {pageNum +1}
+                            </li>
+                        );
+                    })}
+                    <li className={(page+1<=pages) ?'active-page-btn' : ''} onClick={handleNextModalClick}>Next</li>
+                </ul>
+            </div>
+        )
+    }
     return pages>1 &&(
         <div className="pagination">
             <ul className="page-indices">

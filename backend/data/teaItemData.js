@@ -55,9 +55,9 @@ const teaList = [
 
     },
     {
-        name: "classic matcha",
+        name: "classic",
         category: "matcha",
-        productType:"ceremonial matcha",
+        productType:"ceremonial",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id eaque consequuntur, accusamus ab, ex, autem alias ullam itaque doloremque quisquam hic ipsa deleniti. Temporibus, voluptatum!",
         image: "/images/matcha.jpg",
         price: 12.00,
