@@ -50,6 +50,29 @@ const getProducts = asyncHandler(async (req,res) => {
     res.json({products, page, pages: Math.ceil(count/pageSize)});
 })
 
+// @desc     Get top product review
+// @route    GET /api/products/:id/top-review
+// @access   Public
+
+const getTopProductReview = async (req,res) => {
+
+    const product = await Product.findById(req.params.id);
+    
+    if(product){
+        let topReview = product.reviews[0];
+        for(let i=0;i<product.reviews.length;i++){
+            if(product.reviews[i]>topReview){
+                topReview = product.reviews[i];
+            }
+        }
+        res.json(topReview);
+    }else{
+        res.status(404);
+        throw new Error('Product not found');
+    }
+    
+}
+
 // @desc     Get product by ID
 // @route    GET /api/products/:id
 // @access   Public
@@ -91,7 +114,7 @@ const createProductReview = asyncHandler(async (req,res) => {
 
         if(alreadyReviewed){
             res.status(400);
-            throw new Error('Product already reviewed.');
+            throw new Error('User has already reviewed the product.');
         }
 
         const review = {
@@ -113,4 +136,4 @@ const createProductReview = asyncHandler(async (req,res) => {
     }
 })
 
-module.exports = { getProducts, getProductById, createProductReview};
+module.exports = { getProducts, getProductById, createProductReview, getTopProductReview};

@@ -1,49 +1,64 @@
 import React, {useState,useEffect} from 'react'
-import { useParams, useLocation} from "react-router-dom";
+import { useParams, useLocation, Link} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
-import { getProductDetails } from '../actions/productActions';
+import { createProductReview, getProductDetails, getTopProductReview } from '../actions/productActions';
 import { addToCart } from '../actions/cartActions';
-import CaffeineRating from '../components/CaffeineRating';
-import Rating from '../components/Rating';
-import Breadcrumbs from '../components/Breadcrumbs';
+import { CaffeineRating, Rating, Breadcrumbs, Message } from '../components';
+import Moment from 'react-moment';
 import { useGlobalContext } from '../context';
 import { FaHeart, FaRegHeart} from 'react-icons/fa';
 import { addToWishlist, getUserProfile} from '../actions/userActions';
 import { WISHLIST_ADD_ITEM_RESET } from '../constants/userConstants';
+import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 
 export default function ProductProfile() {
+    const [isInWishlist, setIsInWishlist] = useState(false);
+    const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState('');
+    const{id} = useParams();
+    const location = useLocation();
+
     const{showAlert} = useGlobalContext();
     const dispatch = useDispatch();
-    const productDetails = useSelector((state)=>state.products.productDetails);
-    const location = useLocation();
+
+    const {productDetails, productCreateReview, productTopReview} = useSelector((state)=>state.products);
+    const { success: reviewSuccess, error: reviewError} = productCreateReview;
     const{loading, error,product} = productDetails;
+    const{topReview} = productTopReview;
+
     const {userProfile, userAddWishlist} = useSelector((state)=>state.user);
     const {user} = userProfile;
     const {success: wishlistSuccess} = userAddWishlist;
-    const{id} = useParams();
-    const [isInWishlist, setIsInWishlist] = useState(false);
+    const reviewedByUser = (product.reviews && user) ? product.reviews.find((product)=>product.username === user.username) : false;
+    
+    
     
     useEffect(()=>{
         dispatch(getProductDetails(id));
+        dispatch(getTopProductReview(id));
         // Once the user profile is successfully loaded, check the wishlist for the current product. Otherwise, fetch the user profile information.
         if(user){
             checkWishlist();
         }else{
             dispatch(getUserProfile());
         }   
-    },[user,id,dispatch])
 
-    useEffect(()=>{
+        if(reviewSuccess){
+            setRating(0);
+            setComment('');
+            dispatch({type: PRODUCT_CREATE_REVIEW_RESET});
+        }
         if(wishlistSuccess){
             dispatch({type: WISHLIST_ADD_ITEM_RESET});
             showAlert(product.name,'wishlist');
             dispatch(getUserProfile());
         }
-    },[wishlistSuccess])
+    },[user,id,reviewSuccess, wishlistSuccess,dispatch])
+
 
     const checkWishlist = () =>{
-        if(userProfile.user){
-            const wishlist = userProfile.user.wishlist;
+        if(user){
+            const wishlist = user.wishlist;
             const itemExists = wishlist.filter((item)=>item._id === id);
             if(itemExists.length===0){
                 setIsInWishlist(false);
@@ -63,6 +78,10 @@ export default function ProductProfile() {
         dispatch((addToWishlist(id)));
     }
 
+    const handleSubmitReview = (e) => {
+        e.preventDefault();
+        dispatch(createProductReview(id,{rating, comment}));
+    }
 
     return (
         <div>
@@ -100,44 +119,78 @@ export default function ProductProfile() {
             </section>
             <section className="review-section">
                 <h2>Reviews</h2>
-                <span>41 total reviews</span>
+                <span>({product.reviews && product.reviews.length} review{product.reviews && product.reviews.length!==1 ? 's' : ''})</span>
                 <div>
-                    <div className="average-rating">
+                    {product.reviews && product.reviews.length>0 ? <div className="average-rating">
                         <span>Average stars:</span>
-                        <Rating value={3.5}/>
-                    </div>
+                        <Rating value={product.rating}/>
+                    </div> : <p className="product-not-reviewed">This product has not been reviewed yet!</p>}
                     <div className="product-review-list">
-                        {product.reviews && product.reviews.map((review)=>{
-                            
-                            return(
-                            <div className="product-review">
+                        {topReview &&
+                            <div className="product-review product-review-top">
                             <div className="review-info">
-                                <div className="user-thumbnail"><img src="/images/user-picture.jfif" alt="" /></div>
                                 <div>
-                                    <h3>{review.user}</h3>
-                                    <Rating value={review.rating}/>
-                                </div>
-                            </div>
-                            <div className="review-description">
-                            <p>{review.comment}</p>
-                            </div>
-                        </div>);
-                        })}
-                        {/* <div className="product-review product-review-top">
-                            <div className="review-info">
-                                <div className="user-thumbnail"><img src="/images/user-picture.jfif" alt="" /></div>
-                                <div>
-                                    <h3>{"Nina<3Tea"}</h3>
-                                    <Rating value={5}/>
+                                    <h3>{topReview.username}</h3>
+                                    <div className="review-sub-info">
+                                        <Rating value={topReview.rating}/>
+                                        <span className="review-date">
+                                            <Moment format="MMMM DD, YYYY" date={topReview.createdAt}/>
+                                        </span>
+                                    </div>
                                 </div>  
                             </div>
                             <div className="review-description">
-                                <p>My absolute favourite tea! I love how the rose is subtle and doesn't overpower the white tea.</p>
+                                <p>{topReview.comment}</p>
                             </div>
-                        </div> */}
+                            </div>
+                        }
+                        {product.reviews && product.reviews.map((review)=>{
+                            if(topReview && topReview._id === review._id){
+                                return;
+                            }
+                            return(
+                            <div key={review._id} className="product-review">
+                            <div className="review-info">
+                                <div>
+                                    <h3>{review.username}</h3>
+                                    <div className="review-sub-info">
+                                        <Rating value={review.rating}/>
+                                        <span className="review-date">
+                                            <Moment format="MMMM DD, YYYY" date={review.createdAt}/>
+                                        </span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div className="review-description">
+                                <p>{review.comment}</p>
+                            </div>
+                        </div>);
+                        })}
                     </div>
                 </div>
-                <button className="btn">Review this product</button>
+                {reviewedByUser ? <p>You have already reviewed this product.</p>  : user ? <form onSubmit={handleSubmitReview} className="customer-review-form">
+                    <h3>Write a Customer Review</h3>
+                    <div className="input-control">
+                        <label htmlFor="rating">Rating</label>
+                        <select name="rating" id="rating" value={rating} onChange={(e)=>setRating(e.target.value)}>
+                            <option value="">Select...</option>
+                            <option value="1">Poor</option>
+                            <option value="2">Fair</option>
+                            <option value="3">Good</option>
+                            <option value="4">Very Good</option>
+                            <option value="5">Excellent</option>
+                        </select>
+                    </div>
+                    <div className="input-control">
+                        <label htmlFor="comment">Comment</label>
+                        <textarea rows="6" type="text" name="comment" id="comment" value={comment} onChange={(e)=>setComment(e.target.value)}/>
+                    </div>
+                    <button className="btn" type="submit">Submit</button>
+                    {reviewError && <Message>{reviewError}</Message>}
+                </form> : <p>Please <Link to="/login"><u>sign in</u></Link> to leave a review.</p>
+                }
+                
             </section></>}
         </div>
     )
