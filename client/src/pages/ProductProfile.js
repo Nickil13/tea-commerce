@@ -62,6 +62,8 @@ export default function ProductProfile() {
         console.log('clicking heart');
         dispatch((addToWishlist(id)));
     }
+
+
     return (
         <div>
             {loading ? <h2>Loading...</h2> : error ? <h2>Error! {error}</h2>  : <>
@@ -105,8 +107,23 @@ export default function ProductProfile() {
                         <Rating value={3.5}/>
                     </div>
                     <div className="product-review-list">
-
-                        <div className="product-review product-review-top">
+                        {product.reviews && product.reviews.map((review)=>{
+                            
+                            return(
+                            <div className="product-review">
+                            <div className="review-info">
+                                <div className="user-thumbnail"><img src="/images/user-picture.jfif" alt="" /></div>
+                                <div>
+                                    <h3>{review.user}</h3>
+                                    <Rating value={review.rating}/>
+                                </div>
+                            </div>
+                            <div className="review-description">
+                            <p>{review.comment}</p>
+                            </div>
+                        </div>);
+                        })}
+                        {/* <div className="product-review product-review-top">
                             <div className="review-info">
                                 <div className="user-thumbnail"><img src="/images/user-picture.jfif" alt="" /></div>
                                 <div>
@@ -117,19 +134,7 @@ export default function ProductProfile() {
                             <div className="review-description">
                                 <p>My absolute favourite tea! I love how the rose is subtle and doesn't overpower the white tea.</p>
                             </div>
-                        </div>
-                        <div className="product-review">
-                            <div className="review-info">
-                                <div className="user-thumbnail"><img src="/images/user-picture.jfif" alt="" /></div>
-                                <div>
-                                    <h3>{"Nina<3Tea"}</h3>
-                                    <Rating value={5}/>
-                                </div>
-                            </div>
-                            <div className="review-description">
-                            <p>My absolute favourite tea! I love how the rose is subtle and doesn't overpower the white tea.</p>
-                            </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <button className="btn">Review this product</button>

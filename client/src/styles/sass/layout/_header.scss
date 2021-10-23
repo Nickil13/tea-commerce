@@ -86,9 +86,17 @@
     padding: 1em;
   }
 
+  .search-link{
+    display: none;
+  }
+
   @media screen and (min-width: 900px){
     .nav-links{
       display: flex;
+    }
+
+    .search-link{
+      display: block;
     }
     
     .nav-icons{

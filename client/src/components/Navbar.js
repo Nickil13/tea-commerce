@@ -17,7 +17,7 @@ export default function Navbar() {
     const {cartItems} = cart;
 
     const[showDropdown,setShowDropdown] = useState(false);
-    const{openSidebar} = useGlobalContext();
+    const{openSidebar, openSearchModal} = useGlobalContext();
     const history = useHistory();
     const navbar = useRef(null) ;
 
@@ -78,7 +78,7 @@ export default function Navbar() {
                 </ul>
                 <ul className="nav-icons">
                     <li className="nav-link search-link">
-                        <GoSearch className="nav-icon"/>
+                        <GoSearch className="nav-icon" onClick={openSearchModal}/>
                     </li>
                     {userInfo ? 
                     <div className="nav-dropdown">
