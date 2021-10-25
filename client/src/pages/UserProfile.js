@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { FaCreditCard, FaRegStar, FaUserEdit} from 'react-icons/fa';
+import { FaRegHeart, FaUserEdit} from 'react-icons/fa';
 import { GoPackage} from 'react-icons/go';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserProfile, logout, removeWishlistItem } from '../actions/userActions';
 import { listMyOrders } from '../actions/orderActions';
+import Moment from 'react-moment';
 
 
 export default function UserProfile() {
@@ -13,7 +14,7 @@ export default function UserProfile() {
     const {userProfile, userRemoveWishlist} = useSelector((state)=>state.user);
     // const {user, loading} = userProfile;
     const user = userProfile.user || {};
-    const {success: removeWishlistSuccess} = userRemoveWishlist;
+    const {success: wishlistRemoveSuccess} = userRemoveWishlist;
 
     const myOrders = useSelector((state)=>state.orders.myOrders);
     const {orders} = myOrders;
@@ -28,76 +29,106 @@ export default function UserProfile() {
 
     useEffect(()=>{
         dispatch(getUserProfile())
-    },[removeWishlistSuccess])
+    },[wishlistRemoveSuccess])
 
     const handleWishlistRemoveItem = (id) =>{
         dispatch(removeWishlistItem(id))
     }
 
     return (
-            <div className="container">
-                <div className="account-title-box">
-                    <h1 className="account-title">My Account: {user.username}</h1>
-                    <button className="btn logout-btn" onClick={()=>dispatch(logout())}>Logout</button>
+        <div>
+            <div className="account-banner">
+                <h3>{user.username}</h3>
+                <p>{user.email}</p>
+                <button className="btn logout-btn" onClick={()=>dispatch(logout())}>Logout</button>
+            </div>
+            <h1 className="account-title">My Account</h1>
+        
+            <section className="account-section account-details">
+                <div className="title-box-account">
+                    <h2>Account details</h2>
+                    <span className="account-edit-icon" onClick={()=>history.push('/account/edit-profile')}><FaUserEdit/></span>
+                </div>
+                <div className="section-content">
+                    <ul className="account-details-list">
+                        <li>Username: {user.username}</li>
+                        <li>Email: {user.email}</li>
+                    </ul>
+                    <div className="shipping-info">
+                        <h4>Shipping Information</h4>   
+                        {user.shippingAddress && user.shippingAddress.address ?
+                        <ul>
+                            <li>{user.shippingAddress.address}</li>
+                            <li>{user.shippingAddress.city}, {user.shippingAddress.state}</li>
+                            <li>{user.shippingAddress.country}</li>
+                            <li>{user.shippingAddress.zipcode}</li>
+                        </ul>: <p>No shipping information on file.</p>}
+                    </div>
+                </div>
+            </section>
+                
+            <section className="account-section account-wishlist">
+                <div className="title-box-account">
+                    <span className="account-icon"><FaRegHeart/></span>
+                    <h2>Wishlist</h2>
+                </div>
+                    <div className="section-content">
+                        <p>Add items to your wishlist by clicking the heart next to the name of the product.</p>
+                        <div className="profile-wishlist">
+                            {user.wishlist && user.wishlist.length>0 ?
+                            user.wishlist.slice(0,3).map((item)=>{
+                                return(
+                                    <div key={item._id} className="wishlist-item">
+                                        <Link to={`/shop/${item.category}/${item.productType}/${item._id}`}><img src={item.image} alt={item.name}/></Link>
+                                        {item.flavourImage &&
+                                        <div className="flavour-container">
+                                            <img src={item.flavourImage} alt={item.name} />
+                                        </div>} 
+                                        <h3>{item.name}</h3>
+                                        <span>{item.productType}</span>
+                                        {/* <button className="btn" onClick={()=>handleWishlistRemoveItem(item._id)}>remove</button> */}
+                                    </div>
+                                )
+                            }) : <p>You haven't added any items to your wishlist!</p>}
+                        </div>
+                        
+                        {user.wishlist && user.wishlist.length>3 && <button className="btn">See more items</button>}
+                    </div>
+                    
+            </section>
+            <section className="account-section account-orders">
+                <div className="title-box-account">
+                    <span className="account-icon"><GoPackage/></span>
+                    <h2>Orders</h2>
                 </div>
                 
-                <section className="account-section account-details">
-                    <h2>Account details</h2>
-                    <div className="section-content">
-                        <ul className="account-details-list">
-                            <li>Username: {user.username}</li>
-                            <li>Email: {user.email}</li>
-                            <li>Shipping Information: 
-                            {user.shippingAddress ?<ul className="shipping-info">
-                                    <li>{user.shippingAddress.address}</li>
-                                    <li>{user.shippingAddress.city}, {user.shippingAddress.state}</li>
-                                    <li>{user.shippingAddress.country}</li>
-                                    <li>{user.shippingAddress.zipcode}</li>
-                                </ul>: <p>No shipping information on file.</p>}
-                            </li> 
-                        </ul>
-                    </div>
-                    <span className="account-edit-icon" onClick={()=>history.push('/account/edit-profile')}><FaUserEdit/></span>
-                    <span className="account-icon"><FaCreditCard/></span>
-                </section>
-                
-                <section className="account-section account-orders">
-                    <h2>Orders</h2>
-                    <div className="section-content">
-                        {orders && orders.length>0 ? 
-                        orders.map((order)=>{
+                <div className="section-content">
+                    <p>Your most recent orders.</p>
+                    <div className="profile-orders">
+                        {orders && orders.length>0 ? orders.slice(0,3).map((order)=>{
                             return(
-                                <ul key={order._id}>
-                                    <li>Order ID: {order._id}</li>
-                                    <li>Order Items: {order.orderItems.length}</li>
-                                    <li>Order Price: {order.totalPrice}</li>
-                                    <li>Paid: {order.isPaid ? 'paid' : 'not paid'}</li>
-                                    <li>Delivered: {order.isDelivered ? 'delivered' : 'not delivered'}</li>
-                                </ul>
-                            )
-                        })
-                            
-                     : <p>You have not made any orders.</p>}
-                    </div>
-                    <span className="account-icon"><GoPackage/></span>
-                </section>
-
-                <section className="account-section account-wishlist">
-                    <h2>Wishlist</h2>
-                    <div className="section-content">
-                        {user.wishlist && user.wishlist.length>0 ?
-                        user.wishlist.map((item)=>{
-                            return(
-                                <div key={item._id} className="wishlist-item">
-                                    <Link to={`/shop/${item.category}/${item.productType}/${item._id}`}><img src={item.image} alt={item.name}/></Link>
-                                    <h3>{item.name}</h3>
-                                    <button className="btn" onClick={()=>handleWishlistRemoveItem(item._id)}>remove</button>
+                                <div key={order._id} className="order-card">
+                                    <Link to={`/account/orders/${order._id}`}><h3>Order: #{order._id}</h3></Link>
+                                    <ul>
+                                        <li>Date purchased: <Moment format="MMMM DD, YYYY" date={order.createdAt}/></li>
+                                        <li>Items: {order.orderItems.length}</li>
+                                        <li>Total price: ${order.totalPrice}</li>
+                                        <li>Status:
+                                            <ul>
+                                                <li>Paid: {order.isPaid ? 'true' : 'false'}</li>
+                                                <li>Shipped: {order.isShipped ? 'true' : 'false'}</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
                                 </div>
                             )
-                        }) : <p>You haven't added any items to your wishlist!</p>}
+                        }) : <p>You haven't made any orders.</p>}
                     </div>
-                    <span className="account-icon"><FaRegStar/></span>
-                </section>
+                    {user.orders && user.orders.length>3 && <button className="btn">See more orders</button>}
+                </div>
+                
+            </section>
+
                
             </div>
     )

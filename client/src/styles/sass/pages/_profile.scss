@@ -1,59 +1,84 @@
 @use '../abstracts';
 
-.container{
-    width: 80%;
-    margin: 2em auto;
+.account-banner{
+  position: fixed;
+  width: 100%;
+  padding: 2rem;
+  background: abstracts.$color-primary-light;
+  min-height: 100px;
+
+    & .logout-btn{
+      position: absolute;
+      right:1rem;
+      top:0.50rem;
+    }
+}
+
+.account-title{
+  @include abstracts.page-title;
+  padding-top: 150px;
+}
+
+.shipping-info{
+  padding: 1rem 0;
+
+  & h4{
+    font-size: 18px;
+    margin: 0.5rem 0 0.25rem 0;
   }
-  .account-title-box{
-    display:flex;
-    justify-content: space-between;
+}
+
+.account-section{
+  & .title-box-account{
+    display: flex;
     align-items: center;
-    /* background-color: var($color-secondary); */
-  }
-  .account-title{
-    font-size: 25px;
-    padding: 0.5em;
-  }
-  .logout-btn{
-    margin: 0 1em;
-  }
-  .section-content{
-    padding: 1em;
-  }
-  .account-details-list>li{
-    padding: 1em 0;
-  }
-  .shipping-info{
-    padding: 1em 0;
-  }
-  .account-section{
-    position: relative;
-    border: 1px solid abstracts.$color-dark;
-    border-radius: 1em;
-    margin: 2em 0;
-  }
-  .account-icon{
-    display: grid;
-    place-items: center;
-    position: absolute;
-    top:0;
-    left:0;
-    font-size: 40px;
-    height: 60px;
-    width: 60px;
-    border-radius: 30px;
-    transform: translate(-25%,-25%);
-    background-color: abstracts.$color-secondary;
-  }
 
-  .wishlist-item{
-    padding: 1rem;
+    & .account-edit-icon{
+      font-size: 30px;
+      margin-left: 1rem;
+      cursor: pointer;
 
-    & img {
-      @include abstracts.fit-image;
-      width: 200px;
-      height: 200px;
+      &:hover{
+        color: abstracts.$color-primary-light;
+      }
+    }
+
+    & .account-icon{
+      font-size: 30px;
+      margin-right: 1rem;
     }
   }
+}
+
+
+
+.profile-wishlist{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 1rem 0;
+}
+.wishlist-item{
+  padding: 1rem;
+  text-align: center;
+
+  & img {
+    @include abstracts.fit-image;
+    width: 200px;
+    height: 200px;
+  }
+}
+
+//Orders
+.order-card{
+  padding: 1rem;
+}
+
+
+@media screen and (min-width: 600px){
+  .account-section h2{
+    text-align: start;
+  }
+}
 
  

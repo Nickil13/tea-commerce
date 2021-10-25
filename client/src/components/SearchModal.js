@@ -18,9 +18,11 @@ export default function SearchModal() {
     const {products, pages, page, loading, error, success} = productSearch;
     
     useEffect(()=>{
-        dispatch(searchProducts(keyword, currentPage));
+        if(isSearchModalOpen){
+            dispatch(searchProducts(keyword, currentPage));
+        }
         // eslint-disable-next-line
-    },[currentPage])
+    },[currentPage, isSearchModalOpen, keyword])
 
     const handleSubmit = (e) =>{
         e.preventDefault();
