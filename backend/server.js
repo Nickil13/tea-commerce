@@ -7,6 +7,7 @@ const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const stripeRoutes = require('./routes/stripeRoutes');
+const cloundinaryRoutes = require('./routes/cloudinaryRoutes');
 
 dotenv.config();
 connectDB();
@@ -20,10 +21,11 @@ if(process.env.NODE_ENV === 'development'){
 app.use(express.json());
 
 
-
+// Routes
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/cloudinary', cloundinaryRoutes);
 app.use('/api/stripe', stripeRoutes);
 
 app.use('/', (req,res)=>{

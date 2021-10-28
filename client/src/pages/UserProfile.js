@@ -40,6 +40,15 @@ export default function UserProfile() {
                 <h3>{user.username}</h3>
                 <p>{user.email}</p>
                 <button className="btn logout-btn" onClick={()=>dispatch(logout())}>Logout</button>
+                {user.isAdmin &&
+                <div className="admin-bar">
+                    <div className="admin-links">
+                        <Link className="btn btn-primary" to="/admin/orders">Orders</Link>
+                        <Link className="btn btn-primary" to="/admin/users"> Users</Link>
+                        <Link className="btn btn-primary" to="/admin/products">Products</Link>
+                    </div> 
+                </div>
+                }
             </div>
             <h1 className="account-title">My Account</h1>
         

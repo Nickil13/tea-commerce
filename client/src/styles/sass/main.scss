@@ -25,12 +25,14 @@
 
 @use 'pages/cart';
 @use 'pages/home';
+@use 'pages/editProduct';
 @use 'pages/editUserProfile';
 @use 'pages/login';
 @use 'pages/myOrders';
 @use 'pages/orderSuccess';
 @use 'pages/payment';
 @use 'pages/placeOrder';
+@use 'pages/products';
 @use 'pages/productProfile';
 @use 'pages/profile';
 @use 'pages/shipping';

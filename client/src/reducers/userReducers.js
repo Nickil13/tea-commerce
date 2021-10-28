@@ -1,5 +1,6 @@
-import { GET_USER_PROFILE_FAIL, GET_USER_PROFILE_REQUEST, GET_USER_PROFILE_SUCCESS, UPDATE_USER_PROFILE_FAIL, UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, WISHLIST_ADD_ITEM_FAIL, WISHLIST_ADD_ITEM_REQUEST, WISHLIST_ADD_ITEM_RESET, WISHLIST_ADD_ITEM_SUCCESS, WISHLIST_REMOVE_ITEM_FAIL, WISHLIST_REMOVE_ITEM_REQUEST, WISHLIST_REMOVE_ITEM_SUCCESS } from "../constants/userConstants";
 import { combineReducers } from "redux";
+import { DELETE_USER_FAIL, DELETE_USER_REQUEST, DELETE_USER_SUCCESS, GET_USER_PROFILE_FAIL, GET_USER_PROFILE_REQUEST, GET_USER_PROFILE_SUCCESS, LIST_USERS_FAIL, LIST_USERS_REQUEST, LIST_USERS_SUCCESS, UPDATE_USER_FAIL, UPDATE_USER_PROFILE_FAIL, UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, WISHLIST_ADD_ITEM_FAIL, WISHLIST_ADD_ITEM_REQUEST, WISHLIST_ADD_ITEM_RESET, WISHLIST_ADD_ITEM_SUCCESS, WISHLIST_REMOVE_ITEM_FAIL, WISHLIST_REMOVE_ITEM_REQUEST, WISHLIST_REMOVE_ITEM_SUCCESS } from "../constants/userConstants";
+
 
 const userLoginReducer = (state = {}, action) => {
     switch(action.type){
@@ -99,6 +100,71 @@ const userRemoveWishlistItemReducer = (state = {}, action)=>{
     }
 }
 
+//Admin Reducers
+const userDetailsReducer = ( state = { user: {} }, action) =>{
+    switch(action.type){
+        case USER_DETAILS_REQUEST:
+            return {...state, loading: true}
+
+        case USER_DETAILS_SUCCESS:
+            return {loading: false, user: action.payload}
+
+        case USER_DETAILS_FAIL:
+            return {loading: false, error: action.payload}
+        
+        default: 
+            return state;
+    }
+}
+
+const userListReducer = ( state = { users: []}, action) =>{
+    switch(action.type){
+        case LIST_USERS_REQUEST:
+            return {...state,loading: true}
+
+        case LIST_USERS_SUCCESS:
+            return {loading: false, users: action.payload}
+
+        case LIST_USERS_FAIL:
+            return {loading: false, error: action.payload}
+        
+        default: 
+            return state;
+    }
+}
+
+const userUpdateReducer = ( state = {}, action) =>{
+    switch(action.type){
+        case UPDATE_USER_REQUEST:
+            return {loading: true}
+
+        case UPDATE_USER_SUCCESS:
+            return {loading: false, user: action.payload}
+
+        case UPDATE_USER_FAIL:
+            return {loading: false, error: action.payload}
+        
+        default: 
+            return state;
+    }
+}
+
+const userDeleteReducer = ( state = {}, action) =>{
+    switch(action.type){
+        case DELETE_USER_REQUEST:
+            return {loading: true}
+
+        case DELETE_USER_SUCCESS:
+            return {loading: false, success: true}
+
+        case DELETE_USER_FAIL:
+            return {loading: false, error: action.payload}
+        
+        default: 
+            return state;
+    }
+}
+
 
 export const userReducer = combineReducers({
     userLogin : userLoginReducer,
@@ -107,4 +173,8 @@ export const userReducer = combineReducers({
     userProfile : userGetProfileReducer,
     userAddWishlist : userAddWishlistItemReducer,
     userRemoveWishlist : userRemoveWishlistItemReducer,
+    userDetails: userDetailsReducer,
+    userList: userListReducer,
+    userUpdate: userUpdateReducer,
+    userDelete: userDeleteReducer
 })

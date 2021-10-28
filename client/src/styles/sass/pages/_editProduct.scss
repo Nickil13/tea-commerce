@@ -1,0 +1,18 @@
+@use '../abstracts';
+
+.edit-product-title{
+    @include abstracts.page-title;
+}
+.edit-product-form{
+    @include abstracts.form-format;
+    margin-bottom: 5rem;
+
+    & select {
+        @include abstracts.format-select;
+    }
+
+    & textarea {
+        resize: none;
+        width: 100%;
+    }
+}

@@ -1,7 +1,7 @@
 @use '../abstracts';
 
 .account-banner{
-  position: fixed;
+  position: relative;
   width: 100%;
   padding: 2rem;
   background: abstracts.$color-primary-light;
@@ -14,9 +14,20 @@
     }
 }
 
+.admin-bar{
+  margin-top: 2rem;
+  border-top: solid 2px black;
+
+  & .admin-links{
+    display: flex;
+    flex-wrap: wrap;
+    // width: 80%;
+    max-width: 300px;
+  }
+}
+
 .account-title{
   @include abstracts.page-title;
-  padding-top: 150px;
 }
 
 .shipping-info{
