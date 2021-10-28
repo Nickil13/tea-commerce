@@ -31,7 +31,7 @@ const getOrderById = async(req, res)=>{
 // @access   Private
 const getMyOrderById = async(req, res)=>{
     const orders = await Order.find({user: req.user._id}).find({_id: req.params.id}).populate('user', 'id username');
-    console.log(orders);
+    
     if(orders && orders.length>0){
         const order = orders[0];
         res.json(order);
@@ -69,15 +69,14 @@ const createOrder = async(req,res)=>{
 // @access   Private
 const updateOrderToPaid = asyncHandler( async(req, res)=>{
     const order = await Order.findById(req.params.id);
-
+    
     if(order){
         order.isPaid = true;
         order.paidAt = Date.now();
         order.paymentResult = {
             id: req.body.id,
             status: req.body.status,
-            update_time: req.body.update_time,
-            email_address: req.body.payer.email_address
+            email_address: req.body.customer_details.email
         }
 
         const updatedOrder = await order.save();

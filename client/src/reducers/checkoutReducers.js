@@ -11,6 +11,7 @@ const checkoutDetailsReducer = (state = {}, action) =>{
         case CHECKOUT_DETAILS_SUCCESS:
             return {
                 loading: false,
+                success: true,
                 session: action.payload
             }
         case CHECKOUT_DETAILS_FAIL:

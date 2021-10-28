@@ -1,25 +1,40 @@
 import React, { useEffect} from 'react'
-import { Link} from 'react-router-dom';
+import { Link, useLocation ,useParams} from 'react-router-dom';
 import { useSelector, useDispatch} from 'react-redux';
 import { getCheckoutDetails } from '../actions/checkoutActions';
+import { updateOrderToPaid } from '../actions/orderActions';
 
 export default function OrderSuccess() {
-    const checkout = useSelector((state)=>state.checkout);
-    const {checkoutSession, checkoutDetails} = checkout;
+    const {checkoutDetails} = useSelector((state)=>state.checkout);
+    const {session, success: detailsSuccess} = checkoutDetails;
     const dispatch = useDispatch();
+    const location = useLocation();
+    const {id} = useParams();
 
-    // If paid, updated the status of the order to paid.
+    
     useEffect(()=>{
-        dispatch(getCheckoutDetails(checkoutSession));
-    },[checkoutSession])
+        dispatch(getCheckoutDetails(location.search.split("=")[1]));
+    }, [dispatch, id])
+    
+    useEffect(()=>{
+        if(detailsSuccess){
+            //Pay order
+            const paymentResult = {
+                id: session.id,
+                status: session.payment_status,
+                customer_details: session.customer_details
+            }
+            dispatch(updateOrderToPaid(id,paymentResult));
+        }
+    }, [detailsSuccess])
 
-    console.log(checkoutDetails.session && checkoutDetails.session.payment_status);
     return (
         <div>
-            <h1>Order Successful!</h1>
-            <p>Order confirmation: {checkoutSession}</p>
-            <p>Status:{checkoutDetails.session && checkoutDetails.session.payment_status}</p>
-            <Link to="/account">Check your order</Link>
+            <h1 className="order-success-title">Order Successful</h1>
+            <div className="order-success-info">
+                <p>Thank you for you order!</p>
+                <p>For status updates and order information, <Link to="/account">check your orders</Link>.</p>
+            </div>
         </div>
     )
 }

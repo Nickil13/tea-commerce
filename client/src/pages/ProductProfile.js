@@ -74,7 +74,6 @@ export default function ProductProfile() {
     }
 
     const handleHeartClick = () =>{
-        console.log('clicking heart');
         dispatch((addToWishlist(id)));
     }
 

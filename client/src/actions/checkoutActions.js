@@ -22,7 +22,7 @@ export const getCheckoutDetails = (id) => async (dispatch)=>{
     }
 }
 
-export const createCheckoutSession = (cartItems) => async (dispatch, getState)=>{
+export const createCheckoutSession = (orderId, cartItems) => async (dispatch, getState)=>{
     try{
         dispatch({
             type: CREATE_CHECKOUT_SESSION_REQUEST
@@ -33,15 +33,15 @@ export const createCheckoutSession = (cartItems) => async (dispatch, getState)=>
                 'Content-Type': 'application/json'
             }
         }
+        const orderInfo = {orderId, cartItems};
 
-        const {data} = await axios.post('/api/stripe/sessions', cartItems, config);
+        const {data} = await axios.post('/api/stripe/sessions', orderInfo, config);
 
         dispatch({
             type: CREATE_CHECKOUT_SESSION_SUCCESS,
             payload: data
         })
 
-        localStorage.setItem('checkoutInfo', JSON.stringify(getState().checkout.checkoutSession.id));
     }catch(error){
         dispatch({
             type: CREATE_CHECKOUT_SESSION_FAIL,

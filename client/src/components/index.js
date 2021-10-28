@@ -8,6 +8,7 @@ import Footer from "./Footer";
 import Loader from "./Loader";
 import Message from "./Message";
 import Navbar from "./Navbar";
+import OrderCard from './OrderCard';
 import Pagination from "./Pagination";
 import Rating from "./Rating";
 import SearchModal from "./SearchModal";
@@ -16,4 +17,4 @@ import Sidebar from "./Sidebar";
 import Slider from "./Slider";
 import Tabs from "./Tabs";
 
-export {Alert, Banner, Breadcrumbs, CaffeineRating, CartCard, CheckoutSteps, Footer, Loader, Message, Navbar, Pagination, Rating, SearchModal, ShopCard, Sidebar, Slider, Tabs};
+export {Alert, Banner, Breadcrumbs, CaffeineRating, CartCard, CheckoutSteps, Footer, Loader, Message, Navbar, OrderCard, Pagination, Rating, SearchModal, ShopCard, Sidebar, Slider, Tabs};

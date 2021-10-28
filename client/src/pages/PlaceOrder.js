@@ -24,13 +24,13 @@ export default function PlaceOrder() {
     const {url, success: checkoutSessionSuccess} = checkoutSession;
 
     const createdOrder = useSelector((state)=>state.orders.createdOrder);
-    const {loading, success, error} = createdOrder;
+    const {loading, success: orderSuccess, error: orderError, order} = createdOrder;
 
     useEffect(()=>{
-        if(success){
-            dispatch(createCheckoutSession(cartItems)); 
+        if(orderSuccess){
+            dispatch(createCheckoutSession(order._id,cartItems)); 
         }
-    },[success,dispatch])
+    },[orderSuccess,dispatch])
 
     useEffect(()=>{
         if(checkoutSessionSuccess && url){
@@ -98,7 +98,7 @@ export default function PlaceOrder() {
                 </ul>
                 <button className="btn-secondary" onClick={handlePlaceOrder}>Place Order</button>
                 {loading && <p>Placing order...</p>}
-                {error && <Message>{error}</Message>}
+                {orderError && <Message>{orderError}</Message>}
             </section>
             
         </div>

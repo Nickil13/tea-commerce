@@ -1,0 +1,5 @@
+@use '../abstracts';
+
+.my-orders-title{
+    @include abstracts.page-title;
+}

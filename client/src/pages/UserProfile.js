@@ -6,8 +6,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserProfile, logout, removeWishlistItem } from '../actions/userActions';
 import { listMyOrders } from '../actions/orderActions';
-import Moment from 'react-moment';
-
+import { OrderCard } from '../components';
 
 export default function UserProfile() {
     const dispatch = useDispatch();
@@ -107,20 +106,7 @@ export default function UserProfile() {
                     <div className="profile-orders">
                         {orders && orders.length>0 ? orders.slice(0,3).map((order)=>{
                             return(
-                                <div key={order._id} className="order-card">
-                                    <Link to={`/account/orders/${order._id}`}><h3>Order: #{order._id}</h3></Link>
-                                    <ul>
-                                        <li>Date purchased: <Moment format="MMMM DD, YYYY" date={order.createdAt}/></li>
-                                        <li>Items: {order.orderItems.length}</li>
-                                        <li>Total price: ${order.totalPrice}</li>
-                                        <li>Status:
-                                            <ul>
-                                                <li>Paid: {order.isPaid ? 'true' : 'false'}</li>
-                                                <li>Shipped: {order.isShipped ? 'true' : 'false'}</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <OrderCard key={order._id} {...order}/>
                             )
                         }) : <p>You haven't made any orders.</p>}
                     </div>

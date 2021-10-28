@@ -16,13 +16,14 @@ export default function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(login(username,password));
-        console.log(userInfo);
     }
+
     useEffect(()=>{
         if(userInfo){
             history.push("/account");
         }
     },[userInfo])
+    
     return (
         <div className="signup-container" onSubmit={handleSubmit}>
             <h1>Log in</h1>

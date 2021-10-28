@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CREATE_ORDER_FAIL, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, LIST_MY_ORDERS_FAIL, LIST_MY_ORDERS_REQUEST, LIST_MY_ORDERS_SUCCESS, MY_ORDER_DETAILS_FAIL, MY_ORDER_DETAILS_REQUEST, MY_ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS } from "../constants/orderConstants";
+import { CREATE_ORDER_FAIL, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, LIST_MY_ORDERS_FAIL, LIST_MY_ORDERS_REQUEST, LIST_MY_ORDERS_SUCCESS, MY_ORDER_DETAILS_FAIL, MY_ORDER_DETAILS_REQUEST, MY_ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_UPDATE_PAID_FAIL, ORDER_UPDATE_PAID_REQUEST, ORDER_UPDATE_PAID_SUCCESS } from "../constants/orderConstants";
 
 
 
@@ -119,7 +119,34 @@ export const getMyOrderDetails = (id) => async(dispatch, useState)=>{
     }
 }
 
+export const updateOrderToPaid = (orderId, paymentResult) => async(dispatch, useState) =>{
+    try{
+        dispatch({
+            type: ORDER_UPDATE_PAID_REQUEST
+        });
 
+        const {user} = useState();
+        const userInfo = user.userLogin.userInfo;
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+        await axios.put(`/api/orders/${orderId}/pay`, {...paymentResult}, config);
+
+        dispatch({
+            type: ORDER_UPDATE_PAID_SUCCESS
+        })
+
+    }catch(error){
+        dispatch({
+            type: ORDER_UPDATE_PAID_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message: error.message
+        });
+    }
+}
 export const listOrders = () => async(dispatch)=>{
 
 }

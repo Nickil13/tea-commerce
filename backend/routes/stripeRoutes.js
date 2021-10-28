@@ -17,14 +17,15 @@ router.post('/sessions', async (req, res)=>{
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
-            success_url: `${process.env.CLIENT_URL}/ordersuccess/`,
+            success_url: `${process.env.CLIENT_URL}/order-success/${req.body.orderId}?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${process.env.CLIENT_URL}`,
-            line_items: req.body.map((item)=>{
+            line_items: req.body.cartItems.map((item)=>{
                 return {
                     price_data: {
                         currency: 'cad', 
                         product_data: {
-                            name: item.name
+                            name: item.name,
+                            // images: [item.image],
                         },
                         unit_amount: convertToCents(item.price)
                     },
@@ -34,6 +35,7 @@ router.post('/sessions', async (req, res)=>{
             })
         })
         res.json({url: session.url, id: session.id, payment_status: session.payment_status});
+
     }catch(error){
         res.status(500).json({error: error.message});
     }
@@ -46,6 +48,12 @@ router.get('/sessions/:id', async (req,res)=>{
     }catch(error){
         res.status(404).json(error);
     }
+})
+
+router.get('/sessions/success', async (req, res) => {
+    const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
+    const customer = await stripe.customers.retrieve(session.customer);
+    res.send(`<html><body><h1>Thanks for your order, ${customer.name}!</h1></body></html>`);
 })
 
 module.exports = router;
