@@ -80,15 +80,18 @@ export default function EditProduct() {
 
     const handleEditProduct = (e) =>{
         e.preventDefault();
-        // let updatedIngredients = new Set(ingredients.split(","));
-        
+        let updatedIngredients = ingredients;
+        console.log(ingredients);
+        if(ingredients[0].includes(",")){
+            updatedIngredients = [...new Set(ingredients.split(","))];
+        }
         dispatch(updateProduct({
             _id: id,
             name,
             category,
             productType,
             image: imagePath,
-            // ingredients: [...updatedIngredients],
+            ingredients: updatedIngredients,
             ingredients,
             description,
             price,

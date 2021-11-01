@@ -98,13 +98,15 @@ const getProductById = async (req,res) => {
 // @access   Private/Admin
 
 const createProduct = asyncHandler( async (req,res) => {
+    console.log(req.body.name);
     const productExists = await Product.find({name: req.body.name});
-
-    if(productExists){
+    console.log(productExists);
+    if(productExists.length>0){
         res.status(400);
         throw new Error("Product already exists by that name." + req.body.name);
     }else{
-        const product = {
+        console.log(req.user);
+        const product = new Product({
             name: req.body.name,
             productType: req.body.productType,
             user: req.user._id,
@@ -114,7 +116,7 @@ const createProduct = asyncHandler( async (req,res) => {
             ingredients: req.body.ingredients,
             description: req.body.description,
             countInStock: req.body.countInStock
-        }
+        })
         const createdProduct = await product.save();
         res.status(201);
         res.json(createdProduct);

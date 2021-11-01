@@ -41,6 +41,14 @@ export default function AddProduct() {
         
     },[uploadSuccess])
 
+    useEffect(()=>{
+        //Automatically set the productType to the first value when a category is chosen.
+        const currentCategory = teaProductCategories.filter((cat)=>cat.type === category)[0];
+        if(currentCategory){
+            setProductType((currentCategory.items)[0]);
+        }
+    }, [category])
+
     const handleSelectImage =  (e) =>{
         const file = e.target.files[0];
 
@@ -63,6 +71,9 @@ export default function AddProduct() {
 
     const handleAddProduct = (e) =>{
         e.preventDefault();
+        if(ingredients.includes(",")){
+            console.log('commas found');
+        }
         // let updatedIngredients = new Set(ingredients.split(","));
         
         dispatch(createProduct({
@@ -93,11 +104,15 @@ export default function AddProduct() {
                 <div className="category-box">
                     <div className="input-control">
                         <label htmlFor="">Category: </label>
+                        
                         <select name="category" id="category" value={category} onChange={(e)=>setCategory(e.target.value)}>
+                            <option value="default" hidden>product category</option>
                                 {teaProductCategories.map((category)=>{
-                                    return(
-                                        <option key={category.id} value={category.type}>{category.type}</option>
-                                    )
+                                    if(category.type!=="all"){
+                                        return(
+                                            <option key={category.id} value={category.type}>{category.type}</option>
+                                        )
+                                    } 
                                 })}
                             </select>
                     </div>

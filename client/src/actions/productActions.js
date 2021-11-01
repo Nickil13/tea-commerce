@@ -151,6 +151,10 @@ export const createProduct = (product) => async (dispatch, getState)=>{
             type: PRODUCT_CREATE_REQUEST
         })
 
+        if(!product.name || !product.productType || ! product.category || ! product.image || !product.ingredients || !product.description || !product.price || !product.countInStock){
+            console.log(product);
+            throw new Error("Please fill in all required fields");
+        }
         const {user: {userLogin: {userInfo}}} = getState();
 
         const config = {
