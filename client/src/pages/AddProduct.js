@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { BsImage} from 'react-icons/bs';
 import { teaProductCategories } from '../resources/teaInfoData';
 import { useParams } from 'react-router-dom';
-import { getProductDetails, updateProduct, uploadProductImage } from '../actions/productActions';
+import { createProduct, uploadProductImage } from '../actions/productActions';
 import { useDispatch, useSelector } from 'react-redux';
-import { Loader, LoadingSpinner, Message } from '../components';
+import { LoadingSpinner, Message } from '../components';
 
-export default function EditProduct() {
+export default function AddProduct() {
     const [name, setName] = useState('');
     const [category, setCategory] = useState('');
     const [productType,setProductType] = useState('');
@@ -21,28 +21,11 @@ export default function EditProduct() {
 
     const {id} = useParams();
     const dispatch = useDispatch();
-    const {productDetails, productUploadImage}= useSelector((state)=>state.products);
-    const {product, success} = productDetails;
+    const {productUploadImage, productCreate}= useSelector((state)=>state.products);
     const {uploadedResponse, success: uploadSuccess, loading: uploading, msg, error} = productUploadImage;
+    const {product, loading, error: createError, success: createSuccess} = productCreate;
 
-    useEffect(()=>{
-        //Load the product
-        if(success){
-            setName(product.name);
-            setCategory(product.category);
-            setProductType(product.productType);
-            setImageName(product.image.split("/")[2]);
-            setImagePath(product.image);
-            setIngredients(product.ingredients);
-            setDescription(product.description);
-            setPrice(product.price.toFixed(2));
-            setCountInStock(Number(product.countInStock));
-        }else{
-            dispatch(getProductDetails(id));
-        }
-        
-    },[id, success])
-
+    
     useEffect(()=>{
         // When the image source is set, upload the image.
         if(imageURI){
@@ -78,11 +61,11 @@ export default function EditProduct() {
         }
     }
 
-    const handleEditProduct = (e) =>{
+    const handleAddProduct = (e) =>{
         e.preventDefault();
         // let updatedIngredients = new Set(ingredients.split(","));
         
-        dispatch(updateProduct({
+        dispatch(createProduct({
             _id: id,
             name,
             category,
@@ -99,8 +82,7 @@ export default function EditProduct() {
     return (
         <div>
             <div className="edit-product-title">
-                <h1>Edit Product</h1>
-                <p>{product.name}</p>
+                <h1>Add Product</h1>
             </div>
            
             <form className="edit-product-form" action="">
@@ -163,8 +145,10 @@ export default function EditProduct() {
                     <label htmlFor="count">Count in Stock:</label>
                     <input type="number" step="1" name="count" id="count" value={countInStock} onChange={(e)=>setCountInStock(e.target.value)}/>
                 </div>
-                <button type="submit" className="btn btn-primary" onClick={handleEditProduct}>Edit</button>
+                <button type="submit" className="btn btn-primary" onClick={handleAddProduct}>Add</button>
+                {loading ? <LoadingSpinner/> : createError ? <Message>{createError}</Message> : createSuccess && <Message>Successfully added product.</Message>}
             </form>
+            
         </div>
     )
 }

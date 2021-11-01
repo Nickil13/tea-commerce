@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import {BrowserRouter as Router, Route, Switch, Redirect, useLocation} from "react-router-dom";
-import { Cart, Shipping, Home, Login, Order, Orders, OrderSuccess,Payment, PlaceOrder, Products, ProductProfile, Shop, Signup, EditUserProfile, MyOrders, Users, UserProfile, EditProduct } from "./pages";
+import { AddProduct, Cart, Shipping, Home, Login, Order, Orders, OrderSuccess,Payment, PlaceOrder, Products, ProductProfile, Shop, Signup, EditUserProfile, MyOrders, Users, UserProfile, EditProduct } from "./pages";
 import {Navbar, Footer, SearchModal, Sidebar, Alert} from './components';
 import { useSelector} from 'react-redux';
 
@@ -56,6 +56,7 @@ function App() {
                 <Route path="/admin/orders"><Orders/></Route>
                 <Route path="/admin/products" exact><Products/></Route>
                 <Route path="/admin/products/:id/edit"><EditProduct/></Route>
+                <Route path="/admin/products/add"><AddProduct/></Route>
                 <Route path="/admin/users"><Users/></Route>
               </Switch>
           </main>

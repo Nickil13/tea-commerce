@@ -1,3 +1,4 @@
+import AddProduct from './AddProduct';
 import Cart from './Cart';
 import EditProduct from './EditProduct';
 import EditUserProfile from './EditUserProfile';
@@ -17,4 +18,4 @@ import Signup from './Signup';
 import Users from './Users';
 import UserProfile from './UserProfile';
 
-export {Cart, EditProduct, EditUserProfile, Home, Order, Orders, OrderSuccess, Login, MyOrders, Payment, PlaceOrder, Products, ProductProfile, Shipping, Shop, Signup, Users, UserProfile}
+export {AddProduct,Cart, EditProduct, EditUserProfile, Home, Order, Orders, OrderSuccess, Login, MyOrders, Payment, PlaceOrder, Products, ProductProfile, Shipping, Shop, Signup, Users, UserProfile}

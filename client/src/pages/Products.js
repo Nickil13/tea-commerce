@@ -24,6 +24,10 @@ export default function Orders() {
         dispatch(getProducts(category==="all" ? "" : category,productType,pageNumber, keyword));
     }, [pageNumber, category, productType])
 
+    useEffect(()=>{
+        history.push('/admin/products?page=1');
+    }, [category, productType])
+
     const handleSearch = (e) =>{
         e.preventDefault();
         dispatch(getProducts(category==="all" ? "" : category,productType, 1, keyword));
@@ -40,7 +44,7 @@ export default function Orders() {
     return (
         <div className="products-page">
             <h1 className="products-title">Products</h1>
-            <button className="btn btn-primary">Create a new product</button>
+            <button className="btn btn-primary" onClick={()=>history.push('/admin/products/add')}>Create a new product</button>
             <div className="product-bar">
                 <form className="product-search-bar" onSubmit={handleSearch}>
                     <label className="search-icon" htmlFor="search"><GoSearch/></label>

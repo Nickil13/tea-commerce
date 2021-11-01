@@ -1,5 +1,5 @@
 import axios from 'axios';
-const { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_FAIL, PRODUCT_DETAILS_SUCCESS, PRODUCT_SEARCH_REQUEST, PRODUCT_SEARCH_FAIL, PRODUCT_SEARCH_SUCCESS, PRODUCT_CREATE_REVIEW_REQUEST, PRODUCT_CREATE_REVIEW_FAIL, PRODUCT_CREATE_REVIEW_SUCCESS, PRODUCT_TOP_REVIEW_REQUEST, PRODUCT_TOP_REVIEW_SUCCESS, PRODUCT_TOP_REVIEW_FAIL, PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_FAIL, PRODUCT_CREATE_SUCCESS, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAIL, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAIL, PRODUCT_GET_REQUEST, PRODUCT_GET_SUCCESS, PRODUCT_GET_FAIL } = require("../constants/productConstants")
+const { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_FAIL, PRODUCT_DETAILS_SUCCESS, PRODUCT_SEARCH_REQUEST, PRODUCT_SEARCH_FAIL, PRODUCT_SEARCH_SUCCESS, PRODUCT_CREATE_REVIEW_REQUEST, PRODUCT_CREATE_REVIEW_FAIL, PRODUCT_CREATE_REVIEW_SUCCESS, PRODUCT_TOP_REVIEW_REQUEST, PRODUCT_TOP_REVIEW_SUCCESS, PRODUCT_TOP_REVIEW_FAIL, PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_FAIL, PRODUCT_CREATE_SUCCESS, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAIL, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAIL, PRODUCT_GET_REQUEST, PRODUCT_GET_SUCCESS, PRODUCT_GET_FAIL, PRODUCT_UPLOAD_IMAGE_REQUEST, PRODUCT_UPLOAD_IMAGE_SUCCESS, PRODUCT_UPLOAD_IMAGE_FAIL } = require("../constants/productConstants")
 
 
 export const listProducts = (category,type,pageNumber) => async (dispatch)=>{
@@ -228,6 +228,37 @@ export const deleteProduct = (id) => async (dispatch, getState)=>{
     }catch(error){
         dispatch({
             type: PRODUCT_DELETE_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message: error.message
+        })
+    }
+}
+
+export const uploadProductImage = (imageURI, file_name) => async (dispatch, getState)=>{
+    try{
+        dispatch({
+            type: PRODUCT_UPLOAD_IMAGE_REQUEST
+        })
+
+        const {user: {userLogin: {userInfo}}} = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        // const {data}= await axios.post('/api/cloudinary/upload', imageFile, config);
+        const {data} = await axios.post('/api/cloudinary/upload', JSON.stringify({data: imageURI, file_name}), config)
+    
+        dispatch({
+            type: PRODUCT_UPLOAD_IMAGE_SUCCESS,
+            payload: data
+        })
+
+    }catch(error){
+        dispatch({
+            type: PRODUCT_UPLOAD_IMAGE_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message: error.message
         })
     }

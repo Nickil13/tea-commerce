@@ -1,0 +1,26 @@
+@use '../abstracts';
+
+.loading-spinner{
+    position: absolute;
+    top:0;
+    right:0;
+    display: flex;
+    justify-content: center;
+}
+
+.loading-spinner::after {
+    content: "";
+    width: 30px;
+    height: 30px;
+    border: 5px solid abstracts.$color-neutral-gray-spinner;
+    border-top-color: abstracts.$color-primary;
+    border-left-color: abstracts.$color-primary;
+    border-radius: 50%;
+    animation: loading 1s linear infinite;
+}
+
+@keyframes loading {
+    to {
+        transform: rotate(1turn);
+    }
+}

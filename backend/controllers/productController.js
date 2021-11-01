@@ -97,12 +97,12 @@ const getProductById = async (req,res) => {
 // @route    POST /api/products
 // @access   Private/Admin
 
-const createProduct = async (req,res) => {
+const createProduct = asyncHandler( async (req,res) => {
     const productExists = await Product.find({name: req.body.name});
 
     if(productExists){
         res.status(400);
-        throw new Error("Product already exists by that name.");
+        throw new Error("Product already exists by that name." + req.body.name);
     }else{
         const product = {
             name: req.body.name,
@@ -119,33 +119,38 @@ const createProduct = async (req,res) => {
         res.status(201);
         res.json(createdProduct);
     }
-}
+})
 
 // @desc     Update product
 // @route    PUT /api/products/:id
 // @access   Private/Admin
 
-const updateProduct = async (req,res) => {
+const updateProduct = asyncHandler(async (req,res) => {
+    const{name, productType, image, category, price, ingredients, description, countInStock} = req.body;
     const product = await Product.findById(req.params.id);
 
     if(product){
-        const updatedProduct = {
-            name: req.body.name || product.name,
-            productType: req.body.productType || product.productType,
-            image: req.body.image || product.image,
-            category: req.body.category || product.category,
-            price: req.body.price || product.price,
-            ingredients: req.body.ingredients || product.ingredients,
-            description: req.body.description || product.description,
-            countInStock: req.body.countInStock || product.countInStock,
+        product.name = name;
+        product.productType = productType;
+        product.image = image;
+        product.category = category;
+        product.price = price;
+        product.ingredients = ingredients;
+        product.description = description;
+        product.countInStock = countInStock;
+
+        try{
+            const updatedProduct = await product.save();
+            res.json(updatedProduct);
+        }catch(error){
+            console.log(error);
         }
-        const savedProduct = await updatedProduct.save();
-        res.json(savedProduct);
+        
     }else{
         res.status(404);
         throw new Error("Product not found.");
     }
-}
+})
 
 // @desc     Delete product
 // @route    DELETE /api/products/:id
