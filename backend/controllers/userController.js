@@ -27,8 +27,37 @@ const loginUser = asyncHandler(async (req,res) =>{
 // @route    GET /api/users/
 // @access   Private/Admin
 const getUsers = asyncHandler(async(req,res) =>{
-    const users = await User.find({});
-    res.json(users);
+    const pageSize = 8;
+    const page = Number(req.query.page) || 1;
+
+    let query = {};
+
+    //Query by keyword
+    if(req.query.keyword){
+        query = {...query, $or: [
+            {name: {
+                $regex: req.query.keyword,
+                $options: 'i'}
+            },
+            {productType: {
+                $regex: req.query.keyword,
+                $options: 'i'}
+            },
+            {category: {
+                $regex: req.query.keyword,
+                $options: 'i'}
+            },
+            {ingredients: {
+                $regex: req.query.keyword,
+                $options: 'i'}
+            },
+                    
+        ]}
+    }
+    const count = await User.countDocuments({...query});
+    const users = await User.find({...query}).limit(pageSize).skip(pageSize * (page-1));
+    
+    res.json({users, page, pages: Math.ceil(count/pageSize)});
 })
 
 // @desc     Register user

@@ -4,25 +4,28 @@ import { useLocation, useHistory } from 'react-router';
 import { listProducts, searchProducts, getProducts } from '../actions/productActions';
 import { GoSearch } from 'react-icons/go';
 import { IoRefreshSharp } from 'react-icons/io5';
-import { Loader, Message, Pagination } from '../components';
+import { DeleteConfirmation, Loader, Message, Pagination } from '../components';
 import { teaProductCategories } from '../resources/teaInfoData';
 import { Link } from 'react-router-dom';
+import { useGlobalContext } from '../context';
 
-export default function Orders() {
+export default function Products() {
     const[category,setCategory] = useState('all');
     const[productType,setProductType] = useState('');
     const[keyword, setKeyword] = useState('');
+    const{isDeleteConfirmationShowing, showDeleteConfirmation} = useGlobalContext();
     const location = useLocation();
     const history = useHistory();
     const pageNumber = location.search.split('=')[1] || 1;
     const dispatch = useDispatch();
-    const {productGet} = useSelector((state)=>state.products);
+    const {productGet, productDelete} = useSelector((state)=>state.products);
     const {products, pages, page, loading, error} = productGet;
+    const {success: successDelete} = productDelete;
 
 
     useEffect(()=>{
         dispatch(getProducts(category==="all" ? "" : category,productType,pageNumber, keyword));
-    }, [pageNumber, category, productType])
+    }, [pageNumber, category, productType, successDelete])
 
     useEffect(()=>{
         history.push('/admin/products?page=1');
@@ -40,6 +43,11 @@ export default function Orders() {
         setProductType('');
         dispatch(getProducts(category==="all" ? "" : category,productType, 1, keyword));
         history.push('/admin/products?page=1');
+    }
+
+    const handleDelete = (id, name) => {
+        // Show delete confirmation
+        showDeleteConfirmation(id,name,"product");
     }
     return (
         <div className="products-page">
@@ -97,13 +105,14 @@ export default function Orders() {
                                 <td>{product.productType}</td>
                                 <td>{product.countInStock}</td>
                                 <td><Link className="btn" to={`/admin/products/${product._id}/edit`}>Edit</Link></td>
-                                <td><button className="btn">Delete</button></td>
+                                <td><button className="btn" onClick={()=>handleDelete(product._id, product.name)}>Delete</button></td>
                             </tr>
                         )
                     })}
                 </tbody>
             </table> </div>}
             <Pagination page={page} pages={pages}/>
+            {isDeleteConfirmationShowing && <DeleteConfirmation/>}
         </div>
     )
 }

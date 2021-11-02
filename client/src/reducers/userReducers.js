@@ -123,7 +123,7 @@ const userListReducer = ( state = { users: []}, action) =>{
             return {...state,loading: true}
 
         case LIST_USERS_SUCCESS:
-            return {loading: false, users: action.payload}
+            return {loading: false, users: action.payload, page:action.payload.page, pages:action.payload.pages}
 
         case LIST_USERS_FAIL:
             return {loading: false, error: action.payload}

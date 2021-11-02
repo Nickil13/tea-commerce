@@ -5,12 +5,13 @@ import { useParams } from 'react-router-dom';
 import { createProduct, uploadProductImage } from '../actions/productActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoadingSpinner, Message } from '../components';
+import { PRODUCT_CREATE_RESET, PRODUCT_UPLOAD_IMAGE_RESET } from '../constants/productConstants';
 
 export default function AddProduct() {
     const [name, setName] = useState('');
     const [category, setCategory] = useState('');
     const [productType,setProductType] = useState('');
-    const [ingredients, setIngredients] = useState([]);
+    const [ingredients, setIngredients] = useState('');
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState(0);
     const [countInStock, setCountInStock] = useState(1);
@@ -26,6 +27,11 @@ export default function AddProduct() {
     const {product, loading, error: createError, success: createSuccess} = productCreate;
 
     
+    useEffect(()=>{
+        dispatch({type: PRODUCT_CREATE_RESET})
+        dispatch({type: PRODUCT_UPLOAD_IMAGE_RESET});
+    },[])
+
     useEffect(()=>{
         // When the image source is set, upload the image.
         if(imageURI){
@@ -71,10 +77,13 @@ export default function AddProduct() {
 
     const handleAddProduct = (e) =>{
         e.preventDefault();
-        if(ingredients.includes(",")){
-            console.log('commas found');
+        let updatedIngredients = ingredients;
+        if(ingredients && ingredients.includes(",")){
+            updatedIngredients = [...new Set(ingredients.split(","))];
+            updatedIngredients = updatedIngredients.map((ingredient)=> ingredient.trim());
+        }else if(ingredients===''){
+            updatedIngredients = [];
         }
-        // let updatedIngredients = new Set(ingredients.split(","));
         
         dispatch(createProduct({
             _id: id,
@@ -82,8 +91,7 @@ export default function AddProduct() {
             category,
             productType,
             image: imagePath,
-            // ingredients: [...updatedIngredients],
-            ingredients,
+            ingredients: updatedIngredients,
             description,
             price,
             countInStock

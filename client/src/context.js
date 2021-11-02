@@ -7,6 +7,8 @@ export const AppProvider = ({children}) =>{
     const [isSidebarOpen,setIsSidebarOpen] = useState(false);
     const [isAlertShowing,setIsAlertShowing] = useState(false);
     const [alertContent,setAlertContent] = useState({});
+    const [isDeleteConfirmationShowing, setIsDeleteConfirmationShowing] = useState(false);
+    const [deleteConfirmationInfo, setDeleteConfirmationInfo] = useState({});
 
 
     const showAlert = (name,alertType,qty) =>{
@@ -34,6 +36,15 @@ export const AppProvider = ({children}) =>{
     const closeSearchModal = () =>{
         setIsSearchModalOpen(false);
     }
+
+    const showDeleteConfirmation = (id, name, subject) =>{
+        setIsDeleteConfirmationShowing(true);
+        setDeleteConfirmationInfo({id,name,subject});
+    }
+    const closeDeleteConfirmation = () =>{
+        setIsDeleteConfirmationShowing(false);
+        setDeleteConfirmationInfo("");
+    }
     
     return <AppContext.Provider 
     
@@ -48,7 +59,11 @@ export const AppProvider = ({children}) =>{
         alertContent,
         openSearchModal,
         isSearchModalOpen,
-        closeSearchModal
+        closeSearchModal,
+        isDeleteConfirmationShowing,
+        showDeleteConfirmation,
+        closeDeleteConfirmation,
+        deleteConfirmationInfo
     }}>
         {children}
     </AppContext.Provider>

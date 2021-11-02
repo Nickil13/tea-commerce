@@ -1,0 +1,53 @@
+@use '../abstracts';
+
+
+.delete-confirmation{
+    position: relative;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    background-color: abstracts.$color-neutral;
+    width: 80%;
+    max-width: 40rem;
+    padding: 3rem 4rem;
+
+    & h2{
+        padding: 0 1rem 1rem 1rem;
+        border-bottom: 2px solid abstracts.$color-dark;
+    }
+
+    & p {
+        padding: 1rem;
+    }
+
+    &-container{
+        position: fixed;
+        display: grid;
+        place-items: center;
+        top:0;
+        left:0;
+        z-index: 2;
+        height: 100%;
+        width: 100%;
+        background-color: abstracts.$color-dark-transparent;
+    }
+
+    & .input-control{
+
+        & input{
+            width: 80%;
+        }
+        & .search-btn-icon{
+            margin-right: 1rem;
+        }
+    }
+}
+
+.close-delete{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 1rem;
+    font-size: 30px;
+}
+

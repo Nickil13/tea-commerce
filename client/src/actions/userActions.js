@@ -266,7 +266,7 @@ export const getUserDetails = (id) => async(dispatch, getState) =>{
     
 }
 
-export const listUsers = () => async(dispatch, getState)=>{
+export const listUsers = (pageNumber, keyword) => async(dispatch, getState)=>{
     try{
         dispatch({
             type: LIST_USERS_REQUEST
@@ -280,7 +280,7 @@ export const listUsers = () => async(dispatch, getState)=>{
             }
         }
 
-        const{data} = await axios.get('/api/users', config);
+        const {data} = await axios.get(`/api/users?keyword=${keyword}&page=${pageNumber}`, config);
 
         dispatch({
             type: LIST_USERS_SUCCESS,

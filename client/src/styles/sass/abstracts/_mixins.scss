@@ -38,7 +38,7 @@
 @mixin overlay{
     position:fixed;
     display:none;
-    background-color: rgba(0, 0, 0, 0.50);
+    background-color: variables.$color-dark-transparent;
     top:0;
     left:0;
     bottom:0;

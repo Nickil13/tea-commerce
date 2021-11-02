@@ -5,12 +5,13 @@ import { useParams } from 'react-router-dom';
 import { getProductDetails, updateProduct, uploadProductImage } from '../actions/productActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Loader, LoadingSpinner, Message } from '../components';
+import { PRODUCT_UPDATE_RESET, PRODUCT_UPLOAD_IMAGE_RESET } from '../constants/productConstants';
 
 export default function EditProduct() {
     const [name, setName] = useState('');
     const [category, setCategory] = useState('');
     const [productType,setProductType] = useState('');
-    const [ingredients, setIngredients] = useState([]);
+    const [ingredients, setIngredients] = useState('');
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState(0);
     const [countInStock, setCountInStock] = useState(1);
@@ -21,27 +22,35 @@ export default function EditProduct() {
 
     const {id} = useParams();
     const dispatch = useDispatch();
-    const {productDetails, productUploadImage}= useSelector((state)=>state.products);
-    const {product, success} = productDetails;
-    const {uploadedResponse, success: uploadSuccess, loading: uploading, msg, error} = productUploadImage;
+    const {productDetails, productUpdate, productUploadImage}= useSelector((state)=>state.products);
+    const {product, loading, error} = productDetails;
+    const {loading: updateLoading, success: updateSuccess, error: updateError} = productUpdate;
+    const {uploadedResponse, success: uploadSuccess, loading: uploading, msg, error: uploadError} = productUploadImage;
 
     useEffect(()=>{
-        //Load the product
-        if(success){
+        //Load the  product
+        if(!product.name || product._id!==id || updateSuccess){
+            dispatch(getProductDetails(id));
+            dispatch({type: PRODUCT_UPDATE_RESET});
+            dispatch({type: PRODUCT_UPLOAD_IMAGE_RESET});
+
+        }else if(uploadSuccess && uploadedFile){
+            setImageName(uploadedFile.name);
+            setImagePath(uploadedResponse.secure_url); 
+            
+        }else{
             setName(product.name);
             setCategory(product.category);
             setProductType(product.productType);
-            setImageName(product.image.split("/")[2]);
+            setImageName(product.image.split("/")[product.image.split("/").length-1]);
             setImagePath(product.image);
-            setIngredients(product.ingredients);
+            setIngredients(product.ingredients.join(", "));
             setDescription(product.description);
             setPrice(product.price.toFixed(2));
             setCountInStock(Number(product.countInStock));
-        }else{
-            dispatch(getProductDetails(id));
-        }
+        }      
         
-    },[id, success])
+    },[id, product, updateSuccess, uploadSuccess])
 
     useEffect(()=>{
         // When the image source is set, upload the image.
@@ -50,13 +59,6 @@ export default function EditProduct() {
         }
     }, [imageURI])
 
-    useEffect(()=>{
-        if(uploadSuccess){
-            setImageName(uploadedFile.name);
-            setImagePath(uploadedResponse.secure_url);
-        }
-        
-    },[uploadSuccess])
 
     const handleSelectImage =  (e) =>{
         const file = e.target.files[0];
@@ -81,10 +83,13 @@ export default function EditProduct() {
     const handleEditProduct = (e) =>{
         e.preventDefault();
         let updatedIngredients = ingredients;
-        console.log(ingredients);
-        if(ingredients[0].includes(",")){
+        if(ingredients && ingredients.includes(",")){
             updatedIngredients = [...new Set(ingredients.split(","))];
+            updatedIngredients = updatedIngredients.map((ingredient)=> ingredient.trim());
+        }else if(ingredients===''){
+            updatedIngredients = [];
         }
+       
         dispatch(updateProduct({
             _id: id,
             name,
@@ -92,7 +97,6 @@ export default function EditProduct() {
             productType,
             image: imagePath,
             ingredients: updatedIngredients,
-            ingredients,
             description,
             price,
             countInStock
@@ -106,7 +110,7 @@ export default function EditProduct() {
                 <p>{product.name}</p>
             </div>
            
-            <form className="edit-product-form" action="">
+            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> : <form className="edit-product-form" action="">
                 <div className="input-control">
                     <label htmlFor="name">Name: </label>
                     <input type="text" id="name" name="name" value={name} onChange={(e)=>setName(e.target.value)} />
@@ -141,7 +145,7 @@ export default function EditProduct() {
                         <label htmlFor="image" className="image-input-label"><BsImage className="image-icon"/></label>
                         {uploading && <LoadingSpinner/>}
                     </div>
-                    {uploadSuccess ? <Message type="success">{msg}</Message> : error && <Message>{error}</Message>}
+                    {uploadSuccess ? <Message type="success">{msg}</Message> : uploadError && <Message>{uploadError}</Message>}
                 </div>
                 {/* <div className="input-control">
                     <label htmlFor="">Flavour Image: </label>
@@ -167,7 +171,9 @@ export default function EditProduct() {
                     <input type="number" step="1" name="count" id="count" value={countInStock} onChange={(e)=>setCountInStock(e.target.value)}/>
                 </div>
                 <button type="submit" className="btn btn-primary" onClick={handleEditProduct}>Edit</button>
-            </form>
+                {updateLoading ? <LoadingSpinner/> : updateError ? <Message>{updateError}</Message> : updateSuccess && <Message>Successfully updated product.</Message>}
+            </form>}
+            
         </div>
     )
 }
