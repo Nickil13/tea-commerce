@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { FaRegHeart, FaUserEdit} from 'react-icons/fa';
+import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { GoPackage} from 'react-icons/go';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserProfile, logout, removeWishlistItem } from '../actions/userActions';
 import { listMyOrders } from '../actions/orderActions';
-import { OrderCard } from '../components';
+import { Message, OrderCard } from '../components';
 
 export default function UserProfile() {
     const dispatch = useDispatch();
@@ -31,7 +32,8 @@ export default function UserProfile() {
     },[wishlistRemoveSuccess])
 
     const handleWishlistRemoveItem = (id) =>{
-        dispatch(removeWishlistItem(id))
+        dispatch(removeWishlistItem(id));
+        // console.log('removing item');
     }
 
     return (
@@ -54,8 +56,8 @@ export default function UserProfile() {
         
             <section className="account-section account-details">
                 <div className="title-box-account">
+                    <span className="account-icon"><FaUserEdit/></span>
                     <h2>Account details</h2>
-                    <span className="account-edit-icon" onClick={()=>history.push('/account/edit-profile')}><FaUserEdit/></span>
                 </div>
                 <div className="section-content">
                     <ul className="account-details-list">
@@ -72,6 +74,7 @@ export default function UserProfile() {
                             <li>{user.shippingAddress.zipcode}</li>
                         </ul>: <p>No shipping information on file.</p>}
                     </div>
+                    <button className="btn account-edit-btn" onClick={()=>history.push('/account/edit-profile')}>edit</button>
                 </div>
             </section>
                 
@@ -87,17 +90,23 @@ export default function UserProfile() {
                             user.wishlist.slice(0,3).map((item)=>{
                                 return(
                                     <div key={item._id} className="wishlist-item">
-                                        <Link to={`/shop/${item.category}/${item.productType}/${item._id}`}><img src={item.image} alt={item.name}/></Link>
+                                        
+                                        <div className="img-container" >
+                                            <img src={item.image} alt={item.name} onClick={()=>history.push(`/shop/${item.category}/${item.productType}/${item._id}`)}/>
+                                            <span onClick={()=>handleWishlistRemoveItem(item._id)} className="remove-wishlist-item-btn"><AiOutlineCloseCircle/></span>
+                                        </div>
+                                        
                                         {item.flavourImage &&
                                         <div className="flavour-container">
                                             <img src={item.flavourImage} alt={item.name} />
                                         </div>} 
                                         <h3>{item.name}</h3>
                                         <span>{item.productType}</span>
-                                        {/* <button className="btn" onClick={()=>handleWishlistRemoveItem(item._id)}>remove</button> */}
+
                                     </div>
                                 )
-                            }) : <p>You haven't added any items to your wishlist!</p>}
+                            }) : 
+                                <Message>You haven't added any items to your wishlist!</Message>}
                         </div>
                         
                         {user.wishlist && user.wishlist.length>3 && <button className="btn">See more items</button>}
@@ -117,7 +126,7 @@ export default function UserProfile() {
                             return(
                                 <OrderCard key={order._id} {...order}/>
                             )
-                        }) : <p>You haven't made any orders.</p>}
+                        }) : <Message>You haven't made any orders.</Message>}
                     </div>
                     {user.orders && user.orders.length>3 && <button className="btn">See more orders</button>}
                 </div>

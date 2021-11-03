@@ -21,7 +21,6 @@
   & .admin-links{
     display: flex;
     flex-wrap: wrap;
-    // width: 80%;
     max-width: 300px;
   }
 }
@@ -47,39 +46,59 @@
     display: flex;
     align-items: center;
 
-    & .account-edit-icon{
-      font-size: 30px;
-      margin-left: 1rem;
-      cursor: pointer;
-
-      &:hover{
-        color: abstracts.$color-primary-light;
-      }
-    }
-
     & .account-icon{
       font-size: 30px;
       margin-right: 1rem;
     }
   }
+
+  .account-edit-btn{
+    margin: 1rem 0;
+  }
 }
 
-
-
 .profile-wishlist{
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
   padding: 1rem 0;
 }
 .wishlist-item{
   padding: 1rem;
   text-align: center;
 
-  & img {
-    @include abstracts.fit-image;
+  & .img-container{
+    position:relative;
+    margin: 0 auto;
+    background-color: pink;
     width: 200px;
     height: 200px;
+    
+    & img {
+      @include abstracts.fit-image;
+      transition: all 500ms ease-in;
+    }
+
+    &:hover img{
+      filter: brightness(50%);
+    }
+    &:hover .remove-wishlist-item-btn{
+      opacity: 1;
+    }
+  }
+  }
+  
+.remove-wishlist-item-btn{
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  opacity: 0;
+  color: abstracts.$color-neutral;
+  font-size: 30px;
+  margin: 0.50rem;
+  transition: all 500ms ease-in;
+
+  &:hover{
+    transform: scale(1.2);
   }
 }
 
@@ -90,8 +109,17 @@
 
 
 @media screen and (min-width: 600px){
+  .profile-wishlist{
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
   .account-section h2{
     text-align: start;
+  }
+}
+
+@media screen and (min-width: 800px){
+  .profile-wishlist{
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
   }
 }
 
