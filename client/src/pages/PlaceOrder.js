@@ -47,7 +47,7 @@ export default function PlaceOrder() {
     return (
         <div>
             <CheckoutSteps currentStepNum={4}/>
-            <h1 className="place-order-title">Place Order</h1>
+            <h1 className="page-title">Place Order</h1>
             <section className="order-shipping-section">
                 <h3>Shipping Information</h3>
                 <p>{`${shippingInfo.address} ${shippingInfo.city}, ${shippingInfo.province}`}</p>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BsImage} from 'react-icons/bs';
 import { teaProductCategories } from '../resources/teaInfoData';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory} from 'react-router-dom';
 import { getProductDetails, updateProduct, uploadProductImage } from '../actions/productActions';
 import { useDispatch, useSelector } from 'react-redux';
-import { Loader, LoadingSpinner, Message } from '../components';
+import { LoadingSpinner, Message } from '../components';
 import { PRODUCT_UPDATE_RESET, PRODUCT_UPLOAD_IMAGE_RESET } from '../constants/productConstants';
 
 export default function EditProduct() {
@@ -21,6 +21,7 @@ export default function EditProduct() {
     const [imagePath, setImagePath] = useState('');
 
     const {id} = useParams();
+    const history = useHistory();
     const dispatch = useDispatch();
     const {productDetails, productUpdate, productUploadImage}= useSelector((state)=>state.products);
     const {product, loading, error} = productDetails;
@@ -34,6 +35,9 @@ export default function EditProduct() {
             dispatch({type: PRODUCT_UPDATE_RESET});
             dispatch({type: PRODUCT_UPLOAD_IMAGE_RESET});
 
+            if(updateSuccess){
+                history.push('/admin/products');
+            }
         }else if(uploadSuccess && uploadedFile){
             setImageName(uploadedFile.name);
             setImagePath(uploadedResponse.secure_url); 

@@ -3,3 +3,42 @@
 .invalid-input{
     border: 2px solid abstracts.$color-error;
 }
+
+.page-title{
+    padding: 4rem 4rem 3rem 4rem;
+    text-align: center;
+}
+
+//Table format
+.search-container{
+    overflow-x: auto;
+
+    .search-table{
+        padding: 2rem 1rem;
+        width: 80%;
+        margin: 0 auto;
+    
+        & th{
+            padding: 0.5rem 1rem;
+            text-align: start;
+        }
+    
+        & td{
+            padding: 0.5rem 1rem;
+        }
+    }
+}
+
+//Tags
+.tag{
+    padding: 0.25rem 0.50rem;
+    border-radius: 0.50rem;
+
+    &-admin{
+        background-color: abstracts.$color-secondary-light;
+    }
+
+    &-user{
+        background-color: abstracts.$color-primary-light;
+    }
+}

@@ -1,7 +1,7 @@
 import React, { useState,useEffect} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { useLocation, useHistory } from 'react-router';
-import { listProducts, searchProducts, getProducts } from '../actions/productActions';
+import { getProducts } from '../actions/productActions';
 import { GoSearch } from 'react-icons/go';
 import { IoRefreshSharp } from 'react-icons/io5';
 import { DeleteConfirmation, Loader, Message, Pagination } from '../components';
@@ -25,11 +25,19 @@ export default function Products() {
 
     useEffect(()=>{
         dispatch(getProducts(category==="all" ? "" : category,productType,pageNumber, keyword));
-    }, [pageNumber, category, productType, successDelete])
+    }, [dispatch, pageNumber, category, productType, keyword, successDelete])
 
     useEffect(()=>{
         history.push('/admin/products?page=1');
-    }, [category, productType])
+    }, [category, productType, history])
+
+    useEffect(()=>{
+        //Automatically set the productType to the first value when a category is chosen.
+        const currentCategory = teaProductCategories.filter((cat)=>cat.type === category)[0];
+        if(currentCategory && currentCategory.type!=="all"){
+            setProductType((currentCategory.items)[0]);
+        }
+    }, [category])
 
     const handleSearch = (e) =>{
         e.preventDefault();
@@ -41,26 +49,35 @@ export default function Products() {
         setKeyword('');
         setCategory('all');
         setProductType('');
-        dispatch(getProducts(category==="all" ? "" : category,productType, 1, keyword));
+        dispatch(getProducts(category==="all" ? "" : category,productType, 1, ''));
         history.push('/admin/products?page=1');
     }
 
     const handleDelete = (id, name) => {
-        // Show delete confirmation
         showDeleteConfirmation(id,name,"product");
     }
     return (
-        <div className="products-page">
-            <h1 className="products-title">Products</h1>
+        <div>
+            <div className="admin-bar">
+                <div className="admin-links">
+                    <Link className="btn btn-primary" to="/admin/orders">Orders</Link>
+                    <Link className="btn btn-primary" to="/admin/users"> Users</Link>
+                    <Link className="btn btn-primary" to="/admin/products">Products</Link>
+                </div> 
+            </div>
+            
+            <h1 className="page-title">Products</h1>
+
             <button className="btn btn-primary" onClick={()=>history.push('/admin/products/add')}>Create a new product</button>
-            <div className="product-bar">
-                <form className="product-search-bar" onSubmit={handleSearch}>
+
+            <div className="search-bar">
+                <form className="search-bar" onSubmit={handleSearch}>
                     <label className="search-icon" htmlFor="search"><GoSearch/></label>
                     <input type="text" placeholder="filter products" value={keyword} onChange={(e)=>setKeyword(e.target.value)} />
                     <IoRefreshSharp className="search-icon"  onClick={handleResetSearch}/>
                 </form>
                 
-                <div className="product-selects">
+                <div className="search-selects">
                     <form>
                         <select name="category" id="category" value={category} onChange={(e)=>setCategory(e.target.value)}>
                             {teaProductCategories.map((category)=>{
@@ -82,8 +99,8 @@ export default function Products() {
                 </div>
             </div>
             {loading ? <Loader/> : error ? <Message>{error}</Message> : 
-            <div className="search-products-container">
-            <table className="search-products">
+            <div className="search-container">
+            <table className="search-table">
                 <thead>
                     <tr>
                         <th>Id</th>

@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-import { DELETE_USER_FAIL, DELETE_USER_REQUEST, DELETE_USER_SUCCESS, GET_USER_PROFILE_FAIL, GET_USER_PROFILE_REQUEST, GET_USER_PROFILE_SUCCESS, LIST_USERS_FAIL, LIST_USERS_REQUEST, LIST_USERS_SUCCESS, UPDATE_USER_FAIL, UPDATE_USER_PROFILE_FAIL, UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, WISHLIST_ADD_ITEM_FAIL, WISHLIST_ADD_ITEM_REQUEST, WISHLIST_ADD_ITEM_RESET, WISHLIST_ADD_ITEM_SUCCESS, WISHLIST_REMOVE_ITEM_FAIL, WISHLIST_REMOVE_ITEM_REQUEST, WISHLIST_REMOVE_ITEM_SUCCESS } from "../constants/userConstants";
+import { DELETE_USER_FAIL, DELETE_USER_REQUEST, DELETE_USER_SUCCESS, GET_USER_PROFILE_FAIL, GET_USER_PROFILE_REQUEST, GET_USER_PROFILE_SUCCESS, LIST_USERS_FAIL, LIST_USERS_REQUEST, LIST_USERS_SUCCESS, UPDATE_USER_FAIL, UPDATE_USER_PROFILE_FAIL, UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_RESET, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_REQUEST, UPDATE_USER_RESET, UPDATE_USER_SUCCESS, USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, WISHLIST_ADD_ITEM_FAIL, WISHLIST_ADD_ITEM_REQUEST, WISHLIST_ADD_ITEM_RESET, WISHLIST_ADD_ITEM_SUCCESS, WISHLIST_REMOVE_ITEM_FAIL, WISHLIST_REMOVE_ITEM_REQUEST, WISHLIST_REMOVE_ITEM_SUCCESS } from "../constants/userConstants";
 
 
-const userLoginReducer = (state = {}, action) => {
+const userLoginReducer = (state = { }, action) => {
     switch(action.type){
         case USER_LOGIN_REQUEST:
             return { loading: true}
@@ -34,7 +34,7 @@ const userRegisterReducer = (state = {}, action) =>{
             return state;
     }
 }
-const userGetProfileReducer = (state = {}, action) => {
+const userGetProfileReducer = (state = { user: { shippingAddress: {}}}, action) => {
     switch(action.type){
         case GET_USER_PROFILE_REQUEST:
             return { ...state, loading: true }
@@ -61,6 +61,9 @@ const userUpdateProfileReducer = (state = {}, action) => {
         case UPDATE_USER_PROFILE_FAIL:
             return {loading: false, error: action.payload}
 
+        case UPDATE_USER_PROFILE_RESET:
+            return {}
+            
         default:
             return state;
     }
@@ -123,7 +126,7 @@ const userListReducer = ( state = { users: []}, action) =>{
             return {...state,loading: true}
 
         case LIST_USERS_SUCCESS:
-            return {loading: false, users: action.payload, page:action.payload.page, pages:action.payload.pages}
+            return {loading: false, users: action.payload.users, page:action.payload.page, pages:action.payload.pages}
 
         case LIST_USERS_FAIL:
             return {loading: false, error: action.payload}
@@ -139,11 +142,14 @@ const userUpdateReducer = ( state = {}, action) =>{
             return {loading: true}
 
         case UPDATE_USER_SUCCESS:
-            return {loading: false, user: action.payload}
+            return {loading: false, user: action.payload, success: true}
 
         case UPDATE_USER_FAIL:
             return {loading: false, error: action.payload}
-        
+
+        case UPDATE_USER_RESET:
+            return {}
+
         default: 
             return state;
     }

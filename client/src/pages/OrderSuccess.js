@@ -30,7 +30,7 @@ export default function OrderSuccess() {
 
     return (
         <div>
-            <h1 className="order-success-title">Order Successful</h1>
+            <h1 className="page-title">Order Successful</h1>
             <div className="order-success-info">
                 <p>Thank you for you order!</p>
                 <p>For status updates and order information, <Link to="/account">check your orders</Link>.</p>

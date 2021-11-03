@@ -2,6 +2,8 @@
 
 .btn{
     font-size: 16px;
+    color: abstracts.$color-neutral-dark;
+    background-color: abstracts.$color-neutral-gray-light;
     border:none;
     padding: 0.5em 1em;
     cursor: pointer;

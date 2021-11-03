@@ -3,6 +3,7 @@ import { VscClose } from 'react-icons/vsc';
 import { deleteProduct } from '../actions/productActions';
 import { useDispatch } from 'react-redux';
 import { useGlobalContext } from '../context';
+import { deleteUser } from '../actions/userActions';
 
 export default function DeleteConfirmation() {
     //Is open, closeDeleteConfirmation
@@ -11,7 +12,12 @@ export default function DeleteConfirmation() {
     const dispatch = useDispatch();
 
     const handleDeleteConfirmation = () =>{
-        dispatch(deleteProduct(id));
+        if(subject === "product"){
+            dispatch(deleteProduct(id));
+        }else if(subject === "user"){
+            dispatch(deleteUser(id));
+        }
+
         closeDeleteConfirmation();
     }
 

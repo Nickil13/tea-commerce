@@ -1,5 +1,4 @@
 import React from 'react'
-import { IoMdArrowDropup, IoMdArrowDropdown } from 'react-icons/io';
 import { FaTimes } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { updateCartItemQuantity, removeCartItem } from '../actions/cartActions';

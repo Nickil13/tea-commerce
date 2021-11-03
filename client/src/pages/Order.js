@@ -24,7 +24,7 @@ export default function Order() {
 
     return (
         <div>
-            <h1 className="place-order-title">Order Details</h1>
+            <h1 className="page-title">Order Details</h1>
             {loading ? <Loader/> : error ? <Message>{error}</Message> : <div>
             <section className="order-status">
                 <h3>Order Status</h3>

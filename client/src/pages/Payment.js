@@ -63,7 +63,7 @@ export default function Payment() {
     return (
         <div>
             <CheckoutSteps currentStepNum={3}/>
-            <h1 className="payment-title">Payment Method</h1>
+            <h1 className="page-title">Payment Method</h1>
             <section className="payment-section">
                 <form className="payment-form" id="payment-form" onSubmit={handleSubmit}>
                     <div className="input-control">

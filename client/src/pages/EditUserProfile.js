@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector} from 'react-redux';
 import { getUserProfile, updateUserProfile} from '../actions/userActions';
-import { Loader, Message} from '../components';
+import { Loader, LoadingSpinner, Message} from '../components';
+import { UPDATE_USER_PROFILE_RESET } from '../constants/userConstants';
 
 export default function EditUserProfile() {
     const dispatch = useDispatch();
-    const userProfile = useSelector((state)=>state.user.userProfile);
+    const {userProfile, userUpdateProfile} = useSelector((state)=>state.user);
     const {user,loading,error} = userProfile;
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [message, setMessage] = useState("");
     
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
@@ -17,45 +20,70 @@ export default function EditUserProfile() {
     const [province, setProvince] = useState('');
     const [postalCode, setPostalCode] = useState('');
     
-    
+    const[formEdited, setFormEdited] = useState('');
+    const {loading: updateLoading, success: updateSuccess, error: updateError} = userUpdateProfile;
 
     useEffect(()=>{
-        
-        if(!userProfile){
-            console.log('getting user profile')
+    
+        if(!user || !user.username){
             dispatch(getUserProfile());
-            console.log(userProfile);
-        }else if(user){
-            console.log(userProfile);
+        }else{
             setUsername(user.username);
             setEmail(user.email);
+            setAddress(user.shippingAddress.address);
+            setCity(user.shippingAddress.city);
+            setCountry(user.shippingAddress.country);
+            setProvince(user.shippingAddress.province);
+            setPostalCode(user.shippingAddress.postalCode);
         }
         
-        console.log(user);
-        // console.log("getting user profile");
-        // console.log("setting username to: " + user.username);
-        // setUsername(user.username);
-        // setEmail(user.email);
-        // setAddress(user.shippingAddress.address);
-        // setCity(user.shippingAddress.city);
-        // setCountry(user.shippingAddress.country);
-        // setProvince(user.shippingAddress.province);
-        // setPostalCode(user.shippingAddress.postalCode);
-    },[user, dispatch])
+    },[dispatch, user])
+
 
     const handlePersonalSubmit = (e) =>{
         e.preventDefault();
-        
+        setFormEdited("personal");
+        setMessage("");
+        dispatch({type: UPDATE_USER_PROFILE_RESET});
+
+        if(password){
+            if(password!==confirmPassword){
+                setMessage("Passwords do not match.");
+            }else{
+                dispatch(updateUserProfile(
+                    {username,
+                    email,
+                    password,
+                    confirmPassword}
+                ))
+            }
+        }else{
+            dispatch(updateUserProfile(
+                {username,
+                email}
+            ))
+        }  
     }
 
     const handleAddressSubmit = (e) =>{
         e.preventDefault();
+        setFormEdited("address");
+        dispatch(updateUserProfile(
+            {shippingAddress: {
+                address,
+                city,
+                country,
+                province,
+                postalCode
+            }}
+        ))
         
     }
 
     return (
         <div>
-            <h1 className="edit-profile-title">Edit User Profile</h1>
+            <h1 className="page-title">Edit User Profile</h1>
+            
             {loading ? <Loader/> : error ? <Message>{error}</Message> :<>
             <form className="edit-profile-form" onSubmit={handlePersonalSubmit}>
                 <h2>Personal Information</h2>
@@ -68,10 +96,15 @@ export default function EditUserProfile() {
                     <input type="text" name="email" id="email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
                 </div>
                 <div className="input-control">
-                <label htmlFor="password">Password</label>
+                    <label htmlFor="password">Password</label>
                     <input type="password" name="password" id="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
                 </div>
+                <div className="input-control">
+                    <label htmlFor="confirmPassword">Confirm Password</label>
+                    <input type="password" name="confirmPassword" id="confirmPassword" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)}/>
+                </div>     
                 <button type="submit" className="btn btn-primary">Edit</button>
+                {formEdited==="personal" && (updateLoading ? <LoadingSpinner/> : updateError ? <Message>{updateError}</Message> : updateSuccess ? <Message>Personal information updated.</Message> : message && <Message>{message}</Message>)}
             </form>
             
             <form className="edit-profile-form"  onSubmit={handleAddressSubmit}>
@@ -97,6 +130,7 @@ export default function EditUserProfile() {
                     <input type="text" name="postalCode" id="postalCode" value={postalCode} onChange={(e)=>setPostalCode(e.target.value)}/>
                 </div>
                 <button type="submit" className="btn btn-primary">Edit</button>
+                {formEdited==="address" && (updateLoading ? <LoadingSpinner/> : updateError ? <Message>{updateError}</Message> : updateSuccess && <Message>Address updated.</Message>)}
             </form>
             </>}
         </div>

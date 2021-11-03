@@ -8,7 +8,7 @@ const asyncHandler = require('express-async-handler');
 const loginUser = asyncHandler(async (req,res) =>{
     const {username, password} = req.body;
     const user = await User.findOne({username});
-    console.log(user);
+
     if(user && (await user.matchPassword(password))){
         res.json({
             _id: user._id,
@@ -34,25 +34,12 @@ const getUsers = asyncHandler(async(req,res) =>{
 
     //Query by keyword
     if(req.query.keyword){
-        query = {...query, $or: [
-            {name: {
+        query = {...query, 
+            username: {
                 $regex: req.query.keyword,
                 $options: 'i'}
-            },
-            {productType: {
-                $regex: req.query.keyword,
-                $options: 'i'}
-            },
-            {category: {
-                $regex: req.query.keyword,
-                $options: 'i'}
-            },
-            {ingredients: {
-                $regex: req.query.keyword,
-                $options: 'i'}
-            },
-                    
-        ]}
+                     
+        }
     }
     const count = await User.countDocuments({...query});
     const users = await User.find({...query}).limit(pageSize).skip(pageSize * (page-1));
@@ -189,14 +176,17 @@ const getUserById = async (req, res) =>{
 // @access   Private/Admin
 const updateUser = asyncHandler(async (req,res) =>{
     const user = await User.findById(req.params.id);
-
+    
     if(user){
         user.username = req.body.username || user.username;
         user.email = req.body.email || user.email;
         user.shippingAddress = req.body.shippingAddress || user.shippingAddress;
         user.wishlist = req.body.wishlist || user.wishlist;
-        user.isAdmin = req.body.isAdmin || user.isAdmin;
         
+        if(req.body.isAdmin || req.body.isAdmin===false){
+            user.isAdmin = req.body.isAdmin;
+        }
+
         if(req.body.password){
             user.password = req.body.password
         }
@@ -215,6 +205,5 @@ const updateUser = asyncHandler(async (req,res) =>{
         res.json("User not found.");
     }
 })
-
 
 module.exports = {loginUser, getUsers, registerUser, getUserProfile, updateUserProfile, deleteUser,getUserById, updateUser};

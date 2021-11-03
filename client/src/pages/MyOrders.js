@@ -13,7 +13,7 @@ export default function MyOrders() {
 
     return (
         <div>
-            <h1 className="my-orders-title">My Orders</h1>
+            <h1 className="page-title">My Orders</h1>
             <div>
                 {orders.length>0 && orders.map((order)=>{
                     return(

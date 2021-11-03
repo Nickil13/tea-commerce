@@ -79,7 +79,7 @@ export default function Shipping() {
     return (
         <div>
             <CheckoutSteps currentStepNum={2}/>
-            <h1 className="shipping-title">Shipping</h1>
+            <h1 className="page-title">Shipping</h1>
             <section className="shipping-section">
                 <form id="shipping-form" className="shipping-form" onSubmit={handleSubmit}>
                     <div className="input-control">

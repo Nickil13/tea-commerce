@@ -15,6 +15,7 @@
 @use 'components/loader';
 @use 'components/loadingSpinner';
 @use 'components/message';
+@use 'components/searchBar';
 @use 'components/searchModal';
 @use 'components/shopcard';
 @use 'components/slider';
@@ -34,7 +35,6 @@
 @use 'pages/orderSuccess';
 @use 'pages/payment';
 @use 'pages/placeOrder';
-@use 'pages/products';
 @use 'pages/productProfile';
 @use 'pages/profile';
 @use 'pages/shipping';

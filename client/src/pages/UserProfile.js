@@ -50,7 +50,7 @@ export default function UserProfile() {
                 </div>
                 }
             </div>
-            <h1 className="account-title">My Account</h1>
+            <h1 className="page-title">My Account</h1>
         
             <section className="account-section account-details">
                 <div className="title-box-account">

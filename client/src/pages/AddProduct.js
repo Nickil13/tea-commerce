@@ -24,7 +24,7 @@ export default function AddProduct() {
     const dispatch = useDispatch();
     const {productUploadImage, productCreate}= useSelector((state)=>state.products);
     const {uploadedResponse, success: uploadSuccess, loading: uploading, msg, error} = productUploadImage;
-    const {product, loading, error: createError, success: createSuccess} = productCreate;
+    const {loading, error: createError, success: createSuccess} = productCreate;
 
     
     useEffect(()=>{

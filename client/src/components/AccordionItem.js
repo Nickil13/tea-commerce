@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { FaPlus, FaMinus} from 'react-icons/fa';
 import {AiOutlinePlus, AiOutlineMinus} from 'react-icons/ai';
-import { VscClose} from 'react-icons/vsc';
 import { Link } from 'react-router-dom';
 import { useGlobalContext} from '../context';
 
