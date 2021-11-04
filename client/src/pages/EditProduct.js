@@ -36,7 +36,8 @@ export default function EditProduct() {
             dispatch({type: PRODUCT_UPLOAD_IMAGE_RESET});
 
             if(updateSuccess){
-                history.push('/admin/products');
+                // history.push('/admin/products');
+                history.goBack();
             }
         }else if(uploadSuccess && uploadedFile){
             setImageName(uploadedFile.name);

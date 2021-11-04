@@ -29,7 +29,7 @@ export default function Products() {
     }, [dispatch, pageNumber, category, productType, keyword, successDelete])
 
     useEffect(()=>{
-        history.push('/admin/products?page=1');
+        // history.push('/admin/products?page=1');
     }, [category, productType, history])
 
     useEffect(()=>{
