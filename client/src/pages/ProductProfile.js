@@ -37,7 +37,7 @@ export default function ProductProfile() {
         dispatch(getProductDetails(id));
         dispatch(getTopProductReview(id));
         // Once the user profile is successfully loaded, check the wishlist for the current product. Otherwise, fetch the user profile information.
-        if(user){
+        if(user && user.username){
             checkWishlist();
         }else{
             dispatch(getUserProfile());
@@ -57,7 +57,7 @@ export default function ProductProfile() {
 
 
     const checkWishlist = () =>{
-        if(user){
+        if(user && user.wishlist){
             const wishlist = user.wishlist;
             const itemExists = wishlist.filter((item)=>item._id === id);
             if(itemExists.length===0){

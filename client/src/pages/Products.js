@@ -1,10 +1,10 @@
-import React, { useState,useEffect} from 'react';
+import React, { useState,useEffect, useRef} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { useLocation, useHistory } from 'react-router';
 import { getProducts } from '../actions/productActions';
 import { GoSearch } from 'react-icons/go';
 import { IoRefreshSharp } from 'react-icons/io5';
-import { DeleteConfirmation, Loader, Message, Pagination } from '../components';
+import { DeleteConfirmation, LoadingSpinner, Message, Pagination, SearchBar } from '../components';
 import { teaProductCategories } from '../resources/teaInfoData';
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../context';
@@ -16,6 +16,7 @@ export default function Products() {
     const{isDeleteConfirmationShowing, showDeleteConfirmation} = useGlobalContext();
     const location = useLocation();
     const history = useHistory();
+    const searchRef = useRef(null);
     const pageNumber = location.search.split('=')[1] || 1;
     const dispatch = useDispatch();
     const {productGet, productDelete} = useSelector((state)=>state.products);
@@ -41,15 +42,15 @@ export default function Products() {
 
     const handleSearch = (e) =>{
         e.preventDefault();
-        dispatch(getProducts(category==="all" ? "" : category,productType, 1, keyword));
+        setKeyword(searchRef.current.value);
         history.push('/admin/products?page=1');
     }
    
     const handleResetSearch = () => {
         setKeyword('');
+        searchRef.current.value = '';
         setCategory('all');
         setProductType('');
-        dispatch(getProducts(category==="all" ? "" : category,productType, 1, ''));
         history.push('/admin/products?page=1');
     }
 
@@ -71,11 +72,7 @@ export default function Products() {
             <button className="btn btn-primary" onClick={()=>history.push('/admin/products/add')}>Create a new product</button>
 
             <div className="search-bar">
-                <form className="search-bar" onSubmit={handleSearch}>
-                    <label className="search-icon" htmlFor="search"><GoSearch/></label>
-                    <input type="text" placeholder="filter products" value={keyword} onChange={(e)=>setKeyword(e.target.value)} />
-                    <IoRefreshSharp className="search-icon"  onClick={handleResetSearch}/>
-                </form>
+                <SearchBar handleSearch={handleSearch} searchRef={searchRef} placeholder={"filter products"} handleResetSearch={handleResetSearch}/>
                 
                 <div className="search-selects">
                     <form>
@@ -98,9 +95,9 @@ export default function Products() {
                     </form>}
                 </div>
             </div>
-            {loading ? <Loader/> : error ? <Message>{error}</Message> : 
+            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> : 
             <div className="search-container">
-            <table className="search-table">
+            {products && products.length>0 ? <table className="search-table">
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -113,7 +110,7 @@ export default function Products() {
                     </tr>
                 </thead>
                 <tbody>
-                    {products && products.length>0 && products.map((product)=>{
+                    {products.map((product)=>{
                         return(
                             <tr key={product._id}>
                                 <td>{product._id}</td>
@@ -127,7 +124,7 @@ export default function Products() {
                         )
                     })}
                 </tbody>
-            </table> </div>}
+            </table> : <Message>No products found.</Message>}</div>}
             <Pagination page={page} pages={pages}/>
             {isDeleteConfirmationShowing && <DeleteConfirmation/>}
         </div>

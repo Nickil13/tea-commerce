@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import {BrowserRouter as Router, Route, Switch, Redirect, useLocation} from "react-router-dom";
-import { AddProduct, Cart, Shipping, Home, Login, Order, Orders, OrderSuccess,Payment, PlaceOrder, Products, ProductProfile, Shop, Signup, EditUser, EditUserProfile, MyOrders, Users, UserProfile, EditProduct } from "./pages";
+import { AddProduct, Cart, Shipping, Home, Login, Order, Orders, OrderSuccess,Payment, PlaceOrder, Products, ProductProfile, Shop, Signup, EditUser, EditUserProfile, MyOrder, MyOrders, MyWishlist, Users, UserProfile, EditProduct } from "./pages";
 import {Navbar, Footer, SearchModal, Sidebar, Alert} from './components';
 import { useSelector} from 'react-redux';
 
@@ -29,18 +29,16 @@ function App() {
               <Switch>
                 <Route exact path="/"><Home/></Route>
                 <Route path="/cart"><Cart/></Route>
-                <Route path="/account/orders/:id">
-                  <Order/>
-                </Route>
-                <Route path="/account/orders/">
-                  <MyOrders/>
-                </Route>
+                <Route path="/account/orders/:id"><MyOrder/></Route>
+                <Route path="/account/orders/"><MyOrders/></Route>
                 <Route path="/account/edit-profile">
                   {userInfo ? <EditUserProfile/> : <Redirect to="/login"/>}
                 </Route>
-                <Route path="/account">
+                <Route path="/account" exact>
                   {userInfo ? <UserProfile/> : <Redirect to="/login"/> }
                 </Route>
+                <Route path="/account/wishlist"><MyWishlist/></Route>
+
                 <Route path="/login"><Login/></Route>
                 <Route path="/shop/:category/:type/:id"><ProductProfile/></Route>
                 <Route path="/shop/:category?/:type?"><Shop/></Route>
@@ -53,12 +51,13 @@ function App() {
                 <Route path="/order-success/:id"><OrderSuccess/></Route>
 
                 {/* Admin Routes */}
-                <Route path="/admin/orders"><Orders/></Route>
+                <Route path="/admin/orders" exact><Orders/></Route>
+                <Route path="/admin/orders/:id/edit"><Order/></Route>
                 <Route path="/admin/products" exact><Products/></Route>
                 <Route path="/admin/products/:id/edit"><EditProduct/></Route>
                 <Route path="/admin/products/add"><AddProduct/></Route>
                 <Route path="/admin/users" exact><Users/></Route>
-                <Route path="/admin/user/:id/edit"><EditUser/></Route>
+                <Route path="/admin/users/:id/edit"><EditUser/></Route>
               </Switch>
           </main>
           <Footer/>

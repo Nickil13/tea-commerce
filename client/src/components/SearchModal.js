@@ -6,7 +6,7 @@ import {Pagination} from '../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchProducts } from '../actions/productActions';
 import { Link} from 'react-router-dom';
-import {Loader, Message} from './';
+import {LoadingSpinner, Message} from './';
 import { PRODUCT_SEARCH_RESET } from '../constants/productConstants';
 
 export default function SearchModal() {
@@ -22,7 +22,7 @@ export default function SearchModal() {
             dispatch(searchProducts(keyword, currentPage));
         }
         // eslint-disable-next-line
-    },[currentPage, isSearchModalOpen, keyword])
+    },[currentPage, keyword])
 
     const handleSubmit = (e) =>{
         e.preventDefault();
@@ -48,7 +48,7 @@ export default function SearchModal() {
                 
                 <button className="close-sidebar-btn"
                     onClick={handleCloseSearch}><VscClose/></button>
-                {loading ? <Loader/> : error ? <Message>{error}</Message> : <div className="search-results">
+                {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> : <div className="search-results">
                     {products && products.map((product)=>{
                         return(
                             <div key={product._id} className="search-result">

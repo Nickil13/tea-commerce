@@ -141,7 +141,7 @@ export default function AddProduct() {
                         <input type="file" accept="image/*" type="file" name="image" id="image" onChange={handleSelectImage} />
                         <p className="image-input-text">{imageName}</p>
                         <label htmlFor="image" className="image-input-label"><BsImage className="image-icon"/></label>
-                        {uploading && <LoadingSpinner/>}
+                        {uploading && <LoadingSpinner  anchor="right"/>}
                     </div>
                     {uploadSuccess ? <Message type="success">{msg}</Message> : error && <Message>{error}</Message>}
                 </div>

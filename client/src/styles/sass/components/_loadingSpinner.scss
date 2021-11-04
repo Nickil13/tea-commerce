@@ -1,13 +1,14 @@
 @use '../abstracts';
 
 .loading-spinner{
-    position: absolute;
-    top:0;
-    right:0;
     display: flex;
     justify-content: center;
 }
-
+.anchor-right{
+    position: absolute;
+    top:0;
+    right:0;
+}
 .loading-spinner::after {
     content: "";
     width: 30px;

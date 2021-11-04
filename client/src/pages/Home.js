@@ -20,11 +20,11 @@ export default function Home() {
                 <Slider/>         
             </div>
 
-            <section className="tea-tabs-section">
+            <section className="tea-tabs-section section-wide">
                 <h2>Loose leaf teas</h2>
                 <Tabs/>
             </section>
-            <section className="seasonal-section">
+            <section className="seasonal-section section-wide">
                 <h2>Summer is Here!</h2>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, autem facilis esse aperiam ratione soluta.</p>
                 <div className="seasonal-box">
@@ -58,7 +58,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section className="matcha-section">
+            <section className="matcha-section section-wide">
                 <div className="matcha-section-info">
                     <h2>Got matcha?</h2>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum alias vero blanditiis illum exercitationem quis nemo? Corrupti iusto deserunt odit corporis maxime, possimus nam rem!</p>
@@ -67,7 +67,7 @@ export default function Home() {
                 <img className="fit-image" src="images/matcha.jpg" alt="matcha"/>
                 
             </section>
-            <section className="teaparty-section">
+            <section className="teaparty-section section-wide">
                 <img className="fit-image" src="images/teaparty.jfif" alt="cocktail pitcher"/>
                 <div className="teaparty-section-info">
                     <h2>Tea party with a spin</h2>

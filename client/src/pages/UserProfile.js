@@ -1,19 +1,17 @@
 import React, { useEffect } from 'react';
 import { FaRegHeart, FaUserEdit} from 'react-icons/fa';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { GoPackage} from 'react-icons/go';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserProfile, logout, removeWishlistItem } from '../actions/userActions';
+import { getUserProfile, logout} from '../actions/userActions';
 import { listMyOrders } from '../actions/orderActions';
-import { Message, OrderCard } from '../components';
+import { Message, OrderCard, WishlistCard } from '../components';
 
 export default function UserProfile() {
     const dispatch = useDispatch();
     const {userProfile, userRemoveWishlist} = useSelector((state)=>state.user);
-    // const {user, loading} = userProfile;
-    const user = userProfile.user || {};
+    const {user} = userProfile;
     const {success: wishlistRemoveSuccess} = userRemoveWishlist;
 
     const myOrders = useSelector((state)=>state.orders.myOrders);
@@ -30,11 +28,6 @@ export default function UserProfile() {
     useEffect(()=>{
         dispatch(getUserProfile())
     },[wishlistRemoveSuccess])
-
-    const handleWishlistRemoveItem = (id) =>{
-        dispatch(removeWishlistItem(id));
-        // console.log('removing item');
-    }
 
     return (
         <div>
@@ -89,27 +82,13 @@ export default function UserProfile() {
                             {user.wishlist && user.wishlist.length>0 ?
                             user.wishlist.slice(0,3).map((item)=>{
                                 return(
-                                    <div key={item._id} className="wishlist-item">
-                                        
-                                        <div className="img-container" >
-                                            <img src={item.image} alt={item.name} onClick={()=>history.push(`/shop/${item.category}/${item.productType}/${item._id}`)}/>
-                                            <span onClick={()=>handleWishlistRemoveItem(item._id)} className="remove-wishlist-item-btn"><AiOutlineCloseCircle/></span>
-                                        </div>
-                                        
-                                        {item.flavourImage &&
-                                        <div className="flavour-container">
-                                            <img src={item.flavourImage} alt={item.name} />
-                                        </div>} 
-                                        <h3>{item.name}</h3>
-                                        <span>{item.productType}</span>
-
-                                    </div>
+                                    <WishlistCard key={item._id} {...item}/>
                                 )
                             }) : 
                                 <Message>You haven't added any items to your wishlist!</Message>}
                         </div>
                         
-                        {user.wishlist && user.wishlist.length>3 && <button className="btn">See more items</button>}
+                        <Link className="btn wishlist-btn" to="/account/wishlist">See all items</Link>
                     </div>
                     
             </section>

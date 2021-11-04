@@ -31,14 +31,19 @@
 
 //Tags
 .tag{
+    display: inline-block;
     padding: 0.25rem 0.50rem;
     border-radius: 0.50rem;
 
-    &-admin{
+    &-admin, &-delivered{
         background-color: abstracts.$color-secondary-light;
     }
 
-    &-user{
+    &-user, &-paid{
         background-color: abstracts.$color-primary-light;
+    }
+
+    &-not{
+        background-color: abstracts.$color-error;
     }
 }

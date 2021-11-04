@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function LoadingSpinner() {
+export default function LoadingSpinner({anchor}) {
+    
     return (
-        <div className="loading-spinner">
-            
+        <div className={`loading-spinner ${anchor==="right" && 'anchor-right'}`}>
         </div>
     )
 }

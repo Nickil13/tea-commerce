@@ -1,53 +1,71 @@
 import React, { useEffect } from 'react'
 import Moment from 'react-moment';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router';
-import { getMyOrderDetails } from '../actions/orderActions';
+import { useParams, useHistory } from 'react-router';
+import { getOrderDetails, updateOrderToDelivered } from '../actions/orderActions';
 import { Message, Loader} from '../components';
 
 
 export default function Order() {
     const {id} = useParams();
     const dispatch = useDispatch();
-    const {myOrderDetails}= useSelector((state)=>state.orders);
-    const {order, loading, error} = myOrderDetails;
+    const {orderDetails, orderDelivered}= useSelector((state)=>state.orders);
+    const {order, loading, error} = orderDetails;
+    const {success: setDeliveredSuccess} = orderDelivered;
+    const history = useHistory();
 
-    const {user,createdAt, isDelivered, isPaid, orderItems, paidAt, deliveredAt, shippingAddress, shippingPrice, taxPrice, totalPrice} = order;
+    const {user,createdAt, isDelivered, isPaid, orderItems, paidAt, deliveredAt, shippingAddress, shippingPrice, taxPrice, totalPrice, paymentMethod} = order;
 
 
     const subtotal = orderItems ? orderItems.reduce((acc,item)=>acc + (item.price*item.quantity),0).toFixed(2) : 0;
 
     useEffect(()=>{
-        dispatch(getMyOrderDetails(id));
-    },[id])
+        if(setDeliveredSuccess){
+            history.push('/admin/orders');
+        }else if(!order.user || order._id !== id ){
+            dispatch(getOrderDetails(id));
+        }
+        
+    },[id, order, setDeliveredSuccess])
 
-
+    
     return (
         <div>
             <h1 className="page-title">Order Details</h1>
             {loading ? <Loader/> : error ? <Message>{error}</Message> : <div>
             <section className="order-status">
-                <h3>Order Status</h3>
-                <ul>
-                    <li>Order Id: #{id}</li>
-                    <li>Customer name: {user.username}</li>
-                    <li>Placed on: <Moment format="MMMM DD, YYYY" date={createdAt}/></li>
-                    <li>Paid: {isPaid ? `Paid ${paidAt}` : 'Not paid'}</li>
-                    <li>Delivered: {isDelivered? `Delivered ${deliveredAt}` : 'Not delivered'}</li>
-                </ul>
+                <p><strong>Order Id</strong>: #{id}</p>
+                <div className="order-subsection">
+                    <h3>Customer</h3>
+                    <ul>
+                        <li><strong>Customer Id: </strong> {user._id}</li>
+                        <li><strong>Customer name: </strong> {user.username}</li>
+                    </ul>
+                </div>
+                <div className="order-subsection">
+                    <h3>Status</h3>
+                    <ul>
+                        <li><strong>Placed on: </strong> <Moment format="YYYY-MM-DD, HH:mm" date={createdAt}/></li>
+                        <li><strong>Delivered: </strong> {isDelivered?<Moment format="YYYY-MM-DD, HH:mm" date={deliveredAt}/> : 'Not delivered'}</li>
+                    </ul>
+                    {!isDelivered && <button onClick={()=>dispatch(updateOrderToDelivered(id))} className="btn">mark as delivered</button>}
+                </div>
             </section>
             <section className="order-shipping-section">
                 <h3>Shipping Information</h3>
-                <p>{}</p>
-                <p>{`${shippingAddress.address} ${shippingAddress.city}`}</p>
-                <p>{`${shippingAddress.country}, ${shippingAddress.postalCode}`}</p>
+                <ul>
+                    <li>{shippingAddress.address}</li>
+                    <li>{shippingAddress.city}, {shippingAddress.province}</li>
+                    <li>{shippingAddress.country}</li>
+                    <li>{shippingAddress.postalCode}</li>
+                </ul>
             </section>
 
-            {/* <section className="order-payment-section">
+            <section className="order-payment-section">
                 <h3>Payment Information</h3>
-                <p>{paymentInfo.cardName}</p>
-                <p>{`${paymentInfo.cardType}:  ${paymentInfo.cardNumber && 'XXXX XXXX ' +paymentInfo.cardNumber.substring(paymentInfo.cardNumber.length-4)}`}</p>
-            </section> */}
+                <p><strong>Payment Method:</strong> {paymentMethod}</p>
+                <p><strong>Paid: </strong> {isPaid?<Moment format="YYYY-MM-DD, HH:mm" date={paidAt}/> : 'Not paid'}</p>
+            </section>
 
             <section className="order-items-section">
                 <h3>Order Items</h3>

@@ -39,8 +39,8 @@
 }
 
 .account-section{
-  width: 80%;
-  margin: 0 auto;
+  // width: 80%;
+  // margin: 0 auto;
 
   & .title-box-account{
     display: flex;
@@ -56,36 +56,44 @@
     margin: 1rem 0;
   }
 }
-
+.wishlist-container{
+  width: 80%;
+  margin: 0 auto;
+}
 .profile-wishlist{
   display: grid;
-  padding: 1rem 0;
+  padding: 1rem;
 }
 .wishlist-item{
   padding: 1rem;
   text-align: center;
 
-  & .img-container{
-    position:relative;
-    margin: 0 auto;
-    background-color: pink;
-    width: 200px;
-    height: 200px;
-    
-    & img {
-      @include abstracts.fit-image;
-      transition: all 500ms ease-in;
-    }
+    & .img-container{
+      position:relative;
+      margin: 0 auto;
+      background-color: pink;
+      width: 200px;
+      height: 200px;
+      
+      & img {
+        @include abstracts.fit-image;
+        transition: all 500ms ease-in;
+      }
 
-    &:hover img{
-      filter: brightness(50%);
-    }
-    &:hover .remove-wishlist-item-btn{
-      opacity: 1;
+      &:hover img{
+        filter: brightness(50%);
+      }
+      &:hover .remove-wishlist-item-btn{
+        opacity: 1;
+      }
     }
   }
-  }
-  
+.wishlist-btn{
+  display: block;
+  width: 150px;
+  text-align: center;
+  margin: 0 auto;
+}
 .remove-wishlist-item-btn{
   position: absolute;
   top: 0;

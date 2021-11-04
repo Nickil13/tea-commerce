@@ -143,7 +143,7 @@ export const updateOrderToPaid = (orderId, paymentResult) => async(dispatch, get
     }
 }
 
-export const listOrders = () => async(dispatch, getState)=>{
+export const listOrders = (pageNumber, keyword) => async(dispatch, getState)=>{
     try{
         dispatch({
             type: LIST_ORDERS_REQUEST
@@ -156,7 +156,8 @@ export const listOrders = () => async(dispatch, getState)=>{
                 Authorization: `Bearer ${userInfo.token}`
             }
         }
-        const {data} = await axios.get('/api/orders', config);
+        
+        const {data} = await axios.get(`/api/orders?keyword=${keyword}&page=${pageNumber}`, config);
 
         dispatch({
             type: LIST_ORDERS_SUCCESS,
@@ -176,15 +177,15 @@ export const updateOrderToDelivered = (orderId) =>async(dispatch, getState)=>{
         dispatch({
             type: ORDER_UPDATE_DELIVERED_REQUEST
         });
-
+        
         const {user: {userLogin: {userInfo}}} = getState();
-
+        
         const config = {
             headers: {
                 Authorization: `Bearer ${userInfo.token}`
             }
         }
-        await axios.put(`/api/orders/${orderId}/deliver`, config);
+        await axios.put(`/api/orders/${orderId}/deliver`, {}, config);
 
         dispatch({
             type: ORDER_UPDATE_DELIVERED_SUCCESS

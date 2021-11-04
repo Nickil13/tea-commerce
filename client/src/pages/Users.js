@@ -1,9 +1,9 @@
-import React, { useState,useEffect} from 'react';
+import React, { useState,useEffect, useRef} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { useLocation, useHistory } from 'react-router';
 import { GoSearch } from 'react-icons/go';
 import { IoRefreshSharp } from 'react-icons/io5';
-import { DeleteConfirmation, Loader, Message, Pagination } from '../components';
+import { DeleteConfirmation, LoadingSpinner, Message, Pagination, SearchBar } from '../components';
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../context';
 import { listUsers} from '../actions/userActions';
@@ -13,6 +13,7 @@ export default function Users() {
     const{isDeleteConfirmationShowing, showDeleteConfirmation} = useGlobalContext();
     const location = useLocation();
     const history = useHistory();
+    const searchRef = useRef(null);
     const pageNumber = location.search.split('=')[1] || 1;
     const dispatch = useDispatch();
     const {userList, userDelete} = useSelector((state)=>state.user);
@@ -25,13 +26,13 @@ export default function Users() {
 
     const handleSearch = (e) =>{
         e.preventDefault();
-        dispatch(listUsers(pageNumber, keyword));
+        setKeyword(searchRef.current.value);
         history.push('/admin/users?page=1');
     }
    
     const handleResetSearch = () => {
         setKeyword('');
-        dispatch(listUsers(pageNumber, ''));
+        searchRef.current.value = '';
         history.push('/admin/users?page=1');
     }
 
@@ -51,16 +52,11 @@ export default function Users() {
                 
             <h1 className="page-title">Users</h1>
         
-            <div className="search-bar">
-                <form className="search-bar" onSubmit={handleSearch}>
-                    <label className="search-icon" htmlFor="search"><GoSearch/></label>
-                    <input type="text" placeholder="filter users" value={keyword} onChange={(e)=>setKeyword(e.target.value)} />
-                    <IoRefreshSharp className="search-icon"  onClick={handleResetSearch}/>
-                </form>
-            </div>
-            {loading ? <Loader/> : error ? <Message>{error}</Message> : 
+            <SearchBar handleSearch={handleSearch} searchRef={searchRef} placeholder={"filter users"} handleResetSearch={handleResetSearch}/>
+            
+            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> : 
             <div className="search-container">
-                <table className="search-table">
+                {users && users.length>0 ?<table className="search-table">
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -71,19 +67,19 @@ export default function Users() {
                         </tr>
                     </thead>
                     <tbody>
-                        {users && users.length>0 && users.map((user)=>{
+                        {users.map((user)=>{
                             return(
                                 <tr key={user._id}>
                                     <td>{user._id}</td>
                                     <td>{user.username}</td>
                                     <td>{user.isAdmin ? <span className="tag tag-admin">admin</span> : <span className="tag tag-user">user</span>}</td>
-                                    <td><Link className="btn" to={`/admin/user/${user._id}/edit`}>Edit</Link></td>
+                                    <td><Link className="btn" to={`/admin/users/${user._id}/edit`}>Edit</Link></td>
                                     <td><button className="btn" onClick={()=>handleDelete(user._id, user.username)}>Delete</button></td>
                                 </tr>
                             )
                         })}
                     </tbody>
-                </table> 
+                </table> : <Message>No users found.</Message>}
             </div>}
 
             <Pagination page={page} pages={pages}/>

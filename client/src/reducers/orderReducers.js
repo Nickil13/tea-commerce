@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, CREATE_ORDER_FAIL, LIST_MY_ORDERS_REQUEST, LIST_MY_ORDERS_SUCCESS, LIST_MY_ORDERS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAIL, MY_ORDER_DETAILS_REQUEST, MY_ORDER_DETAILS_SUCCESS, MY_ORDER_DETAILS_FAIL, ORDER_UPDATE_PAID_SUCCESS, ORDER_UPDATE_PAID_REQUEST, ORDER_UPDATE_PAID_FAIL, ORDER_UPDATE_DELIVERED_REQUEST, ORDER_UPDATE_DELIVERED_SUCCESS, ORDER_UPDATE_DELIVERED_FAIL, LIST_ORDERS_REQUEST, LIST_ORDERS_SUCCESS, LIST_ORDERS_FAIL } from "../constants/orderConstants";
+import { CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, CREATE_ORDER_FAIL, LIST_MY_ORDERS_REQUEST, LIST_MY_ORDERS_SUCCESS, LIST_MY_ORDERS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAIL, MY_ORDER_DETAILS_REQUEST, MY_ORDER_DETAILS_SUCCESS, MY_ORDER_DETAILS_FAIL, ORDER_UPDATE_PAID_SUCCESS, ORDER_UPDATE_PAID_REQUEST, ORDER_UPDATE_PAID_FAIL, ORDER_UPDATE_DELIVERED_REQUEST, ORDER_UPDATE_DELIVERED_SUCCESS, ORDER_UPDATE_DELIVERED_FAIL, LIST_ORDERS_REQUEST, LIST_ORDERS_SUCCESS, LIST_ORDERS_FAIL, ORDER_UPDATE_DELIVERED_RESET } from "../constants/orderConstants";
 
 
 const createOrderReducer = (state = {}, action) =>{
@@ -42,7 +42,7 @@ const listOrdersReducer = (state = {orders: []},action)=>{
             return{...state,loading: true}
         case LIST_ORDERS_SUCCESS:
             return{loading: false,
-            orders: action.payload}
+            orders: action.payload.orders, page: action.payload.page, pages: action.payload.pages}
         case LIST_ORDERS_FAIL:
             return{loading: false,
             error: action.payload}
@@ -102,6 +102,8 @@ const orderDeliveredReducer = (state = {}, action)=>{
             return {loading: false, success: true}
         case ORDER_UPDATE_DELIVERED_FAIL:
             return {loading: false, error: action.payload}
+        case ORDER_UPDATE_DELIVERED_RESET:
+            return {}
         default:
             return state;
     }

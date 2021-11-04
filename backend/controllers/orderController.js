@@ -15,8 +15,27 @@ const getMyOrders = asyncHandler(async (req, res) =>{
 // @route    GET /api/orders/
 // @access   Private/Admin
 const getOrders = asyncHandler(async (req, res) =>{
-    const orders = await Order.find({});
-    res.json(orders);
+    const pageSize = 8;
+    const page = Number(req.query.page) || 1;
+
+    if(req.query.keyword){
+        try{
+            const count = await Order.countDocuments({_id: req.query.keyword});
+            const order = await Order.findById(req.query.keyword).limit(pageSize).skip(pageSize * (page-1));
+
+            res.json({orders: [order], page, pages: Math.ceil(count/pageSize)});
+
+        }catch(error){
+            res.status(400);
+            throw new Error("Invalid order ID");
+        }
+    }else{
+        const count = await Order.countDocuments({});
+        const orders = await Order.find({}).limit(pageSize).skip(pageSize * (page-1));
+    
+        res.json({orders, page, pages: Math.ceil(count/pageSize)});
+    }
+    
     
 })
 
@@ -101,7 +120,7 @@ const updateOrderToPaid = asyncHandler( async(req, res)=>{
 // @access   Private/Admin
 const updateOrderToDelivered = asyncHandler( async(req, res)=>{
     const order = await Order.findById(req.params.id);
-    
+    console.log('inside to be delivered');
     if(order){
         order.isDelivered = true;
         order.deliveredAt = Date.now();
