@@ -112,7 +112,7 @@ export default function ProductProfile() {
                     )
                 })}</ul>
             </section>
-            <section className="brewing-instruction-section">
+            <section className="brewing-instruction-section section-wide">
                 <h2>Brewing instructions</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe blanditiis architecto repudiandae impedit dolorum doloremque, iste quae numquam quibusdam doloribus deserunt veniam beatae sapiente, in dolore totam eveniet quisquam nemo facere veritatis culpa a. Sequi labore fugit temporibus praesentium dolore.</p>
             </section>

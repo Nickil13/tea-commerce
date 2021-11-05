@@ -6,13 +6,7 @@ import AccordionItem from './AccordionItem';
 import { teaProductCategories as categories } from '../resources/teaInfoData';
 
 export default function Sidebar() {
-    const{isSidebarOpen,closeSidebar,openSearchModal} = useGlobalContext();
-
-    const handleOpenSearchModal = () =>{
-        closeSidebar();
-        openSearchModal();
-    }
-
+    const{isSidebarOpen,closeSidebar} = useGlobalContext();
     return (
         <>
             <div className={`sidebar-container ${isSidebarOpen && 'sidebar-container show'}`}>
@@ -27,9 +21,7 @@ export default function Sidebar() {
                         })}
                     </div>
                     <div className="sidebar-footer">
-                    <button className="btn search-btn" onClick={handleOpenSearchModal}>
-                        <GoSearch className="search-btn-icon"/><span>Search for a product</span>
-                    </button>
+                
                     </div>
                 </div>
                 

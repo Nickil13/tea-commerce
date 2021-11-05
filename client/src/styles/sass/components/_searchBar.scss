@@ -13,6 +13,11 @@
 
         & .search-icon {
             font-size: 25px;
+            cursor: pointer;
+
+            &:hover{
+                color: abstracts.$color-primary;
+            }
         }
         & input{
             margin: 0 1rem;

@@ -1,8 +1,6 @@
 import React, { useState,useEffect, useRef} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { useLocation, useHistory } from 'react-router';
-import { GoSearch } from 'react-icons/go';
-import { IoRefreshSharp } from 'react-icons/io5';
 import { DeleteConfirmation, LoadingSpinner, Message, Pagination, SearchBar } from '../components';
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../context';

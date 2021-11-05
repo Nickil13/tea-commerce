@@ -1,18 +1,17 @@
-import React, { useState, useEffect} from 'react'
-import ShopCard from "../components/ShopCard";
-import Breadcrumbs from "../components/Breadcrumbs";
-import Banner from '../components/Banner';
+import React, { useState, useEffect, useRef} from 'react';
+import { ShopCard, Breadcrumbs, Banner, SearchBar, Message} from '../components';
 import { useParams ,useHistory, useLocation} from 'react-router-dom';
 import { teaProductCategories as categories} from '../resources/teaInfoData';
 import { useDispatch, useSelector} from 'react-redux';
 import { listProducts } from '../actions/productActions';
 import Pagination from '../components/Pagination';
-import Loader from '../components/Loader';
+import LoadingSpinner from '../components/LoadingSpinner';
+
 
 export default function Shop() {
     const dispatch = useDispatch();
     const productList = useSelector((state)=>state.products.productList);
- 
+    const [keyword, setKeyword] = useState('');
     const {products, pages, page, loading, error} = productList;
 
     const{category,type} = useParams();
@@ -20,17 +19,13 @@ export default function Shop() {
     const history = useHistory();
     const location = useLocation();
     const pageNumber = location.search.split('=')[1] || 1;
+    const searchRef = useRef(null);
     
-    const handleSubmit = (e) =>{
-        e.preventDefault();
-        console.log("submitting form to search for item");
-    }
-
-
+  
     useEffect(()=>{
-        dispatch(listProducts(category ? category : '',type ? type: '',pageNumber));
+        dispatch(listProducts(category ? category : '',type ? type: '',pageNumber,keyword));
         updateShopButtons();
-    },[category,type,pageNumber,dispatch])
+    },[category,type,pageNumber,keyword,dispatch])
 
     const updateShopButtons = () =>{
         let newShopButtons = [];
@@ -42,6 +37,7 @@ export default function Shop() {
         }
         setShopButtons(newShopButtons);
     }
+
     const handleShopButtonClick = (value) => {
         if(category){
             history.push(`/shop/${category}/${value}`);
@@ -50,16 +46,26 @@ export default function Shop() {
         }
        
     }
-    const handleSelectFilter = (e) => {
-        let value = e.target.value;
-        history.push(`${location.pathname}?filter=${value}`);
+    
+    const handleSearch = (e) =>{
+        e.preventDefault();
+        setKeyword(searchRef.current.value);
+        history.push(`${location.pathname}?page=1`);
     }
+
+    const handleResetSearch = () =>{
+        setKeyword('');
+        searchRef.current.value = '';
+        history.push(`${location.pathname}?page=1`);
+    }
+
     return (
         <div>
             <Banner category={location.pathname.split('/')[2] ? location.pathname.split('/')[2] : 'all'}/>
             <Breadcrumbs path={location.pathname}/>
             
             <div className="filter-bar">
+                <SearchBar handleSearch={handleSearch} searchRef={searchRef}placeholder={"product name"} handleResetSearch={handleResetSearch}/>
                 <div className="shop-btns">
                     {shopButtons.length>0 && shopButtons.map((category,index)=>{
                         return(
@@ -69,23 +75,16 @@ export default function Shop() {
                     })}
                 </div>
                 <Pagination page={page} pages={pages}/>
-                {/* <div className="filter-select">
-                    <select onChange={handleSelectFilter}>
-                        <option value="" hidden></option>
-                        <option value="alphabetical">Name (A-Z)</option>
-                        <option value="popular">Popular</option>
-                    </select>
-                </div> */}
             </div>
             
             
-            {loading ? <Loader/> : error ? <h2>Error!{error}</h2> :
+            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> :
                 <div className="shop-list">
                 {products.length>0 ? products.map((item,index)=>{
                     return (
                         <ShopCard key={index} item={item}/>
                     );
-                }) : <h2>No items found.</h2>}
+                }) : <Message>No items found.</Message>}
                 </div>
             }
         </div>

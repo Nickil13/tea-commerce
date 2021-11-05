@@ -46,14 +46,14 @@
         grid-row: 1;
         padding: 0;
       }
-      // height: abstracts.$hero-height;
     }
   }
   
   .filter-bar{
     padding: 2em;
-    height: 200px;
+    min-height: 200px;
   }
+
   .tea-filter{
     margin: 0 auto;
     width: 300px;
@@ -75,36 +75,7 @@
     flex-wrap: wrap;
     width: 80%;
     margin: 0 auto;
+    max-width: 50rem;
   }
 
-  // Pagination
-  .pagination{
-    display: flex;
-    justify-content: end;
-  }
-
-  .page-indices{
-    display: flex;
-    padding: 1rem;
-
-    & li{
-      padding: 0.25rem 0.50rem;
-      margin: 0 0.05rem;
-      font-weight: 500;
-      cursor: pointer;
-
-      &:hover{
-        background-color: abstracts.$color-primary-light;
-      }
-    }
-  }
-  .index-link{
-    color: abstracts.$color-neutral-dark;
-  }
-  .active-index{
-    background-color: abstracts.$color-primary-light;
-  }
-
-  .active-page-btn{
-    text-decoration: underline;
-  }
+ 

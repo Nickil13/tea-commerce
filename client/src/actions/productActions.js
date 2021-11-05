@@ -1,14 +1,14 @@
 import axios from 'axios';
-const { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_FAIL, PRODUCT_DETAILS_SUCCESS, PRODUCT_SEARCH_REQUEST, PRODUCT_SEARCH_FAIL, PRODUCT_SEARCH_SUCCESS, PRODUCT_CREATE_REVIEW_REQUEST, PRODUCT_CREATE_REVIEW_FAIL, PRODUCT_CREATE_REVIEW_SUCCESS, PRODUCT_TOP_REVIEW_REQUEST, PRODUCT_TOP_REVIEW_SUCCESS, PRODUCT_TOP_REVIEW_FAIL, PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_FAIL, PRODUCT_CREATE_SUCCESS, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAIL, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAIL, PRODUCT_GET_REQUEST, PRODUCT_GET_SUCCESS, PRODUCT_GET_FAIL, PRODUCT_UPLOAD_IMAGE_REQUEST, PRODUCT_UPLOAD_IMAGE_SUCCESS, PRODUCT_UPLOAD_IMAGE_FAIL } = require("../constants/productConstants")
+const { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_FAIL, PRODUCT_DETAILS_SUCCESS, PRODUCT_CREATE_REVIEW_REQUEST, PRODUCT_CREATE_REVIEW_FAIL, PRODUCT_CREATE_REVIEW_SUCCESS, PRODUCT_TOP_REVIEW_REQUEST, PRODUCT_TOP_REVIEW_SUCCESS, PRODUCT_TOP_REVIEW_FAIL, PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_FAIL, PRODUCT_CREATE_SUCCESS, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAIL, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAIL, PRODUCT_UPLOAD_IMAGE_REQUEST, PRODUCT_UPLOAD_IMAGE_SUCCESS, PRODUCT_UPLOAD_IMAGE_FAIL } = require("../constants/productConstants")
 
 
-export const listProducts = (category,type,pageNumber) => async (dispatch)=>{
+export const listProducts = (category, type, pageNumber, keyword) => async (dispatch) =>{
     try{
         dispatch({
             type: PRODUCT_LIST_REQUEST
         });
 
-        const {data} = await axios.get(`/api/products?category=${category}&type=${type}&page=${pageNumber}`);
+        const {data} = await axios.get(`/api/products?category=${category}&type=${type}&keyword=${keyword}&page=${pageNumber}`);
 
         dispatch({
             type: PRODUCT_LIST_SUCCESS,
@@ -18,50 +18,6 @@ export const listProducts = (category,type,pageNumber) => async (dispatch)=>{
     }catch(error){
         dispatch({
             type: PRODUCT_LIST_FAIL,
-            payload: error.response && error.response.data.message ? error.response.data.message: error.message
-        })
-    }
-    
-}
-
-export const searchProducts = (keyword, pageNumber) => async (dispatch) =>{
-    
-    try{
-        dispatch({
-            type: PRODUCT_SEARCH_REQUEST
-        })
-
-        const {data} = await axios.get(`/api/products?keyword=${keyword}&page=${pageNumber}`)
-
-        dispatch({
-            type: PRODUCT_SEARCH_SUCCESS,
-            payload: data
-        })
-
-    }catch(error){
-        dispatch({
-            type: PRODUCT_SEARCH_FAIL,
-            payload: error.response && error.response.data.message ? error.response.data.message: error.message
-        })
-    }
-}
-
-export const getProducts = (category, type, pageNumber, keyword) => async (dispatch) =>{
-    try{
-        dispatch({
-            type: PRODUCT_GET_REQUEST
-        });
-
-        const {data} = await axios.get(`/api/products?category=${category}&type=${type}&keyword=${keyword}&page=${pageNumber}`);
-
-        dispatch({
-            type: PRODUCT_GET_SUCCESS,
-            payload: data
-        })
-
-    }catch(error){
-        dispatch({
-            type: PRODUCT_GET_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message: error.message
         })
     }

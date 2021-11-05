@@ -3,7 +3,6 @@ import React, { useState, useContext} from 'react';
 const AppContext = React.createContext();
 
 export const AppProvider = ({children}) =>{
-    const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
     const [isSidebarOpen,setIsSidebarOpen] = useState(false);
     const [isAlertShowing,setIsAlertShowing] = useState(false);
     const [alertContent,setAlertContent] = useState({});
@@ -29,14 +28,6 @@ export const AppProvider = ({children}) =>{
         document.body.style.overflow = "hidden";
     }
 
-    const openSearchModal = () =>{
-        setIsSearchModalOpen(true);
-    }
-
-    const closeSearchModal = () =>{
-        setIsSearchModalOpen(false);
-    }
-
     const showDeleteConfirmation = (id, name, subject) =>{
         setIsDeleteConfirmationShowing(true);
         setDeleteConfirmationInfo({id,name,subject});
@@ -57,9 +48,6 @@ export const AppProvider = ({children}) =>{
         showAlert,
         closeAlert,
         alertContent,
-        openSearchModal,
-        isSearchModalOpen,
-        closeSearchModal,
         isDeleteConfirmationShowing,
         showDeleteConfirmation,
         closeDeleteConfirmation,

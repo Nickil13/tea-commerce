@@ -1,9 +1,7 @@
 import React, { useState,useEffect, useRef} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { useLocation, useHistory } from 'react-router';
-import { getProducts } from '../actions/productActions';
-import { GoSearch } from 'react-icons/go';
-import { IoRefreshSharp } from 'react-icons/io5';
+import { listProducts } from '../actions/productActions';
 import { DeleteConfirmation, LoadingSpinner, Message, Pagination, SearchBar } from '../components';
 import { teaProductCategories } from '../resources/teaInfoData';
 import { Link } from 'react-router-dom';
@@ -19,13 +17,13 @@ export default function Products() {
     const searchRef = useRef(null);
     const pageNumber = location.search.split('=')[1] || 1;
     const dispatch = useDispatch();
-    const {productGet, productDelete} = useSelector((state)=>state.products);
-    const {products, pages, page, loading, error} = productGet;
+    const {productList, productDelete} = useSelector((state)=>state.products);
+    const {products, pages, page, loading, error} = productList;
     const {success: successDelete} = productDelete;
 
 
     useEffect(()=>{
-        dispatch(getProducts(category==="all" ? "" : category,productType,pageNumber, keyword));
+        dispatch(listProducts(category==="all" ? "" : category,productType,pageNumber, keyword));
     }, [dispatch, pageNumber, category, productType, keyword, successDelete])
 
     useEffect(()=>{
