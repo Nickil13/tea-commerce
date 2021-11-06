@@ -1,8 +1,0 @@
-export const CART_ADD_ITEM = 'CART_ADD_ITEM';
-export const CART_REMOVE_ITEM = 'CART_REMOVE_ITEM';
-export const CART_CLEAR_ITEMS = 'CART_CLEAR_ITEMS';
-export const CART_UPDATE_QUANTITY = 'CART_UPDATE_QUANTITY';
-export const CART_SAVE_SHIPPING_INFO = 'CART_SAVE_SHIPPING_INFO';
-
-//Need to take this out of local storage
-export const CART_SAVE_PAYMENT_INFO = 'CART_SAVE_PAYMENT_INFO';

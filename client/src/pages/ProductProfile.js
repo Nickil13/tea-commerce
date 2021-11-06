@@ -2,12 +2,11 @@ import React, {useState,useEffect} from 'react'
 import { useParams, useLocation, Link} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
 import { createProductReview, getProductDetails, getTopProductReview } from '../actions/productActions';
-import { addToCart } from '../actions/cartActions';
 import { CaffeineRating, Rating, Breadcrumbs, Message } from '../components';
 import Moment from 'react-moment';
 import { useGlobalContext } from '../context';
 import { FaHeart, FaRegHeart} from 'react-icons/fa';
-import { addToWishlist, getUserProfile} from '../actions/userActions';
+import { addToWishlist, getUserProfile, addToCart} from '../actions/userActions';
 import { WISHLIST_ADD_ITEM_RESET } from '../constants/userConstants';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 

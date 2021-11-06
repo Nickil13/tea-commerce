@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { updateCartItemQuantity, removeCartItem } from '../actions/cartActions';
 import { Link } from 'react-router-dom';
 
-export default function CartCard({name,_id,productType,category,image,price,quantity,countInStock}) {
+export default function CartCard({name,_id,productType,category,image,price,quantity,flavourImage,countInStock}) {
     const total = (Number(price)*Number(quantity)).toFixed(2);
 
     const dispatch = useDispatch();
@@ -18,12 +18,18 @@ export default function CartCard({name,_id,productType,category,image,price,quan
     }
     return (
         <article className="cart-card">
-            <Link to={`/shop/${category}/${productType}/${_id}`}><img className="cart-image" src={image} alt={name} /></Link>
+            <div className="img-container">
+                <Link to={`/shop/${category}/${productType}/${_id}`}><img className="cart-image" src={image} alt={name} /></Link>
+                {flavourImage &&<div className="flavour-container">
+                    <img src={flavourImage} alt={name} />
+                </div>}
+            </div>
+            
             <div className="cart-card-description">
                 <h3>{name}</h3>
                 <ul>
                     <li>{category} - {productType} </li>
-                    <li>${price.toFixed(2)} / 50g</li>
+                    <li>${price.toFixed()} / 50g</li>
                 </ul>
                 <div className="quantity-select">
                     <span>Quantity: </span>

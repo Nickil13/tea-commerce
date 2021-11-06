@@ -7,7 +7,7 @@ import { Message } from '../components';
 
 export default function PlaceOrder() {
     const cart = useSelector((state)=>state.cart);
-    const {shippingInfo, paymentInfo, cartItems} = cart;
+    const {shippingInfo, paymentMethod, cartItems} = cart;
 
     const subtotal = cartItems.reduce((acc,item)=>acc + (item.price*item.quantity),0).toFixed(2);
 
@@ -40,7 +40,7 @@ export default function PlaceOrder() {
 
     const handlePlaceOrder = () =>{
         dispatch(createOrder(
-            {cartItems, shippingInfo, paymentMethod:paymentInfo.cardType, subtotal, taxes, shipping, total}
+            {cartItems, shippingInfo, paymentMethod, subtotal, taxes, shipping, total}
         ));
     }
 
@@ -56,8 +56,7 @@ export default function PlaceOrder() {
 
             <section className="order-payment-section">
                 <h3>Payment Information</h3>
-                <p>{paymentInfo.cardName}</p>
-                <p>{`${paymentInfo.cardType}:  ${paymentInfo.cardNumber && 'XXXX XXXX ' +paymentInfo.cardNumber.substring(paymentInfo.cardNumber.length-4)}`}</p>
+                <p>Transaction type: {paymentMethod}</p>
             </section>
 
             <section className="order-items-section">

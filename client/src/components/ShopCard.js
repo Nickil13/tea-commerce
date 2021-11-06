@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory} from 'react-router-dom';
 import { useDispatch} from 'react-redux';
-import { addToCart } from '../actions/cartActions';
+import { addToCart } from '../actions/userActions';
 import { useGlobalContext } from '../context';
 
 export default function ShopCard({item}) {

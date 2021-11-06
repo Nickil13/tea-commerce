@@ -1,26 +1,32 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CartCard from '../components/CartCard'
 import { Link, useHistory} from 'react-router-dom'
 import { useSelector, useDispatch} from 'react-redux';
-import { clearCart } from '../actions/cartActions';
+import { getUserProfile, clearCartItems } from '../actions/userActions';
+import { LoadingSpinner, Message } from '../components';
 
 export default function Cart() {
     const dispatch = useDispatch();
-    const cart = useSelector((state)=>state.cart);
-    const { cartItems} = cart;
-
+    const {userProfile, userClearCart} = useSelector((state)=>state.user);
+    const {user, loading, error} = userProfile;
+    const {success: clearCartSuccess} = userClearCart;
+    
     const history = useHistory();
     
-    const totalItems = cartItems.reduce((acc, item)=> acc + item.quantity,0);
+    const totalItems = user.cartItems.reduce((acc, item)=> acc + item.quantity,0);
 
-    const subtotal = cartItems.reduce((acc,item)=>acc + (item.price*item.quantity),0).toFixed(2);
+    const subtotal = user.cartItems.reduce((acc,item)=>acc + (item.price*item.quantity),0).toFixed(2);
 
+    useEffect(()=>{
+        if(!user.username || clearCartSuccess){
+            dispatch(getUserProfile());
+        }
+    },[clearCartSuccess])
     
-    
-    if(!cartItems.length>0){
+    if(!user.cartItems.length>0){
         return(
             <div>
-                <div className="shipping-info">
+                <div className="shipping-info-bar">
                     <p>Free shipping on orders over $80!</p>
                 </div>
                 <h1 className="cart-title">My Cart</h1>
@@ -37,16 +43,16 @@ export default function Cart() {
                 <p>Free shipping on orders over $80!</p>
             </div>
             <h1 className="cart-title">My Cart</h1>
-            <div className="cart">
+            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> : <div className="cart">
                 <div className="cart-container">
                     <div>
-                        {cartItems.length>0 ? cartItems.map((item,index)=>{
+                        {user.cartItems.length>0 ? user.cartItems.map((item,index)=>{
                             return(
                                 <CartCard key={index} {...item}/>
                             )
                         }) : <p></p>}
                     </div>
-                    <button onClick={()=>{dispatch(clearCart())}} className="btn btn-primary">Clear Cart</button>
+                    <button onClick={()=>{dispatch(clearCartItems())}} className="btn btn-primary">Clear Cart</button>
                     </div> 
                 <div className="cart-total">
                     <h3>Subtotal ({totalItems}) {totalItems>1 ? 'items' : 'item'}</h3>
@@ -55,7 +61,7 @@ export default function Cart() {
                     <Link to='/shipping'><button className=" btn-secondary" >Proceed to Checkout</button></Link>
                 </div> 
                   
-            </div>
+            </div>}
         </div>
     )
 }

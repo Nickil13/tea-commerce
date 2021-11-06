@@ -23,11 +23,7 @@ export default function UserProfile() {
     useEffect(()=>{
         dispatch(getUserProfile())
         dispatch(listMyOrders())
-    },[dispatch])
-
-    useEffect(()=>{
-        dispatch(getUserProfile())
-    },[wishlistRemoveSuccess])
+    },[dispatch, wishlistRemoveSuccess])
 
     return (
         <div>

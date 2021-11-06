@@ -96,6 +96,7 @@ const getUserProfile = async(req,res) =>{
             username: user.username,
             email: user.email,
             wishlist: user.wishlist,
+            cartItems: user.cartItems,
             shippingAddress: user.shippingAddress,
             isAdmin: user.isAdmin
         })
@@ -115,6 +116,7 @@ const updateUserProfile = asyncHandler( async(req, res) =>{
         user.username = req.body.username || user.username;
         user.email = req.body.email || user.email;
         user.shippingAddress = req.body.shippingAddress || user.shippingAddress;
+        user.cartItems = req.body.cartItems || user.cartItems;
         user.wishlist = req.body.wishlist || user.wishlist;
         
         if(req.body.password){
@@ -128,6 +130,7 @@ const updateUserProfile = asyncHandler( async(req, res) =>{
                 username: updatedUser.username,
                 email: updatedUser.email,
                 shippingAddress: updatedUser.shippingAddress,
+                cartItems: updatedUser.cartItems,
                 wishlist: updatedUser.wishlist,
                 isAdmin: updatedUser.isAdmin,
                 token: generateToken(updatedUser._id)
@@ -181,7 +184,6 @@ const updateUser = asyncHandler(async (req,res) =>{
         user.username = req.body.username || user.username;
         user.email = req.body.email || user.email;
         user.shippingAddress = req.body.shippingAddress || user.shippingAddress;
-        user.wishlist = req.body.wishlist || user.wishlist;
         
         if(req.body.isAdmin || req.body.isAdmin===false){
             user.isAdmin = req.body.isAdmin;
@@ -197,7 +199,6 @@ const updateUser = asyncHandler(async (req,res) =>{
                 username: updatedUser.username,
                 email: updatedUser.email,
                 shippingAddress: updatedUser.shippingAddress,
-                wishlist: updatedUser.wishlist,
                 isAdmin: updatedUser.isAdmin,
         })
     }else{

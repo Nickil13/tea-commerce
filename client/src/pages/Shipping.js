@@ -1,24 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CheckoutSteps, Message } from '../components';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveShippingInfo } from '../actions/cartActions';
-import { updateUserProfile } from '../actions/userActions';
+// import { saveShippingInfo } from '../actions/cartActions';
+import { getUserProfile, updateUserProfile } from '../actions/userActions';
 import { useHistory } from 'react-router';
 
 export default function Shipping() {
-    const cart = useSelector((state)=>state.cart);
-    const {shippingInfo} = cart;
-    const[address,setAddress] = useState(shippingInfo.address);
-    const[city,setCity] = useState(shippingInfo.city);
-    const[province,setProvince] = useState(shippingInfo.province);
-    const[country,setCountry] = useState(shippingInfo.country);
-    const[postalCode, setPostalCode] = useState(shippingInfo.postalCode);
+    const {userProfile} = useSelector((state)=>state.user);
+    const {user} = userProfile;
+    const[address,setAddress] = useState('');
+    const[city,setCity] = useState('');
+    const[province,setProvince] = useState('');
+    const[country,setCountry] = useState('');
+    const[postalCode, setPostalCode] = useState('');
     const[error,setError] = useState("");
 
     const dispatch = useDispatch();
     const history = useHistory();
     
-
+    useEffect(()=>{
+        if(!user.username){
+            dispatch(getUserProfile());
+        }else{
+            const {address,city,province,country,postalCode} = user.shippingAddress;
+            setAddress(address);
+            setCity(city);
+            setProvince(province);
+            setCountry(country);
+            setPostalCode(postalCode);
+        }
+        
+    },[user, dispatch])
 
     const validate = () =>{
         
@@ -64,9 +76,9 @@ export default function Shipping() {
         e.preventDefault();
         try{
             validate();
-            dispatch(saveShippingInfo(
-                address,city,province,country,postalCode
-            ));
+            // dispatch(saveShippingInfo(
+            //     address,city,province,country,postalCode
+            // ));
             const shippingAddress = {address,city,province,country,postalCode}
             dispatch(updateUserProfile({shippingAddress}));
             history.push('/payment');

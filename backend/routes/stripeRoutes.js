@@ -25,7 +25,7 @@ router.post('/sessions', async (req, res)=>{
                         currency: 'cad', 
                         product_data: {
                             name: item.name,
-                            // images: [item.image],
+                            images: [item.image],
                         },
                         unit_amount: convertToCents(item.price)
                     },

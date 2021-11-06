@@ -3,24 +3,38 @@ import {Link, NavLink, useHistory} from "react-router-dom";
 import { FaShoppingCart, FaBars, FaUserCircle } from 'react-icons/fa';
 import { GiTeapot } from 'react-icons/gi';
 import { useSelector, useDispatch} from 'react-redux';
-import { logout} from '../actions/userActions';
+import { getUserProfile, logout} from '../actions/userActions';
 import { useGlobalContext } from '../context';
+import { CART_ADD_ITEM_RESET, CART_REMOVE_ITEM_RESET } from '../constants/userConstants';
 
 export default function Navbar() {
     const dispatch = useDispatch();
-
-    const user = useSelector((state)=>state.user.userLogin);
-    const {userInfo} = user;
-    
-    const cart = useSelector((state)=>state.cart);
-    const {cartItems} = cart;
+    const {userProfile, userRemoveCart, userAddCart} = useSelector((state)=>state.user);
+    const {user} = userProfile;
+    const {success: addToCartSuccess} = userAddCart;
+    const {success: removeFromCartSuccess} = userRemoveCart;
 
     const[showDropdown,setShowDropdown] = useState(false);
     const{openSidebar} = useGlobalContext();
     const history = useHistory();
-    const navbar = useRef(null) ;
+    const navbar = useRef(null);
 
-    const cartItemAmount = cartItems.reduce((acc,item)=>acc + Number(item.quantity), 0);
+    const cartItemAmount = user.cartItems.reduce((acc,item)=>acc + Number(item.quantity), 0);
+
+    useEffect(()=>{
+        if(!user.username || addToCartSuccess || removeFromCartSuccess){
+            dispatch(getUserProfile());
+            dispatch({type: CART_REMOVE_ITEM_RESET});
+            dispatch({type: CART_ADD_ITEM_RESET})
+        }
+    }, [user, dispatch, addToCartSuccess, removeFromCartSuccess])
+
+    useEffect(()=>{
+        document.addEventListener("mousedown", handleDropdownMenu);
+        return () => {
+            document.removeEventListener("mousedown", handleDropdownMenu);
+        }
+    },[])
 
     const handleDropdownMenu = (e) => {
         if(navbar.current && !navbar.current.contains(e.target)){
@@ -28,12 +42,6 @@ export default function Navbar() {
         }
         
     }
-    useEffect(()=>{
-        document.addEventListener("mousedown", handleDropdownMenu);
-        return () => {
-            document.removeEventListener("mousedown", handleDropdownMenu);
-        }
-    },[])
 
     const handleLogoutClick = () => {
         setShowDropdown(false);
@@ -43,7 +51,7 @@ export default function Navbar() {
 
     const handleAccountClick = () => {
         setShowDropdown(false);
-        history.push(`${user ? "/account" : "/login"}`);
+        history.push(`${user.username ? "/account" : "/login"}`);
     }
   
     return (
@@ -76,7 +84,7 @@ export default function Navbar() {
                     
                 </ul>
                 <ul className="nav-icons">
-                    {userInfo ? 
+                    {user.username ? 
                     <div className="nav-dropdown">
                         <FaUserCircle className="nav-icon nav-icon-loggedin" onClick={()=>setShowDropdown(true)}/>
                         {showDropdown &&
@@ -104,7 +112,7 @@ export default function Navbar() {
                     <li className="nav-link cart-link">
                         <Link to="/cart">
                             <FaShoppingCart className="nav-icon" />
-                            <span className="cart-icon-amount">{cartItemAmount}</span>
+                            {cartItemAmount>0 && <span className="cart-icon-amount">{cartItemAmount}</span>}
                         </Link>
                     </li>
                 </ul>

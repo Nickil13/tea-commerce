@@ -22,13 +22,13 @@ const middleware = [thunk];
 const userInfoFromStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
 const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
 const shippingInfoFromStorage = localStorage.getItem('shippingInfo') ? JSON.parse(localStorage.getItem('shippingInfo')) : {};
-const paymentInfoFromStorage = localStorage.getItem('paymentInfo') ? JSON.parse(localStorage.getItem('paymentInfo')) : {};
+const paymentMethodFromStorage = localStorage.getItem('paymentMethod') ? JSON.parse(localStorage.getItem('paymentMethod')) : {};
 
 
 const initialState = {
     user : {userLogin: {userInfo: userInfoFromStorage}},
     cart: {cartItems: cartItemsFromStorage, shippingInfo: shippingInfoFromStorage,
-    paymentInfo: paymentInfoFromStorage},  
+    paymentMethod: paymentMethodFromStorage},  
 }
 
 

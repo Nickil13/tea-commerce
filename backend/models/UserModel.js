@@ -25,8 +25,27 @@ const userSchema = mongoose.Schema({
         {
             name: {type: String, required: true},
             image: {type: String, required: true},
+            flavourImage: {type: String},
             category: {type: String, required: true},
             productType: {type: String, required: true},
+            _id: {
+                type: mongoose.Schema.Types.ObjectId,
+                required: true,
+                ref: 'Product'
+            }
+        }
+    ],
+    cartItems:[
+        {
+            name: {type: String, required: true},
+            quantity: {type: Number, required: true},
+            image: {type: String, required: true},
+            flavourImage: {type: String},
+            category: {type: String, required: true},
+            productType: {type: String, required: true},
+            price: { type: Number, required: true, default: 0},
+            countInStock: {type: Number,required: true, default: 0
+                },
             _id: {
                 type: mongoose.Schema.Types.ObjectId,
                 required: true,
