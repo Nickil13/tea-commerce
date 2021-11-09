@@ -72,7 +72,7 @@ const getMyOrderById = async(req, res)=>{
 // @route    POST /api/orders
 // @access   Private
 const createOrder = async(req,res)=>{
-    const {cartItems, shippingInfo, paymentMethod, subtotal, taxes, shipping, total} = req.body;
+    const {cartItems, shippingAddress, paymentMethod, subtotal, taxes, shipping, total} = req.body;
     
     if(cartItems && cartItems.length === 0){
         res.status(400).json("No order items.");
@@ -80,7 +80,7 @@ const createOrder = async(req,res)=>{
         const order = new Order({
             user: req.user._id,
             orderItems: cartItems,
-            shippingAddress: shippingInfo,
+            shippingAddress,
             paymentMethod,
             subtotal,
             taxPrice: taxes,

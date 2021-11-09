@@ -1,5 +1,5 @@
 import axios from "axios";
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_PROFILE_FAIL, GET_USER_PROFILE_REQUEST, GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_FAIL, WISHLIST_ADD_ITEM_REQUEST, WISHLIST_ADD_ITEM_FAIL, WISHLIST_ADD_ITEM_SUCCESS, USER_REGISTER_REQUEST, USER_REGISTER_FAIL, USER_REGISTER_SUCCESS, WISHLIST_REMOVE_ITEM_REQUEST, WISHLIST_REMOVE_ITEM_SUCCESS, WISHLIST_REMOVE_ITEM_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_DETAILS_FAIL, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAIL, DELETE_USER_REQUEST, DELETE_USER_SUCCESS, DELETE_USER_FAIL, LIST_USERS_REQUEST, LIST_USERS_SUCCESS, LIST_USERS_FAIL, CART_ADD_ITEM_FAIL, CART_ADD_ITEM_REQUEST, CART_ADD_ITEM_SUCCESS, CART_CLEAR_ITEMS_REQUEST, CART_CLEAR_ITEMS_SUCCESS, CART_CLEAR_ITEMS_FAIL, CART_SAVE_PAYMENT_METHOD, CART_REMOVE_ITEM_REQUEST, CART_REMOVE_ITEM_SUCCESS, CART_REMOVE_ITEM_FAIL } from "../constants/userConstants"
+import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_PROFILE_FAIL, GET_USER_PROFILE_REQUEST, GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_FAIL, WISHLIST_ADD_ITEM_REQUEST, WISHLIST_ADD_ITEM_FAIL, WISHLIST_ADD_ITEM_SUCCESS, USER_REGISTER_REQUEST, USER_REGISTER_FAIL, USER_REGISTER_SUCCESS, WISHLIST_REMOVE_ITEM_REQUEST, WISHLIST_REMOVE_ITEM_SUCCESS, WISHLIST_REMOVE_ITEM_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_DETAILS_FAIL, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAIL, DELETE_USER_REQUEST, DELETE_USER_SUCCESS, DELETE_USER_FAIL, LIST_USERS_REQUEST, LIST_USERS_SUCCESS, LIST_USERS_FAIL, CART_ADD_ITEM_FAIL, CART_ADD_ITEM_REQUEST, CART_ADD_ITEM_SUCCESS, CART_CLEAR_ITEMS_REQUEST, CART_CLEAR_ITEMS_SUCCESS, CART_CLEAR_ITEMS_FAIL, CART_SAVE_PAYMENT_METHOD, CART_REMOVE_ITEM_REQUEST, CART_REMOVE_ITEM_SUCCESS, CART_REMOVE_ITEM_FAIL, CART_UPDATE_QUANTITY_FAIL, CART_UPDATE_QUANTITY_REQUEST, CART_UPDATE_QUANTITY_SUCCESS } from "../constants/userConstants"
 
 
 export const login = (username,password) => async (dispatch) => {
@@ -162,14 +162,25 @@ export const addToCart = (id, quantity) => async (dispatch, getState)=>{
         const { data: user } = await axios.get('/api/users/profile', config);
 
         const {data: product} = await axios.get(`/api/products/${id}`);
-        console.log(user,product);
+        
         // Check if the item is already in the wishlist
-        // if(user.cartItems.find((item)=>item._id === product._id)){
-        //     throw new Error("Item already in the cart.");
-        // }
-        const newUser = {
-            cartItems: [...user.cartItems, {
-                _id: id,
+        const itemExists = user.cartItems.find((item)=>item._id === id);
+        
+       let newCartItems = [];
+
+        if(itemExists){
+            newCartItems = user.cartItems.map((item)=>{
+                if(item._id === id){
+                    item.quantity = item.quantity+1;
+                    return item;
+                }else{
+                    return item;
+                }
+            })
+               
+        }else{
+            newCartItems = [...user.cartItems, {
+                 _id: id,
                 name: product.name,
                 category: product.category,
                 productType: product.productType,
@@ -180,15 +191,14 @@ export const addToCart = (id, quantity) => async (dispatch, getState)=>{
                 quantity
             }]
         }
-        console.log(newUser);
-
+        
         const putConfig = {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${userInfo.token}`
             }
         }
-        await axios.put('/api/users/profile', newUser, putConfig);
+        await axios.put('/api/users/profile', {cartItems: newCartItems}, putConfig);
         
         dispatch({
             type: CART_ADD_ITEM_SUCCESS,
@@ -218,7 +228,7 @@ export const removeFromCart = (id) => async (dispatch, getState)=>{
         const { data: user } = await axios.get('/api/users/profile', config);
 
         const newUser = {
-            wishlist: user.wishlist.filter((item)=>item._id !==id)
+            cartItems: user.cartItems.filter((item)=>item._id !==id)
         }
 
         const putConfig = {
@@ -237,6 +247,51 @@ export const removeFromCart = (id) => async (dispatch, getState)=>{
     }catch(error){
         dispatch({
             type: CART_REMOVE_ITEM_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+        })
+    }
+}
+export const updateCartItemQuantity = (id, quantity) => async (dispatch, getState) =>{
+    try{
+        dispatch({
+            type: CART_UPDATE_QUANTITY_REQUEST
+        })
+
+        // Get the user details
+        const {user: {userLogin: {userInfo}}} = getState();
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        const { data: user } = await axios.get('/api/users/profile', config);
+        
+        const newCartItems = user.cartItems.map((item)=>{
+            if(item._id === id){
+                item.quantity = Number(quantity)
+                return item;
+            }else{
+                return item;
+            }
+        })
+        
+        const putConfig = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        await axios.put('/api/users/profile', {cartItems: newCartItems}, putConfig);
+
+        dispatch({
+            type: CART_UPDATE_QUANTITY_SUCCESS,
+    
+        })
+    }catch(error){
+        dispatch({
+            type: CART_UPDATE_QUANTITY_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
@@ -274,9 +329,8 @@ export const savePaymentMethod = (paymentMethod) =>
 
     dispatch({
         type: CART_SAVE_PAYMENT_METHOD,
-        payload: {
-            paymentMethod
-        }
+        payload: paymentMethod
+        
     })
 
     localStorage.setItem('paymentMethod', JSON.stringify(paymentMethod))

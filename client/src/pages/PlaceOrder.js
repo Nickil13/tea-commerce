@@ -6,8 +6,9 @@ import { createOrder } from '../actions/orderActions';
 import { Message } from '../components';
 
 export default function PlaceOrder() {
-    const cart = useSelector((state)=>state.cart);
-    const {shippingInfo, paymentMethod, cartItems} = cart;
+    const {userProfile, userPaymentMethod} = useSelector((state)=>state.user);
+    const {shippingAddress, cartItems} = userProfile.user;
+    const {paymentMethod} = userPaymentMethod; 
 
     const subtotal = cartItems.reduce((acc,item)=>acc + (item.price*item.quantity),0).toFixed(2);
 
@@ -39,8 +40,9 @@ export default function PlaceOrder() {
     },[checkoutSessionSuccess])
 
     const handlePlaceOrder = () =>{
+        console.log(shippingAddress);
         dispatch(createOrder(
-            {cartItems, shippingInfo, paymentMethod, subtotal, taxes, shipping, total}
+            {cartItems, shippingAddress, paymentMethod, subtotal, taxes, shipping, total}
         ));
     }
 
@@ -50,8 +52,8 @@ export default function PlaceOrder() {
             <h1 className="page-title">Place Order</h1>
             <section className="order-shipping-section">
                 <h3>Shipping Information</h3>
-                <p>{`${shippingInfo.address} ${shippingInfo.city}, ${shippingInfo.province}`}</p>
-                <p>{`${shippingInfo.country}, ${shippingInfo.postalCode}`}</p>
+                <p>{`${shippingAddress.address} ${shippingAddress.city}, ${shippingAddress.province}`}</p>
+                <p>{`${shippingAddress.country}, ${shippingAddress.postalCode}`}</p>
             </section>
 
             <section className="order-payment-section">

@@ -4,12 +4,14 @@ import { Link, useHistory} from 'react-router-dom'
 import { useSelector, useDispatch} from 'react-redux';
 import { getUserProfile, clearCartItems } from '../actions/userActions';
 import { LoadingSpinner, Message } from '../components';
+import { CART_CLEAR_ITEMS_RESET, CART_UPDATE_QUANTITY_RESET } from '../constants/userConstants';
 
 export default function Cart() {
     const dispatch = useDispatch();
-    const {userProfile, userClearCart} = useSelector((state)=>state.user);
+    const {userProfile, userClearCart, userUpdateCart} = useSelector((state)=>state.user);
     const {user, loading, error} = userProfile;
     const {success: clearCartSuccess} = userClearCart;
+    const {success: updateCartSuccess, loading: updateCartLoading} = userUpdateCart;
     
     const history = useHistory();
     
@@ -18,10 +20,12 @@ export default function Cart() {
     const subtotal = user.cartItems.reduce((acc,item)=>acc + (item.price*item.quantity),0).toFixed(2);
 
     useEffect(()=>{
-        if(!user.username || clearCartSuccess){
+        if(!user.username || clearCartSuccess || updateCartSuccess){
             dispatch(getUserProfile());
+            dispatch({type: CART_UPDATE_QUANTITY_RESET});
+            dispatch({type: CART_CLEAR_ITEMS_RESET});
         }
-    },[clearCartSuccess])
+    },[user, clearCartSuccess, updateCartSuccess])
     
     if(!user.cartItems.length>0){
         return(
@@ -43,7 +47,7 @@ export default function Cart() {
                 <p>Free shipping on orders over $80!</p>
             </div>
             <h1 className="cart-title">My Cart</h1>
-            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> : <div className="cart">
+            {loading || updateCartLoading ? <LoadingSpinner/> : error ? <Message>{error}</Message> : <div className="cart">
                 <div className="cart-container">
                     <div>
                         {user.cartItems.length>0 ? user.cartItems.map((item,index)=>{

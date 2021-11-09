@@ -9,20 +9,20 @@ import { CART_ADD_ITEM_RESET, CART_REMOVE_ITEM_RESET } from '../constants/userCo
 
 export default function Navbar() {
     const dispatch = useDispatch();
-    const {userProfile, userRemoveCart, userAddCart} = useSelector((state)=>state.user);
+    const {userProfile, userRemoveFromCart, userAddToCart} = useSelector((state)=>state.user);
     const {user} = userProfile;
-    const {success: addToCartSuccess} = userAddCart;
-    const {success: removeFromCartSuccess} = userRemoveCart;
+    const {success: addToCartSuccess} = userAddToCart;
+    const {success: removeFromCartSuccess} = userRemoveFromCart;
 
     const[showDropdown,setShowDropdown] = useState(false);
     const{openSidebar} = useGlobalContext();
     const history = useHistory();
     const navbar = useRef(null);
 
-    const cartItemAmount = user.cartItems.reduce((acc,item)=>acc + Number(item.quantity), 0);
+    const cartItemAmount = user && user.cartItems.reduce((acc,item)=>acc + Number(item.quantity), 0);
 
     useEffect(()=>{
-        if(!user.username || addToCartSuccess || removeFromCartSuccess){
+        if(user && !user.username || addToCartSuccess || removeFromCartSuccess){
             dispatch(getUserProfile());
             dispatch({type: CART_REMOVE_ITEM_RESET});
             dispatch({type: CART_ADD_ITEM_RESET})
@@ -84,7 +84,7 @@ export default function Navbar() {
                     
                 </ul>
                 <ul className="nav-icons">
-                    {user.username ? 
+                    {user && user.username ? 
                     <div className="nav-dropdown">
                         <FaUserCircle className="nav-icon nav-icon-loggedin" onClick={()=>setShowDropdown(true)}/>
                         {showDropdown &&

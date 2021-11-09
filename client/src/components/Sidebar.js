@@ -1,6 +1,5 @@
 import React from 'react';
 import { VscClose} from 'react-icons/vsc';
-import { GoSearch } from 'react-icons/go';
 import { useGlobalContext} from '../context';
 import AccordionItem from './AccordionItem';
 import { teaProductCategories as categories } from '../resources/teaInfoData';

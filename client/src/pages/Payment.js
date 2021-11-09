@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch} from 'react-redux';
-import { savePaymentMethod } from '../actions/cartActions';
 import { CheckoutSteps } from '../components';
 import { useHistory } from 'react-router';
+import { savePaymentMethod } from '../actions/userActions';
 
 export default function Payment() {
     const[paymentMethod, setPaymentMethod] = useState("Stripe");
@@ -12,7 +12,6 @@ export default function Payment() {
 
     const handleSubmit = (e) =>{
         e.preventDefault();
-        
         dispatch(savePaymentMethod(paymentMethod));
         history.push('/placeorder');  
     }

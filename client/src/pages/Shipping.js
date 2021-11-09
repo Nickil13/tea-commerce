@@ -76,9 +76,6 @@ export default function Shipping() {
         e.preventDefault();
         try{
             validate();
-            // dispatch(saveShippingInfo(
-            //     address,city,province,country,postalCode
-            // ));
             const shippingAddress = {address,city,province,country,postalCode}
             dispatch(updateUserProfile({shippingAddress}));
             history.push('/payment');

@@ -17,10 +17,6 @@
             font-size: 28px;
         }
         
-        & img {
-            @include abstracts.fit-image;
-        }
-
         &-info{
             width: 80%;
             margin: 0 auto;
@@ -67,8 +63,7 @@
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 3fr;
 
-        & img {
-            @include abstracts.fit-image;
+        .img-container{
             grid-column: 1;
             grid-row: 1 / span 2;
             align-self: center;

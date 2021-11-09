@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaTimes } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
-import { updateCartItemQuantity, removeCartItem } from '../actions/cartActions';
+import { removeFromCart, updateCartItemQuantity } from '../actions/userActions';
 import { Link } from 'react-router-dom';
 
 export default function CartCard({name,_id,productType,category,image,price,quantity,flavourImage,countInStock}) {
@@ -14,7 +14,7 @@ export default function CartCard({name,_id,productType,category,image,price,quan
     }
 
     const handleRemoveClick = () =>{
-        dispatch((removeCartItem(_id)));
+        dispatch((removeFromCart(_id)));
     }
     return (
         <article className="cart-card">

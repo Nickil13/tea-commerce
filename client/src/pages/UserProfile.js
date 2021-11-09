@@ -6,12 +6,12 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserProfile, logout} from '../actions/userActions';
 import { listMyOrders } from '../actions/orderActions';
-import { Message, OrderCard, WishlistCard } from '../components';
+import { LoadingSpinner, Message, OrderCard, WishlistCard } from '../components';
 
 export default function UserProfile() {
     const dispatch = useDispatch();
     const {userProfile, userRemoveWishlist} = useSelector((state)=>state.user);
-    const {user} = userProfile;
+    const {user, loading, error} = userProfile;
     const {success: wishlistRemoveSuccess} = userRemoveWishlist;
 
     const myOrders = useSelector((state)=>state.orders.myOrders);
@@ -27,6 +27,7 @@ export default function UserProfile() {
 
     return (
         <div>
+            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> : <>
             <div className="account-banner">
                 <h3>{user.username}</h3>
                 <p>{user.email}</p>
@@ -58,7 +59,7 @@ export default function UserProfile() {
                         {user.shippingAddress && user.shippingAddress.address ?
                         <ul>
                             <li>{user.shippingAddress.address}</li>
-                            <li>{user.shippingAddress.city}, {user.shippingAddress.state}</li>
+                            <li>{user.shippingAddress.city}, {user.shippingAddress.province}</li>
                             <li>{user.shippingAddress.country}</li>
                             <li>{user.shippingAddress.zipcode}</li>
                         </ul>: <p>No shipping information on file.</p>}
@@ -108,7 +109,7 @@ export default function UserProfile() {
                 
             </section>
 
-               
+               </>}
             </div>
     )
 }

@@ -9,6 +9,16 @@
     text-align: center;
 }
 
+// Images
+.img-container{
+    position: relative;
+    width: 100%;
+
+      & img{
+        @include abstracts.fit-image;
+      }
+  }
+
 //Table format
 .search-container{
     overflow-x: auto;

@@ -93,7 +93,14 @@ export default function ProductProfile() {
                     <h2>{product.name}</h2>
                     <span>{product.productType}</span>
                 </div>
-                <img src={product.image} alt={product.name}/>
+                <div className="img-container">
+                    <img src={product.image} alt={product.name}/>
+                    {product.flavourImage &&
+                    <div className="flavour-container">
+                        <img src={product.flavourImage} alt={product.name} />
+                    </div>}
+                </div>
+                
                 <div className="product-profile-info">
                     <p>{product.description}</p>
                     <p><span>${product.price && product.price.toFixed(2)}</span> / 50g</p>

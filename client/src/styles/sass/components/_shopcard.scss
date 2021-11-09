@@ -3,18 +3,21 @@
 
 .shop-card{
     position: relative;
-    padding: 1em;
-    margin: 1em;
-    // background-color: abstracts.$color-primary-light;
-    /* box-shadow: var($box-shadow); */
+    padding: 1rem;
+    margin: 1rem;
     overflow: hidden;
     min-width: 300px;
+
+    .img-container{
+      height: 200px;
+      cursor: pointer;
+    }
   }
   .card-info{
     display: grid;
     place-items: center;
     text-align: center;
-    margin-top: 1em;
+    margin-top: 1rem;
 
     & span{
       font-weight: 500;
@@ -36,12 +39,4 @@
     }
   }
 
-  .img-container{
-    position: relative;
-    height: 200px;
-    cursor: pointer;
-
-      & img{
-        @include abstracts.fit-image;
-      }
-  }
+ 
