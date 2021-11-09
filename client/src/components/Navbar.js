@@ -5,29 +5,38 @@ import { GiTeapot } from 'react-icons/gi';
 import { useSelector, useDispatch} from 'react-redux';
 import { getUserProfile, logout} from '../actions/userActions';
 import { useGlobalContext } from '../context';
-import { CART_ADD_ITEM_RESET, CART_REMOVE_ITEM_RESET } from '../constants/userConstants';
+import { USER_CART_ADD_ITEM_RESET, USER_CART_REMOVE_ITEM_RESET } from '../constants/userConstants';
 
 export default function Navbar() {
     const dispatch = useDispatch();
-    const {userProfile, userRemoveFromCart, userAddToCart} = useSelector((state)=>state.user);
+    const {userProfile, userLogin, userRemoveFromCart, userAddToCart} = useSelector((state)=>state.user);
+    const localCart = useSelector((state)=>state.localCart);
     const {user} = userProfile;
     const {success: addToCartSuccess} = userAddToCart;
     const {success: removeFromCartSuccess} = userRemoveFromCart;
 
     const[showDropdown,setShowDropdown] = useState(false);
+    const[cartItems,setCartItems] = useState([]);
     const{openSidebar} = useGlobalContext();
     const history = useHistory();
     const navbar = useRef(null);
 
-    const cartItemAmount = user && user.cartItems.reduce((acc,item)=>acc + Number(item.quantity), 0);
+    const cartItemAmount = cartItems.reduce((acc,item)=>acc + Number(item.quantity), 0);
 
     useEffect(()=>{
-        if(user && !user.username || addToCartSuccess || removeFromCartSuccess){
-            dispatch(getUserProfile());
-            dispatch({type: CART_REMOVE_ITEM_RESET});
-            dispatch({type: CART_ADD_ITEM_RESET})
+        if(userLogin.userInfo){
+            if(user && !user.username || addToCartSuccess || removeFromCartSuccess){
+                dispatch(getUserProfile());
+                dispatch({type: USER_CART_REMOVE_ITEM_RESET});
+                dispatch({type: USER_CART_ADD_ITEM_RESET})
+            }else{
+                setCartItems(user.cartItems);
+            }
+        }else{
+            setCartItems(localCart.cartItems);
         }
-    }, [user, dispatch, addToCartSuccess, removeFromCartSuccess])
+        
+    }, [user, localCart, dispatch, addToCartSuccess, removeFromCartSuccess])
 
     useEffect(()=>{
         document.addEventListener("mousedown", handleDropdownMenu);

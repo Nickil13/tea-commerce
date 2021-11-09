@@ -170,10 +170,12 @@
 }
 
  //Star rating
-  
+.star-rating-container{
+    padding: 1rem 0;
+}
  .star-rating{
     display: flex;
-    padding: 1rem 0;
+    // padding: 1rem 0;
 
       & li{
         padding: 0 0.25rem;

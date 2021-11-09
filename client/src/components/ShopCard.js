@@ -1,18 +1,25 @@
 import React from 'react';
 import { useHistory} from 'react-router-dom';
-import { useDispatch} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import { addToCart } from '../actions/userActions';
+import { addToLocalCart } from '../actions/localCartActions';
 import { useGlobalContext } from '../context';
+import { Rating } from '../components';
 
 export default function ShopCard({item}) {
     const history = useHistory();
+    const {userLogin} = useSelector((state)=>state.user);
     const{showAlert} = useGlobalContext();
-    const{name,category,productType,_id,image,price} = item;
+    const{name,category,productType,_id,image,price, rating, reviews} = item;
 
     const dispatch = useDispatch();
 
     const handleAddToCart = () =>{
-        dispatch((addToCart(item._id,1)));
+        if(userLogin.userInfo){
+            dispatch((addToCart(item._id,1)));
+        }else{
+            dispatch((addToLocalCart(item._id,1)))
+        }
         showAlert(item.name,'cart',1);
     }
     const handleCardClick = () =>{
@@ -30,7 +37,7 @@ export default function ShopCard({item}) {
             </div>
             <div className="card-info">
                 <h3>{name}</h3>
-                <p>{productType}</p>
+                <Rating value={rating} numReviews={reviews.length} text/>
                 <p><span>${price.toFixed(2)}</span> / 50g</p>
                 <button className="btn-secondary"
                 onClick={handleAddToCart}>Add to Cart</button>

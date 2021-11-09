@@ -1,5 +1,5 @@
 import axios from "axios";
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_PROFILE_FAIL, GET_USER_PROFILE_REQUEST, GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_FAIL, WISHLIST_ADD_ITEM_REQUEST, WISHLIST_ADD_ITEM_FAIL, WISHLIST_ADD_ITEM_SUCCESS, USER_REGISTER_REQUEST, USER_REGISTER_FAIL, USER_REGISTER_SUCCESS, WISHLIST_REMOVE_ITEM_REQUEST, WISHLIST_REMOVE_ITEM_SUCCESS, WISHLIST_REMOVE_ITEM_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_DETAILS_FAIL, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAIL, DELETE_USER_REQUEST, DELETE_USER_SUCCESS, DELETE_USER_FAIL, LIST_USERS_REQUEST, LIST_USERS_SUCCESS, LIST_USERS_FAIL, CART_ADD_ITEM_FAIL, CART_ADD_ITEM_REQUEST, CART_ADD_ITEM_SUCCESS, CART_CLEAR_ITEMS_REQUEST, CART_CLEAR_ITEMS_SUCCESS, CART_CLEAR_ITEMS_FAIL, CART_SAVE_PAYMENT_METHOD, CART_REMOVE_ITEM_REQUEST, CART_REMOVE_ITEM_SUCCESS, CART_REMOVE_ITEM_FAIL, CART_UPDATE_QUANTITY_FAIL, CART_UPDATE_QUANTITY_REQUEST, CART_UPDATE_QUANTITY_SUCCESS } from "../constants/userConstants"
+import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_PROFILE_FAIL, GET_USER_PROFILE_REQUEST, GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_FAIL, WISHLIST_ADD_ITEM_REQUEST, WISHLIST_ADD_ITEM_FAIL, WISHLIST_ADD_ITEM_SUCCESS, USER_REGISTER_REQUEST, USER_REGISTER_FAIL, USER_REGISTER_SUCCESS, WISHLIST_REMOVE_ITEM_REQUEST, WISHLIST_REMOVE_ITEM_SUCCESS, WISHLIST_REMOVE_ITEM_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_DETAILS_FAIL, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAIL, DELETE_USER_REQUEST, DELETE_USER_SUCCESS, DELETE_USER_FAIL, LIST_USERS_REQUEST, LIST_USERS_SUCCESS, LIST_USERS_FAIL, USER_CART_ADD_ITEM_FAIL, USER_CART_ADD_ITEM_REQUEST, USER_CART_ADD_ITEM_SUCCESS, USER_CART_CLEAR_ITEMS_REQUEST, USER_CART_CLEAR_ITEMS_SUCCESS, USER_CART_CLEAR_ITEMS_FAIL, USER_CART_SAVE_PAYMENT_METHOD, USER_CART_REMOVE_ITEM_REQUEST, USER_CART_REMOVE_ITEM_SUCCESS, USER_CART_REMOVE_ITEM_FAIL, USER_CART_UPDATE_QUANTITY_FAIL, USER_CART_UPDATE_QUANTITY_REQUEST, USER_CART_UPDATE_QUANTITY_SUCCESS, GET_USER_PROFILE_RESET } from "../constants/userConstants"
 
 
 export const login = (username,password) => async (dispatch) => {
@@ -35,6 +35,10 @@ export const login = (username,password) => async (dispatch) => {
 export const logout = () => (dispatch) =>{
     localStorage.removeItem('userInfo');
     localStorage.removeItem('paymentMethod');
+
+    dispatch({
+        type: GET_USER_PROFILE_RESET
+    })
 
     dispatch({
         type: USER_LOGOUT
@@ -149,7 +153,7 @@ export const addToCart = (id, quantity) => async (dispatch, getState)=>{
     try{
 
         dispatch({
-            type: CART_ADD_ITEM_REQUEST,
+            type: USER_CART_ADD_ITEM_REQUEST,
         })
         
         const {user: {userLogin: {userInfo}}} = getState();
@@ -201,12 +205,12 @@ export const addToCart = (id, quantity) => async (dispatch, getState)=>{
         await axios.put('/api/users/profile', {cartItems: newCartItems}, putConfig);
         
         dispatch({
-            type: CART_ADD_ITEM_SUCCESS,
+            type: USER_CART_ADD_ITEM_SUCCESS,
         })
         
     }catch(error){
         dispatch({
-            type: CART_ADD_ITEM_FAIL,
+            type: USER_CART_ADD_ITEM_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
@@ -216,7 +220,7 @@ export const removeFromCart = (id) => async (dispatch, getState)=>{
     try{
 
         dispatch({
-            type: CART_REMOVE_ITEM_REQUEST,
+            type: USER_CART_REMOVE_ITEM_REQUEST,
         })
         // Get the user details
         const {user: {userLogin: {userInfo}}} = getState();
@@ -241,12 +245,12 @@ export const removeFromCart = (id) => async (dispatch, getState)=>{
         await axios.put('/api/users/profile', newUser, putConfig);
         
         dispatch({
-            type: CART_REMOVE_ITEM_SUCCESS,
+            type: USER_CART_REMOVE_ITEM_SUCCESS,
         })
         
     }catch(error){
         dispatch({
-            type: CART_REMOVE_ITEM_FAIL,
+            type: USER_CART_REMOVE_ITEM_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
@@ -254,7 +258,7 @@ export const removeFromCart = (id) => async (dispatch, getState)=>{
 export const updateCartItemQuantity = (id, quantity) => async (dispatch, getState) =>{
     try{
         dispatch({
-            type: CART_UPDATE_QUANTITY_REQUEST
+            type: USER_CART_UPDATE_QUANTITY_REQUEST
         })
 
         // Get the user details
@@ -286,12 +290,12 @@ export const updateCartItemQuantity = (id, quantity) => async (dispatch, getStat
         await axios.put('/api/users/profile', {cartItems: newCartItems}, putConfig);
 
         dispatch({
-            type: CART_UPDATE_QUANTITY_SUCCESS,
+            type: USER_CART_UPDATE_QUANTITY_SUCCESS,
     
         })
     }catch(error){
         dispatch({
-            type: CART_UPDATE_QUANTITY_FAIL,
+            type: USER_CART_UPDATE_QUANTITY_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
@@ -299,7 +303,7 @@ export const updateCartItemQuantity = (id, quantity) => async (dispatch, getStat
 export const clearCartItems = () => async (dispatch, getState) =>{
     try{
         dispatch({
-            type: CART_CLEAR_ITEMS_REQUEST
+            type: USER_CART_CLEAR_ITEMS_REQUEST
         })
 
         const {user: {userLogin: {userInfo}}} = getState();
@@ -312,12 +316,12 @@ export const clearCartItems = () => async (dispatch, getState) =>{
         await axios.put('/api/users/profile', {cartItems: []}, config);
 
         dispatch({
-            type: CART_CLEAR_ITEMS_SUCCESS
+            type: USER_CART_CLEAR_ITEMS_SUCCESS
         })
 
     }catch(error){
         dispatch({
-            type: CART_CLEAR_ITEMS_FAIL,
+            type: USER_CART_CLEAR_ITEMS_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
@@ -328,7 +332,7 @@ export const savePaymentMethod = (paymentMethod) =>
     (dispatch) =>{
 
     dispatch({
-        type: CART_SAVE_PAYMENT_METHOD,
+        type: USER_CART_SAVE_PAYMENT_METHOD,
         payload: paymentMethod
         
     })

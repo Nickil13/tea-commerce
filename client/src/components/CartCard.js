@@ -1,21 +1,32 @@
 import React from 'react'
 import { FaTimes } from 'react-icons/fa';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCart, updateCartItemQuantity } from '../actions/userActions';
+import { removeLocalCartItem, updateLocalCartItemQuantity} from '../actions/localCartActions';
 import { Link } from 'react-router-dom';
 
 export default function CartCard({name,_id,productType,category,image,price,quantity,flavourImage,countInStock}) {
     const total = (Number(price)*Number(quantity)).toFixed(2);
 
     const dispatch = useDispatch();
-
+    const {userLogin} = useSelector((state)=>state.user);
     const handleSelectChange = (e) =>{
-        dispatch((updateCartItemQuantity(_id, e.target.value)));
+        if(!userLogin.userInfo){
+            dispatch(updateLocalCartItemQuantity(_id, e.target.value));
+        }else{
+            dispatch(updateCartItemQuantity(_id, e.target.value));
+        }
+        
     }
 
     const handleRemoveClick = () =>{
-        dispatch((removeFromCart(_id)));
+        if(!userLogin.userInfo){
+            dispatch(removeLocalCartItem(_id));
+        }else{
+            dispatch(removeFromCart(_id));
+        } 
     }
+
     return (
         <article className="cart-card">
             <div className="img-container">
