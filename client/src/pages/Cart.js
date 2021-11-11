@@ -47,6 +47,13 @@ export default function Cart() {
             dispatch(clearCartItems());
         }
     }
+    const handleCheckoutClick = () =>{
+        if(!userInfo){
+            history.push('/login?redirect=/shipping');
+        }else{
+            history.push('/shipping');
+        }
+    }
     // useEffect(()=>{
     //     if(!user.username || clearCartSuccess || updateCartSuccess){
     //         dispatch({type: CART_UPDATE_QUANTITY_RESET});
@@ -95,10 +102,13 @@ export default function Cart() {
                     <h3>Subtotal ({totalItems}) {totalItems>1 ? 'items' : 'item'}</h3>
                     <p>${subtotal}</p>
                     
-                    <Link to='/shipping'><button className=" btn-secondary" >Proceed to Checkout</button></Link>
+                    {/* <Link to='/shipping'><button className=" btn-secondary" onClick={handleCheckoutClick} >Proceed to Checkout</button></Link> */}
+                    <button className=" btn-secondary" onClick={handleCheckoutClick} >Proceed to Checkout</button>
                 </div> 
                   
             </div>}
         </div>
     )
 }
+
+
