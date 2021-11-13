@@ -82,6 +82,44 @@
     }
 }
 
+.product-quantity-input{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    & input{
+        width: 100px;
+        margin-right: 1rem;
+        padding: 0.5rem;
+        text-align: center;
+    }
+}
+
+.product-quantity-select{
+    width: 100px;
+    height: 50px;
+    padding: 0.5rem;
+    font-family: abstracts.$ff-primary;
+    font-size: 16px;
+}
+
+.product-btn-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    margin: 0 auto;
+
+    & button{
+        margin: 0;
+        margin-left: 1rem;
+    }
+}
+.max-cart-message{
+    color: abstracts.$color-primary;
+    font-weight: 500;
+}
+
 .review-section{
     display: grid;
     justify-items: center;
@@ -104,9 +142,11 @@
         color: abstracts.$color-primary-light;
     }
 }
+
 .product-review-list{
     margin-top: 1rem;
 }
+
 .product-review{
     border-radius: 10px;
     padding: 2rem 3rem;
@@ -162,6 +202,7 @@
 
 .brewing-instruction-section{
     background-color: abstracts.$color-primary-light;
+    min-height: 350px;
 
     & p{
         max-width: 60ch;
@@ -175,7 +216,6 @@
 }
  .star-rating{
     display: flex;
-    // padding: 1rem 0;
 
       & li{
         padding: 0 0.25rem;
@@ -200,20 +240,25 @@
     }
   }
 
-  //Wishlist heart
-  .wishlist-heart{
-      position: absolute;
-      top: 20px;
-      right: 5px;
-      font-size: 30px;
-      cursor: pointer;
-      transition: transform 500ms ease-in-out;
-        &-active{
-            color: abstracts.$color-error;
-        }
-        &:hover{
-            transform: scale(1.2);
-        }
+  //Wishlist button
+
+  .add-wishlist-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 200px;
+    height: 50px;
+    
+    & span{
+        margin-right: 1rem;
+        color: abstracts.$color-primary;
+    }
+
+  }
+
+  .wishlisted{
+      background-color: abstracts.$color-primary-light;
+      cursor: default;
   }
   
 

@@ -10,6 +10,7 @@ export default function CartCard({name,_id,productType,category,image,price,quan
 
     const dispatch = useDispatch();
     const {userLogin} = useSelector((state)=>state.user);
+
     const handleSelectChange = (e) =>{
         if(!userLogin.userInfo){
             dispatch(updateLocalCartItemQuantity(_id, e.target.value));
@@ -42,6 +43,7 @@ export default function CartCard({name,_id,productType,category,image,price,quan
                     <li>{category} - {productType} </li>
                     <li>${price.toFixed()} / 50g</li>
                 </ul>
+                
                 <div className="quantity-select">
                     <span>Quantity: </span>
                     <select onChange={handleSelectChange}>

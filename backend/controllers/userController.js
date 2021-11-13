@@ -118,7 +118,7 @@ const updateUserProfile = asyncHandler( async(req, res) =>{
         user.shippingAddress = req.body.shippingAddress || user.shippingAddress;
         user.cartItems = req.body.cartItems || user.cartItems;
         user.wishlist = req.body.wishlist || user.wishlist;
-        
+
         if(req.body.password){
             user.password = req.body.password
         }

@@ -3,6 +3,7 @@ import { Link, useLocation ,useParams} from 'react-router-dom';
 import { useSelector, useDispatch} from 'react-redux';
 import { getCheckoutDetails } from '../actions/checkoutActions';
 import { updateOrderToPaid } from '../actions/orderActions';
+import { updateUserProfile } from '../actions/userActions';
 
 export default function OrderSuccess() {
     const {checkoutDetails} = useSelector((state)=>state.checkout);
@@ -25,6 +26,11 @@ export default function OrderSuccess() {
                 customer_details: session.customer_details
             }
             dispatch(updateOrderToPaid(id,paymentResult));
+
+            //Clear the cart
+            dispatch(updateUserProfile({
+                cartItems: []
+            }))
         }
     }, [detailsSuccess])
 

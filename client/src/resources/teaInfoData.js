@@ -5,7 +5,10 @@ export const teaInfo = [
         image: "/images/chai.jpg",
         caffeine: "high",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit ratione laboriosam inventore temporibus id et qui numquam optio iusto eveniet! Deserunt consectetur hic sit dolorem voluptates ut. Reiciendis, corrupti dignissimos?",
-        brewingInstructions: "",
+        brewingInstructions: [
+            {type: "temperature", text: "heat 375mL of 80ºC water"},
+            {type: "duration", text: "steep tea for 5 minutes"}
+        ],
     },
     {
         id: 2,
@@ -13,7 +16,10 @@ export const teaInfo = [
         image: "/images/green-tea.jfif",
         caffeine: "medium",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit ratione laboriosam inventore temporibus id et qui numquam optio iusto eveniet! Deserunt consectetur hic sit dolorem voluptates ut.",
-        brewingInstructions: "",
+        brewingInstructions: [
+            {type: "temperature", text: "heat 375mL of 80ºC water"},
+            {type: "duration", text: "steep tea for 4 minutes"}
+        ],
     }
     ,
     {
@@ -22,7 +28,10 @@ export const teaInfo = [
         image: "/images/tea-rooibos.jfif",
         caffeine: "caffeine-free",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt consectetur hic sit dolorem voluptates ut. Reiciendis, corrupti dignissimos?",
-        brewingInstructions: "",
+        brewingInstructions: [
+            {type: "temperature", text: "heat 375mL of 80ºC water"},
+            {type: "duration", text: "steep tea for 5 minutes"}
+        ],
     },
     {
         id: 4,
@@ -30,7 +39,10 @@ export const teaInfo = [
         image: "/images/white-tea.jfif",
         caffeine: "medium",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit ratione laboriosam inventore temporibus id et qui numquam optio iusto eveniet! Deserunt consectetur hic sit dolorem voluptates ut. Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-        brewingInstructions: "",
+        brewingInstructions: [
+            {type: "temperature", text: "heat 375mL of 75ºC water"},
+            {type: "duration", text: "steep tea for 4 minutes"}
+        ],
     },
     {
         id: 5,
@@ -38,7 +50,10 @@ export const teaInfo = [
         image: "/images/herbal-tea.jfif",
         caffeine: "caffeine-free",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, corrupti dignissimos?Odit ratione laboriosam inventore temporibus id et qui numquam optio iusto eveniet! Deserunt consectetur hic sit dolorem voluptates ut. Reiciendis, corrupti dignissimos?",
-        brewingInstructions: "",
+        brewingInstructions: [
+            {type: "temperature", text: "heat 375mL of 75ºC water"},
+            {type: "duration", text: "steep tea for 4 minutes"}
+        ],
     },
     {
         id: 6,
@@ -46,7 +61,10 @@ export const teaInfo = [
         image: "/images/oolong-tea.jfif",
         caffeine: "high",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit ratione laboriosam inventore temporibus id et qui numquam optio iusto eveniet! ",
-        brewingInstructions: "",
+        brewingInstructions: [
+            {type: "temperature", text: "heat 375mL of 75ºC water"},
+            {type: "duration", text: "steep tea for 4 minutes"}
+        ],
     },
     {
         id: 7,
@@ -54,7 +72,11 @@ export const teaInfo = [
         image: "/images/matcha-banner.jfif",
         caffeine: "high",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit ratione laboriosam inventore temporibus id et qui numquam optio iusto eveniet! ",
-        brewingInstructions: "",
+        brewingInstructions: [
+            {type: "measure", text: "2 tbsp of matcha"},
+            {type: "temperature", text: "heat 375mL of 75ºC water"},
+            {type: "mix", text: "mix matcha with hot water using a matcha whisk"}
+        ],
     },
     {
         id: 8,
@@ -62,7 +84,12 @@ export const teaInfo = [
         image: "/images/teaparty.jfif",
         caffeine: "varies",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit ratione laboriosam inventore temporibus id et qui numquam optio iusto eveniet! ",
-        brewingInstructions: "",
+        brewingInstructions: [
+            {type: "temperature", text: "heat 375mL of 75ºC water"},
+            {type: "mix", text: "add mix to hot water and stir until dissolved"},
+            {type: "add", ingredient: "ice", text: "add 2 cups of ice"},
+            {type: "add", ingredient: "fruit", text: "add fresh fruit or alcohol"}
+        ],
     }
 
 ]

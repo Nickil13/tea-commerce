@@ -6,7 +6,7 @@ dotenv.config();
 const stripe = require ('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
 const convertToCents = (price) =>{
-    return price*100;
+    return parseInt(price*100);
 }
 
 const router = express.Router();
@@ -38,6 +38,7 @@ router.post('/sessions', async (req, res)=>{
 
     }catch(error){
         res.status(500).json({error: error.message});
+        console.log(error);
     }
 })
 

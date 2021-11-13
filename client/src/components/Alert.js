@@ -19,7 +19,7 @@ export default function Alert() {
                     {alertContent.alertType==='cart' && <FaShoppingCart/>} {alertContent.alertType==='wishlist' && <FaHeart/>}
                 </div>
                 
-                {alertContent.alertType==='cart' && <p>Added <strong>{alertContent.name}</strong> to the cart!</p>}
+                {alertContent.alertType==='cart' && <p>Added <strong>{alertContent.name}</strong> ({alertContent.qty}) to the cart!</p>}
                 {alertContent.alertType==='wishlist' && <p>Added <strong>{alertContent.name}</strong> to your wishlist!</p>}
             </div>
         <VscClose className='alert-close-icon' onClick={closeAlert}/>

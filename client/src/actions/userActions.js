@@ -101,7 +101,6 @@ export const updateUserProfile = (user) => async(dispatch, getState) =>{
                 Authorization: `Bearer ${userInfo.token}`
             }
         }
-        
         const {data} = await axios.put('/api/users/profile', user, config);
 
         dispatch({
@@ -175,7 +174,12 @@ export const addToCart = (id, quantity) => async (dispatch, getState)=>{
         if(itemExists){
             newCartItems = user.cartItems.map((item)=>{
                 if(item._id === id){
-                    item.quantity = item.quantity+1;
+                    let newQuantity = item.quantity + Number(quantity);
+                    if(newQuantity>item.countInStock){
+                        item.quantity = item.countInStock;
+                    }else{
+                        item.quantity = item.quantity+Number(quantity);
+                    }
                     return item;
                 }else{
                     return item;

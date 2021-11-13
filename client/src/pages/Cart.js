@@ -18,9 +18,6 @@ export default function Cart() {
     
     const history = useHistory();
     const [cartItems, setCartItems] = useState([]);
-    // const totalItems = user.cartItems.reduce((acc, item)=> acc + item.quantity,0);
-
-    // const subtotal = user.cartItems.reduce((acc,item)=>acc + (item.price*item.quantity),0).toFixed(2);
 
     const totalItems = cartItems.reduce((acc, item)=> acc + item.quantity,0);
 
@@ -54,17 +51,7 @@ export default function Cart() {
             history.push('/shipping');
         }
     }
-    // useEffect(()=>{
-    //     if(!user.username || clearCartSuccess || updateCartSuccess){
-    //         dispatch({type: CART_UPDATE_QUANTITY_RESET});
-    //         dispatch({type: CART_CLEAR_ITEMS_RESET});
-    //         dispatch(getUserProfile());
-    //     }else{
-    //         setCartItems(user.cartItems);
-    //     }
-    // },[user, clearCartSuccess, updateCartSuccess])
     
-    // if(userInfo && !user.cartItems.length>0){
     if(!cartItems.length>0){
         return(
             <div>
@@ -85,11 +72,10 @@ export default function Cart() {
                 <p>Free shipping on orders over $80!</p>
             </div>
             <h1 className="cart-title">My Cart</h1>
-            {/* {loading || updateCartLoading ? <LoadingSpinner/> : error ? <Message>{error}</Message> : <div className="cart"> */}
+            
             {loading || updateCartLoading ? <LoadingSpinner/> :<div className="cart">
                 <div className="cart-container">
                     <div>
-                        {/* {user.cartItems.length>0 ? user.cartItems.map((item,index)=>{ */}
                         {cartItems.length>0 ? cartItems.map((item,index)=>{
                             return(
                                 <CartCard key={index} {...item}/>
@@ -102,7 +88,6 @@ export default function Cart() {
                     <h3>Subtotal ({totalItems}) {totalItems>1 ? 'items' : 'item'}</h3>
                     <p>${subtotal}</p>
                     
-                    {/* <Link to='/shipping'><button className=" btn-secondary" onClick={handleCheckoutClick} >Proceed to Checkout</button></Link> */}
                     <button className=" btn-secondary" onClick={handleCheckoutClick} >Proceed to Checkout</button>
                 </div> 
                   

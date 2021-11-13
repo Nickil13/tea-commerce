@@ -10,11 +10,15 @@ export default function OrderCard({_id, createdAt, orderItems, totalPrice, isPai
                 <li>Date placed: <Moment format="MMMM DD, YYYY" date={createdAt}/></li>
                 <li>Items: {orderItems.length}</li>
                 <li>Total price: ${totalPrice}</li>
-                <li>Status:
-                    <ul>
-                        <li>Paid: {isPaid ? 'true' : 'false'}</li>
-                        <li>Delivered: {isDelivered ? 'true' : 'false'}</li>
-                    </ul>
+                <li>
+                    <div className="status-section">
+                        <h4>Status:</h4>
+                        <div className="status-tags">
+                        <span className={`tag ${isPaid ? 'tag-paid' : 'tag-not'}`}>{isPaid ? 'paid' : 'not paid'}</span>
+                        <span className={`tag ${isDelivered ? 'tag-delivered' : 'tag-not'}`}>{isDelivered ? 'delivered' : 'not delivered'}</span>
+                        </div>
+                    </div>
+                    
                 </li>
             </ul>
         </div>

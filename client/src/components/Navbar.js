@@ -28,7 +28,7 @@ export default function Navbar() {
             if(user && !user.username || addToCartSuccess || removeFromCartSuccess){
                 dispatch(getUserProfile());
                 dispatch({type: USER_CART_REMOVE_ITEM_RESET});
-                dispatch({type: USER_CART_ADD_ITEM_RESET})
+                dispatch({type: USER_CART_ADD_ITEM_RESET});
             }else{
                 setCartItems(user.cartItems);
             }

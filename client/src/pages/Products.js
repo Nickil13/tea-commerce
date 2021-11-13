@@ -115,7 +115,7 @@ export default function Products() {
                                 <td>{product.name}</td>
                                 <td>{product.category}</td>
                                 <td>{product.productType}</td>
-                                <td>{product.countInStock}</td>
+                                <td>{product.countInStock ===0 ? <span className="tag tag-not">out of stock</span>  : product.countInStock}</td>
                                 <td><Link className="btn" to={`/admin/products/${product._id}/edit`}>Edit</Link></td>
                                 <td><button className="btn" onClick={()=>handleDelete(product._id, product.name)}>Delete</button></td>
                             </tr>

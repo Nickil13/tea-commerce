@@ -2,18 +2,25 @@ import React, {useState,useEffect} from 'react'
 import { useParams, useLocation, Link} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
 import { createProductReview, getProductDetails, getTopProductReview } from '../actions/productActions';
-import { CaffeineRating, Rating, Breadcrumbs, Message } from '../components';
+import { CaffeineRating, Rating, Breadcrumbs, Message, BrewingStep } from '../components';
 import Moment from 'react-moment';
 import { useGlobalContext } from '../context';
 import { FaHeart, FaRegHeart} from 'react-icons/fa';
 import { addToWishlist, getUserProfile, addToCart} from '../actions/userActions';
 import { WISHLIST_ADD_ITEM_RESET } from '../constants/userConstants';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
+import { teaInfo } from '../resources/teaInfoData';
+import { addToLocalCart } from '../actions/localCartActions';
 
 export default function ProductProfile() {
     const [isInWishlist, setIsInWishlist] = useState(false);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
+    const [quantity, setQuantity] = useState(1);
+    const [isHigherQuantity, setIsHigherQuantity] = useState(false);
+    const [message, setMessage] = useState("");
+    const [cartItems, setCartItems] = useState([]);
+
     const{id} = useParams();
     const location = useLocation();
 
@@ -24,35 +31,45 @@ export default function ProductProfile() {
     const { success: reviewSuccess, error: reviewError} = productCreateReview;
     const{loading, error,product} = productDetails;
     const{topReview} = productTopReview;
+    const tea = product.productType ? teaInfo.filter((tea)=>product.productType.split(" ").includes(tea.type))[0] : {};
+    
 
-    const {userProfile, userAddWishlist} = useSelector((state)=>state.user);
+    const {userProfile, userAddWishlist, userLogin} = useSelector((state)=>state.user);
     const {user} = userProfile;
     const {success: wishlistSuccess} = userAddWishlist;
     const reviewedByUser = (product.reviews && user) ? product.reviews.find((product)=>product.username === user.username) : false;
-    
+
+    const localCart = useSelector((state)=>state.localCart);
+    const existsInCart = cartItems.find((item)=>item._id === id);
     
     
     useEffect(()=>{
         dispatch(getProductDetails(id));
         dispatch(getTopProductReview(id));
         // Once the user profile is successfully loaded, check the wishlist for the current product. Otherwise, fetch the user profile information.
-        if(user && user.username){
-            checkWishlist();
+        if(!userLogin.userInfo){
+            setCartItems(localCart.cartItems);
         }else{
-            dispatch(getUserProfile());
-        }   
-
-        if(reviewSuccess){
-            setRating(0);
-            setComment('');
-            dispatch({type: PRODUCT_CREATE_REVIEW_RESET});
+            if(user && user.username){
+                checkWishlist();
+                setCartItems(user.cartItems);
+            }else{
+                dispatch(getUserProfile());
+            }   
+    
+            if(reviewSuccess){
+                setRating(0);
+                setComment('');
+                dispatch({type: PRODUCT_CREATE_REVIEW_RESET});
+            }
+            if(wishlistSuccess){
+                dispatch({type: WISHLIST_ADD_ITEM_RESET});
+                showAlert(product.name,'wishlist');
+                dispatch(getUserProfile());
+            }
         }
-        if(wishlistSuccess){
-            dispatch({type: WISHLIST_ADD_ITEM_RESET});
-            showAlert(product.name,'wishlist');
-            dispatch(getUserProfile());
-        }
-    },[user,id,reviewSuccess, wishlistSuccess,dispatch])
+        
+    },[user,id,localCart,reviewSuccess, wishlistSuccess,dispatch])
 
 
     const checkWishlist = () =>{
@@ -68,8 +85,24 @@ export default function ProductProfile() {
     }
 
     const handleAddToCart = () =>{
-        dispatch((addToCart(product._id,1)));
-        showAlert(product.name,'cart',1);
+        //Check if the user typed in a value higher than the amount of product in stock.
+        if(quantity>product.countInStock || quantity<0){
+            setMessage("Not a valid quantity.");
+        }else if(existsInCart && existsInCart.quantity + Number(quantity)>product.countInStock){
+            setMessage(`Only ${product.countInStock-existsInCart.quantity} left in stock.`);
+        
+        }else{
+            if(!userLogin.userInfo){
+                dispatch(addToLocalCart(product._id,quantity));
+            }else{
+                dispatch(addToCart(product._id,quantity));
+            }
+            showAlert(product.name,'cart',quantity);
+            setMessage("");
+            setIsHigherQuantity(false);
+            setQuantity(1);
+            
+        }
     }
 
     const handleHeartClick = () =>{
@@ -81,6 +114,13 @@ export default function ProductProfile() {
         dispatch(createProductReview(id,{rating, comment}));
     }
 
+    const handleQuantitySelect = (e) => {
+        if(e.target.value<=10){
+            setQuantity(e.target.value);
+        }else if(e.target.value==="higher quantity"){
+            setIsHigherQuantity(true);
+        }
+    }
     return (
         <div>
             {loading ? <h2>Loading...</h2> : error ? <h2>Error! {error}</h2>  : <>
@@ -104,10 +144,35 @@ export default function ProductProfile() {
                 <div className="product-profile-info">
                     <p>{product.description}</p>
                     <p><span>${product.price && product.price.toFixed(2)}</span> / 50g</p>
-                    <button className="btn-secondary" onClick={handleAddToCart}>Add to Cart</button>
-                </div>
-                
-                {isInWishlist ? <span className="wishlist-heart wishlist-heart-active"><FaHeart/></span> : <span className="wishlist-heart" onClick={handleHeartClick}><FaRegHeart/></span>}
+
+                    
+                    {product.countInStock === 0 ? <span className="tag tag-not">product out of stock</span> : (existsInCart && Number(existsInCart.quantity)===Number(product.countInStock)) ? <p className="max-cart-message">You have added the max amount of this product to your cart.</p> :
+                    <div className="product-btn-container">
+                       {!isHigherQuantity ? <select name="qty" id="qty" className="product-quantity-select" value={quantity} onChange={handleQuantitySelect}>
+                            {product.countInStock && [...Array(product.countInStock).keys()].slice(1,11).map((num, index)=>{
+                                return(
+                                    <option key={index} value={num}>{num}</option>
+                                )
+                            })}
+                            {product.countInStock>10 &&
+                            <option value="higher quantity">higher quantity</option>}
+                       </select> :
+                       <div className="product-quantity-input">
+                           <input type="number" min="1" max={product.countInStock} onChange={(e)=>setQuantity(e.target.value)} /> <p>of {product.countInStock}</p>
+                        </div>}    
+                        <button className="btn-secondary" onClick={handleAddToCart}>Add to Cart</button>
+                    </div>}
+                    {message && <Message type="error">{message}</Message>}
+                    {userLogin.userInfo && (!isInWishlist ? 
+                        <div className="btn add-wishlist-btn" onClick={handleHeartClick}>
+                            <span><FaRegHeart/></span>
+                            <p>Add to wishlist</p>
+                        </div> :
+                        <div className="btn add-wishlist-btn wishlisted">
+                            <span><FaHeart/></span>
+                            <p>On your wishlist!</p>
+                        </div> )}
+                </div>  
             </section>
             <section className="profile-ingredients">
                 <h2>Ingredients</h2>
@@ -120,7 +185,13 @@ export default function ProductProfile() {
             </section>
             <section className="brewing-instruction-section section-wide">
                 <h2>Brewing instructions</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe blanditiis architecto repudiandae impedit dolorum doloremque, iste quae numquam quibusdam doloribus deserunt veniam beatae sapiente, in dolore totam eveniet quisquam nemo facere veritatis culpa a. Sequi labore fugit temporibus praesentium dolore.</p>
+                <div className="brewing-steps">
+                    {tea.brewingInstructions && tea.brewingInstructions.map((step, index)=>{
+                        return(
+                            <BrewingStep key={index} step={step}/>
+                        )
+                    })}
+                </div>
             </section>
             <section className="review-section">
                 <h2>Reviews</h2>

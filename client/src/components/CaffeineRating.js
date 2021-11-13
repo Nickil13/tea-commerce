@@ -18,6 +18,7 @@ export default function CaffeineRating({productType}) {
                 {tea.caffeine === 'medium' || tea.caffeine === 'high' ? <FaCircle/> : <FaRegCircle/> }
                 {tea.caffeine === 'high' ? <FaCircle/> :<FaRegCircle/>}
             </div>
+
         </div>
     )
 }

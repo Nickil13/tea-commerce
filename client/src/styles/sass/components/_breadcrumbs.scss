@@ -2,10 +2,12 @@
 
  .breadcrumbs{
     display: flex;
+    flex-wrap: wrap;
     text-transform: capitalize;
     padding: 1em;
 
     & li{
+      min-width: 50px;
       &:not(:last-child){
         margin-right: 0.40rem;
         &::after{
