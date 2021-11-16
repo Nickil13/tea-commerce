@@ -19,7 +19,7 @@ router.post('/sessions', async (req, res)=>{
             mode: 'payment',
             success_url: `${process.env.CLIENT_URL}/order-success/${req.body.orderId}?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${process.env.CLIENT_URL}`,
-            line_items: req.body.cartItems.map((item)=>{
+            line_items: [...req.body.cartItems.map((item)=>{
                 return {
                     price_data: {
                         currency: 'cad', 
@@ -32,7 +32,30 @@ router.post('/sessions', async (req, res)=>{
                     quantity: item.quantity
                     
                 }
-            })
+            }),
+                {
+                    price_data: {
+                        currency: 'cad', 
+                        product_data: {
+                            name: 'shipping',
+                        },
+                        unit_amount: convertToCents(req.body.shipping || 0)
+                    },
+                    quantity: 1
+                    
+                },
+                {
+                    price_data: {
+                        currency: 'cad', 
+                        product_data: {
+                            name: 'taxes',
+                        },
+                        unit_amount: convertToCents(req.body.taxes || 0)
+                    },
+                    quantity: 1
+                    
+                }
+            ]
         })
         res.json({url: session.url, id: session.id, payment_status: session.payment_status});
 

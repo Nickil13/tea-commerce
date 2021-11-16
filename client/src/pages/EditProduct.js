@@ -20,6 +20,12 @@ export default function EditProduct() {
     const [imageName, setImageName] = useState('');
     const [imagePath, setImagePath] = useState('');
 
+    //Flavour image
+    const [hasFlavourImage,setHasFlavourImage] = useState(false);
+    const [isUploadingFlavourImage, setIsUploadingFlavourImage] = useState(false);
+    const [flavourImagePath, setFlavourImagePath] = useState('');
+    const [flavourImageName, setFlavourImageName] = useState('');
+
     const {id} = useParams();
     const history = useHistory();
     const dispatch = useDispatch();
@@ -36,12 +42,17 @@ export default function EditProduct() {
             dispatch({type: PRODUCT_UPLOAD_IMAGE_RESET});
 
             if(updateSuccess){
-                // history.push('/admin/products');
                 history.goBack();
             }
         }else if(uploadSuccess && uploadedFile){
-            setImageName(uploadedFile.name);
-            setImagePath(uploadedResponse.secure_url); 
+            if(isUploadingFlavourImage){
+                setFlavourImageName(uploadedFile.name);
+                setFlavourImagePath(uploadedResponse.secure_url);
+                setIsUploadingFlavourImage(false);
+            }else{
+                setImageName(uploadedFile.name);
+                setImagePath(uploadedResponse.secure_url);
+            }
             
         }else{
             setName(product.name);
@@ -49,6 +60,11 @@ export default function EditProduct() {
             setProductType(product.productType);
             setImageName(product.image.split("/")[product.image.split("/").length-1]);
             setImagePath(product.image);
+            setFlavourImageName(product.flavourImage ? product.flavourImage.split("/")[product.image.split("/").length-1] : '');
+            setFlavourImagePath(product.flavourImage ? product.flavourImage : '');
+            if(product.flavourImage){
+                setHasFlavourImage(true);
+            }
             setIngredients(product.ingredients.join(", "));
             setDescription(product.description);
             setPrice(product.price.toFixed(2));
@@ -70,6 +86,20 @@ export default function EditProduct() {
 
         if(file){
             setUploadedFile(file);
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                setImageURI(reader.result);
+            }
+        }
+    }
+
+    const handleSelectFlavourImage =  (e) =>{
+        const file = e.target.files[0];
+
+        if(file){
+            setUploadedFile(file);
+            setIsUploadingFlavourImage(true);
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onloadend = () => {
@@ -101,6 +131,7 @@ export default function EditProduct() {
             category,
             productType,
             image: imagePath,
+            flavourImage: flavourImagePath,
             ingredients: updatedIngredients,
             description,
             price,
@@ -143,23 +174,32 @@ export default function EditProduct() {
                     </div>
                 </div>
                 <div className="input-control">
-                    <h4>Image: </h4>
+                    <h4 className="image-label">Image: </h4>
                     <div className="image-input-box">
                         <input type="file" accept="image/*" type="file" name="image" id="image" onChange={handleSelectImage} />
                         <p className="image-input-text">{imageName}</p>
                         <label htmlFor="image" className="image-input-label"><BsImage className="image-icon"/></label>
-                        {uploading && <LoadingSpinner  anchor="right"/>}
+                        {!isUploadingFlavourImage && uploading && <LoadingSpinner  anchor="right"/>}
                     </div>
                     {uploadSuccess ? <Message type="success">{msg}</Message> : uploadError && <Message>{uploadError}</Message>}
                 </div>
-                {/* <div className="input-control">
-                    <label htmlFor="">Flavour Image: </label>
-                    <input type="checkbox" />
-                    <input type="text" />
-                </div> */}
+                <div className="input-control">
+                    
+                    <div className="checkbox-control">
+                        <input type="checkbox" id="flavour-checkbox" name="flavour-checkbox" onChange={(e)=>setHasFlavourImage(e.target.checked)}/>
+                        <label htmlFor="">Flavour Image: </label>
+                    </div>
+                    
+                    {hasFlavourImage && <div className="image-input-box">
+                        <input type="file" accept="image/*" type="file" name="flavourImage" id="flavourImage" onChange={handleSelectFlavourImage} />
+                        <p className="image-input-text">{flavourImageName}</p>
+                        <label htmlFor="flavourImage" className="image-input-label"><BsImage className="image-icon"/></label>
+                        {isUploadingFlavourImage && uploading && <LoadingSpinner  anchor="right"/>}
+                    </div>}
+                </div>
                 <div className="input-control">
                     <label htmlFor="">Ingredients: </label>
-                    <p>Separate ingredients with a comma</p>
+                    <p>(separate ingredients with a comma)</p>
                     <textarea type="text" rows="3" value={ingredients} onChange={(e)=>setIngredients(e.target.value)}/>
                 </div>
                 <div className="input-control">

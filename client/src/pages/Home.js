@@ -28,6 +28,7 @@ export default function Home() {
                 <h2>Summer is Here!</h2>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, autem facilis esse aperiam ratione soluta.</p>
                 <div className="seasonal-box">
+                    <div className="seasonal-polygon"></div>
                     <div className="seasonal-item"> 
                         <div className="seasonal-thumb"
                         style={{backgroundImage: "url('images/strawberry-matcha.jfif')"

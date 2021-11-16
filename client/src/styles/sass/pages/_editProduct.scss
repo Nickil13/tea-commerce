@@ -26,7 +26,7 @@
         width: auto;
         padding: 0.75rem;
     }
-    & #image{
+    & #image, #flavourImage{
         display: none;
     }
     
@@ -44,10 +44,16 @@
 }
 
 // Image input
+.image-label{
+    font-weight: 300;
+    font-size: 18px;
+}
+
 .image-input-box{
     position: relative;
     display: flex;
     padding-right: 60px;
+    margin-top: 0.5rem;
     width: 100%;
 
     & label{

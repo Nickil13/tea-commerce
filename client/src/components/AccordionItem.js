@@ -16,6 +16,10 @@ export default function AccordionItem({type, items, expanded}) {
                 </div>
                 
                 <ul className={`accordion-content ${isExpanded && 'accordion-content show'}`}>
+                    {type==="all" &&
+                    <li>
+                        <Link className="sidebar-link" onClick={closeSidebar}to={'/shop'}>Shop All</Link>
+                    </li>}
                     {items.map((item,index)=>{
                         return(
                             <li key={index}>

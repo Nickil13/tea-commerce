@@ -22,7 +22,7 @@ export const getCheckoutDetails = (id) => async (dispatch)=>{
     }
 }
 
-export const createCheckoutSession = (orderId, cartItems) => async (dispatch, getState)=>{
+export const createCheckoutSession = (orderId, cartItems, taxes, shipping) => async (dispatch, getState)=>{
     try{
         dispatch({
             type: CREATE_CHECKOUT_SESSION_REQUEST
@@ -33,7 +33,7 @@ export const createCheckoutSession = (orderId, cartItems) => async (dispatch, ge
                 'Content-Type': 'application/json'
             }
         }
-        const orderInfo = {orderId, cartItems};
+        const orderInfo = {orderId, cartItems, taxes, shipping};
 
         const {data} = await axios.post('/api/stripe/sessions', orderInfo, config);
 

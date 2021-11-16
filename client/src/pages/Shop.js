@@ -35,18 +35,18 @@ export default function Shop() {
         }else{
             newShopButtons = categories.map((category)=>category.type);
         }
-        setShopButtons(newShopButtons);
+
+        setShopButtons(newShopButtons.filter((btn)=>btn!=="all"));
     }
 
     const handleShopButtonClick = (value) => {
         if(category){
-            history.push(`/shop/${category}/${value}`);
+            history.push(`/shop/${category}/${value}`);     
         }else{
-            history.push(`/shop/${value}`);
+            history.push(`/shop/${value}`);      
         }
        
     }
-    
     const handleSearch = (e) =>{
         e.preventDefault();
         setKeyword(searchRef.current.value);

@@ -1,18 +1,51 @@
 @use '../abstracts';
 
-
+.seasonal-section{
+  background-color: abstracts.$color-secondary-light;
+  padding: 2rem 0;
+  & p{
+    text-align: center;
+  }
+}
   .seasonal-box{
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
-    justify-items: center;
-    align-items: center;
-    column-gap: 1em;
-    row-gap: 1em;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     width:100%;
     padding: 1em;
   }
   .seasonal-item{
     position:relative;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    text-align: center;
+    min-width: 325px;
+
+    & h3{
+      margin-top: 1em;
+    }
+  }
+  .seasonal-polygon{
+    position: absolute;
+    top:50%;
+    transform: translate(0, -50%);
+    right:0;
+    height: 600px;
+    width: 100%;
+    background-color: white;
+    clip-path: polygon(0 0, 100% 50%, 100% 100%, 0 50%);
+
+    @include abstracts.respond-to('small'){
+      height: 400px;
+    }
+
+    @include abstracts.respond-to('large'){
+      clip-path: none;
+      height: 150px;
+      top: 70%;
+    }
   }
   .seasonal-thumb{
     background-size: cover;
@@ -31,18 +64,13 @@
     width:100%;
     height: 100%;
   }
+
   .seasonal-thumb:hover .thumb-cover{
     display:grid;
   }
+
   
-  .seasonal-item h3{
-    text-align: center;
-    margin-top: 1em;
-  }
   
-  .seasonal-section{
-    background-color: abstracts.$color-secondary-light;
-  }
   
   /* Matcha Section & Teaparty Section */
   .matcha-section,.teaparty-section{

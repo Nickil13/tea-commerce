@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../context';
 
 export default function Products() {
-    const[category,setCategory] = useState('all');
+    const[category,setCategory] = useState('');
     const[productType,setProductType] = useState('');
     const[keyword, setKeyword] = useState('');
     const{isDeleteConfirmationShowing, showDeleteConfirmation} = useGlobalContext();
@@ -23,18 +23,16 @@ export default function Products() {
 
 
     useEffect(()=>{
-        dispatch(listProducts(category==="all" ? "" : category,productType,pageNumber, keyword));
+        dispatch(listProducts((category==="all" ? "" : category),productType,pageNumber, keyword));
     }, [dispatch, pageNumber, category, productType, keyword, successDelete])
-
-    useEffect(()=>{
-        // history.push('/admin/products?page=1');
-    }, [category, productType, history])
 
     useEffect(()=>{
         //Automatically set the productType to the first value when a category is chosen.
         const currentCategory = teaProductCategories.filter((cat)=>cat.type === category)[0];
         if(currentCategory && currentCategory.type!=="all"){
             setProductType((currentCategory.items)[0]);
+        }else{
+            setProductType('');
         }
     }, [category])
 
@@ -55,6 +53,16 @@ export default function Products() {
     const handleDelete = (id, name) => {
         showDeleteConfirmation(id,name,"product");
     }
+    
+    const handleSelectChange = (type, value)=>{
+        if(type==='productType'){
+            setProductType(value);
+            history.push('/admin/products?page=1');
+        }else if(type==='category'){
+            setCategory(value);
+            history.push('/admin/products?page=1');
+        }
+    }
     return (
         <div>
             <div className="admin-bar">
@@ -74,7 +82,7 @@ export default function Products() {
                 
                 <div className="search-selects">
                     <form>
-                        <select name="category" id="category" value={category} onChange={(e)=>setCategory(e.target.value)}>
+                        <select name="category" id="category" value={category} onChange={(e)=>handleSelectChange('category', e.target.value)}>
                             {teaProductCategories.map((category)=>{
                                 return(
                                     <option key={category.id} value={category.type}>{category.type}</option>
@@ -82,8 +90,8 @@ export default function Products() {
                             })}
                         </select>
                     </form>
-                    {category!=="all" && <form>
-                        <select name="productType" id="productType" value={productType} onChange={(e)=>setProductType(e.target.value)}>
+                    {category && category!=="all" && <form>
+                        <select name="productType" id="productType" value={productType} onChange={(e)=>handleSelectChange('productType', e.target.value)}>
                             {teaProductCategories.filter((x)=>x.type === category)[0] && teaProductCategories.filter((x)=>x.type === category)[0].items.map((item, index)=>{
                                 return(
                                     <option key={index} value={item}>{item}</option>

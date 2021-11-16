@@ -29,7 +29,7 @@ export default function PlaceOrder() {
 
     useEffect(()=>{
         if(orderSuccess){
-            dispatch(createCheckoutSession(order._id,cartItems)); 
+            dispatch(createCheckoutSession(order._id,cartItems, taxes, shipping)); 
         }
     },[orderSuccess,dispatch])
 
@@ -40,7 +40,6 @@ export default function PlaceOrder() {
     },[checkoutSessionSuccess])
 
     const handlePlaceOrder = () =>{
-        console.log(shippingAddress);
         dispatch(createOrder(
             {cartItems, shippingAddress, paymentMethod, subtotal, taxes, shipping, total}
         ));

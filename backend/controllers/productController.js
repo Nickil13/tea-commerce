@@ -98,9 +98,8 @@ const getProductById = async (req,res) => {
 // @access   Private/Admin
 
 const createProduct = asyncHandler( async (req,res) => {
-    console.log(req.body.name);
     const productExists = await Product.find({name: req.body.name});
-    console.log(productExists);
+    
     if(productExists.length>0){
         res.status(400);
         throw new Error("Product already exists by that name." + req.body.name);
@@ -117,6 +116,11 @@ const createProduct = asyncHandler( async (req,res) => {
             description: req.body.description,
             countInStock: req.body.countInStock
         })
+
+        if(req.body.flavourImage){
+            product.flavourImage = req.body.flavourImage;
+        }
+
         const createdProduct = await product.save();
         res.status(201);
         res.json(createdProduct);
@@ -128,7 +132,7 @@ const createProduct = asyncHandler( async (req,res) => {
 // @access   Private/Admin
 
 const updateProduct = asyncHandler(async (req,res) => {
-    const{name, productType, image, category, price, ingredients, description, countInStock} = req.body;
+    const{name, productType, image, category, price, ingredients, description, countInStock, flavourImage} = req.body;
     const product = await Product.findById(req.params.id);
 
     if(product){
@@ -140,6 +144,10 @@ const updateProduct = asyncHandler(async (req,res) => {
         product.ingredients = ingredients;
         product.description = description;
         product.countInStock = countInStock;
+
+        if(flavourImage){
+            product.flavourImage = flavourImage;
+        }
 
         try{
             const updatedProduct = await product.save();
