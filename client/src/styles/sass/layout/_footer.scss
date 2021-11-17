@@ -16,34 +16,38 @@ footer{
     border-top: 1px solid abstracts.$color-neutral-dark;
     grid-template-columns: repeat(3,1fr);
 
-      &li{
+      & li{
         padding: 0.25em;
+      }
+
+      & a{
+        color:abstracts.$color-neutral-dark;
+        &:hover{
+          color: abstracts.$color-primary;
+        }
       }
   }
   .quick-links,.account-links,.about-links{
     grid-row:1;
   }
  
-  .footer-link{
-    color:abstracts.$color-neutral-dark;
-      &:hover{
-        color: abstracts.$color-primary;
-      }
-  }
-
-  .footer-media-link{
-    font-size: 20px;
-    color: abstracts.$color-primary;
-      &:hover{
-        color: abstracts.$color-primary-dark;
-      }
-  }
+  
+ 
 
   .media-links{
     display:flex;
     justify-content: space-around;
     padding: 1em 0;
     width: 80%;
+
+    & a{
+      font-size: 20px;
+      color: abstracts.$color-primary;
+      
+      &:hover{
+        color: abstracts.$color-primary-dark;
+      }
+    }
   }
   .copyright-text{
     grid-row:2;

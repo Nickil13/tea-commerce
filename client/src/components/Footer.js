@@ -10,34 +10,42 @@ export default function Footer() {
     return (
         <footer>
             <div className="footer-items">
-                <ul className="quick-links"> <strong>Quick Links</strong>
-                    <li ><Link to="/" className="footer-link">Home</Link></li>
-                    <li><Link to="/shop" className="footer-link">Shop</Link></li>
-                    <li><Link to="/cart" className="footer-link">Cart</Link></li>
-                </ul>
-                {userInfo ? 
-                <ul className="account-links"> <strong>My Account</strong>
-                    <li><Link to="/account" className="footer-link">Account Information</Link></li>
-                    <li><Link to="/account" className="footer-link">Orders</Link></li>
-                    <li><Link to="/account" className="footer-link">Wishlist</Link></li>
-                </ul>
-                :
-                <ul className="account-links"> <strong>My Account</strong>
-                    <li><Link to="/login" className="footer-link">Login</Link></li>
-                    <li><Link to="/signup" className="footer-link">Signup</Link></li>
-                </ul>
+                <div className="quick-links">
+                    <h4>Quick Links</h4>
+                    <ul> 
+                        <li ><Link to="/">Home</Link></li>
+                        <li><Link to="/shop">Shop</Link></li>
+                        <li><Link to="/cart">Cart</Link></li>
+                    </ul>
+                </div>
+                <div className="account-links">
+                    <h4>My Account</h4>
+                    {userInfo ? 
+                    <ul>
+                        <li><Link to="/account">Account Information</Link></li>
+                        <li><Link to="/account">Orders</Link></li>
+                        <li><Link to="/account">Wishlist</Link></li>
+                    </ul>
+                    :
+                    <ul>
+                        <li><Link to="/login">Login</Link></li>
+                        <li><Link to="/signup">Signup</Link></li>
+                    </ul>
+                    
+                    }
+                </div>
                 
-                }
-                
-                <ul className="about-links"> <strong>Keep in touch</strong>
-                    <li><p>Questions? inquire@tea-commerce.com</p></li>
-                    <div className="media-links">
+                <div className="about-links">
+                    <h4>Keep in touch</h4>
+                    <p>Questions? inquire@tea-commerce.com</p>
+                    
+                    <ul className="media-links">
                         <li><a href="#!" className="footer-media-link"><FaInstagram/></a></li>
                         <li><a href="#!" className="footer-media-link"><FaTwitter/></a></li>
                         <li><a href="#!" className="footer-media-link"><FaPinterest/></a></li>
-                    </div>
-                    
-                </ul>
+                    </ul>
+                </div>
+                
                 <p className="copyright-text">Copyright &copy; 2021 Tea Commerce</p>
             </div>
         </footer>

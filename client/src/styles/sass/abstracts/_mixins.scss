@@ -1,5 +1,6 @@
 @use './variables';
 @use './breakpoints';
+@use './colors';
 
 @mixin fit-image{
     width: 100%;
@@ -40,7 +41,7 @@
 @mixin overlay{
     position:fixed;
     display:none;
-    background-color: variables.$color-dark-transparent;
+    background-color: colors.$color-dark-transparent;
     top:0;
     left:0;
     bottom:0;
