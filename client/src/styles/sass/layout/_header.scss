@@ -12,6 +12,7 @@
     background-color: abstracts.$color-neutral;
     box-shadow: 0 2px 7px -5px rgb(0 0 0 / 90%);
   }
+
   nav{
     display: flex;
     align-items: center;
@@ -21,17 +22,25 @@
     padding: 0 1rem;
     margin: 0 auto;
   }
+  
   .nav-links{
     display:none;
     align-self: center;
     
-  }
-  .nav-link{
-    position: relative;
-    padding: 1rem;
-    margin: 0 0.25rem;
-    font-family: abstracts.$ff-secondary;
-    color:abstracts.$color-dark;
+    & li{
+      position: relative;
+      margin: 0 0.25rem;
+      padding: 1rem;
+
+      & a {
+        font-family: abstracts.$ff-secondary;
+        color:abstracts.$color-dark;
+      }
+      
+    }
+    @include abstracts.respond-to('large'){
+        display: flex;
+    }
   }
   
   .active-nav{
@@ -61,78 +70,69 @@
     background-color: abstracts.$color-primary;
   }
   
-  .nav-link:hover, .nav-icon:hover{
-    color: abstracts.$color-primary-light;
-  }
-  .nav-icons{
-    display: flex;
-    padding: 1em;
+  
+  .nav-icon-container{
+    display:flex;
+    align-items: center;
     justify-self: end;
-    align-self: end;
+    padding-left: 2rem;
+
+    .nav-icons{
+      display: flex;
+      align-items: center;
+  
+      & >li{
+        padding: 1rem;
+      }
+    }
   }
+  
   .nav-icon{
     font-size: 25px;
     color: abstracts.$color-dark;
     cursor:pointer;
-  }
-  .nav-icon-loggedin{
-    color: abstracts.$color-secondary;
+
+    &:hover{
+      color: abstracts.$color-primary-light;
+    }
+
+    &-loggedin{
+      color: abstracts.$color-secondary;
       &:hover{
-        color: abstracts.$color-secondary-dark;
+        color: abstracts.$color-secondary-light;
       }
+    }
   }
   
   .nav-dropdown{
     position: relative;
-    padding: 1em;
   }
 
-  .search-link{
-    display: none;
-  }
-
-  @media screen and (min-width: 900px){
-    .nav-links{
-      display: flex;
-    }
-
-    .search-link{
-      display: block;
-    }
-    
-    .nav-icons{
-      display: flex;
-      justify-content: space-around;
-      align-items:center;
-    }
-  }
 
   //Menu toggle
   .sidebar-toggle{
-    font-size: 25px;
     cursor: pointer;
-    justify-self: left;
-  }
-  @media screen and (min-width: 900px){
-    .sidebar-toggle{
+    padding: 1rem;
+
+    @include abstracts.respond-to('large'){
       display:none;
     }
   }
 
   //Logo
   .logo, .sidebar-toggle{
-    &:hover{
-      color: abstracts.$color-dark;
-    }
+    color: abstracts.$color-dark;
+    font-size: 25px;
 
+    &:hover{
+      color: abstracts.$color-neutral-dark;
+    }
   }
   
   .logo{
     font-size: 25px;
     font-family: abstracts.$ff-secondary;
-    color: abstracts.$color-dark; 
     text-align: center;
-    justify-self: left;
   }
 
   //Hero

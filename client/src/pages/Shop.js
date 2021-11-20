@@ -58,10 +58,10 @@ export default function Shop() {
         searchRef.current.value = '';
         history.push(`${location.pathname}?page=1`);
     }
-
+    
     return (
         <div>
-            <Banner category={location.pathname.split('/')[2] ? location.pathname.split('/')[2] : 'all'}/>
+            <Banner category={category ? category : 'all'} productType={type ? type : ''}/>
             <Breadcrumbs path={location.pathname}/>
             
             <div className="filter-bar">

@@ -1,40 +1,53 @@
 @use '../abstracts';
 
   .dropdown-items{
+    display: none;
     position: absolute;
-    /* right:-50%; */
-    top: 100%;
-    right:-50%;
-    border: 1px solid abstracts.$color-dark;
-    // font-family: abstracts.$ff-secondary;
+    min-width: 125px; 
+    font-family: abstracts.$ff-secondary;
+    font-size: 18px;
     background-color: abstracts.$color-neutral;
-    padding: 1em;
+    padding: 1rem 0.50rem;
+    box-shadow: 0px 2px 7px -5px rgb(0 0 0 / 90%),
+    0px 6px 10px -5px rgb(0 0 0 / 50%),
+    0px -1px 7px -5px rgb(0 0 0 / 50%),
+    ;
+
+    & h4{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      text-transform: capitalize;
+      letter-spacing: 1px;
+      color: abstracts.$color-neutral-dark;
+    }
+
+    & li{
+      padding: 0.50rem;
+    }
+    &.show{
+      display: block;
+    }
+
+    &::before{
+      position: absolute;
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      top: -5px;
+      left: 50%;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid abstracts.$color-primary-light;
+    }
   }
-  .dropdown-link{
-    color: abstracts.$color-dark;
-  }
-  .dropdown-item{
-    padding: 0.5em;
-    background-color: abstracts.$color-neutral;
-    color: abstracts.$color-dark;
-  }
-  .dropdown-item:hover:not(.dropdown-username){
-    background-color: abstracts.$color-primary-light;
-  }
-  .dropdown-username{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    text-transform: capitalize;
-    font-weight: 400;
-    letter-spacing: 1px; 
-  }
-  .dropdown-icon{
-    font-size: 25px;
-    color: abstracts.$color-secondary;
-  }
+
   .dropdown-btn{
     width: 100%;
-    padding:0;
+    padding:0.25rem;
     margin:0;
+    background-color: lighten(abstracts.$color-primary, 3%);
+    color: abstracts.$color-neutral;
+    font-family: abstracts.$ff-secondary;
   }

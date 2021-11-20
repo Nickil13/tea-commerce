@@ -5,11 +5,7 @@
     background-color: abstracts.$color-dark;
   }
   
-  .slide-title{
-    max-width: 20ch;
-    text-align: center;
-    color: abstracts.$color-neutral;
-  }
+  
   .slide-dots{
     display:flex;
     position: absolute;
@@ -36,7 +32,8 @@
     place-items:center;
     top: 0;
     color: abstracts.$color-neutral;
-    font-size: 50px;
+    
+    font-size: 30px;
     padding: 1rem;
     height:100%;
     cursor: pointer;
@@ -44,6 +41,9 @@
 
       &:hover{
         color: abstracts.$color-neutral-gray;
+      }
+      @include abstracts.respond-to('small'){
+        font-size: 50px;
       }
   }
  
@@ -53,6 +53,7 @@
   .arrow-right{
     right:0;
   }
+  
   .slide{
     place-items:center;
     background-position:center;
@@ -61,25 +62,70 @@
     height:abstracts.$hero-height;
     display: none;
     animation: fade-in 1s ease-in;
-
     
+
+    &-active{
+      display: grid;
+    }
+
+    & .slide-title{
+      max-width: 25ch;
+      font-size: 25px;
+      margin-bottom: 0.25rem;
+      text-align: center;
+      color: abstracts.$color-neutral;
+    }
+
+    & img{
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    & .slide-content{
+      position: absolute;
+      display:grid;
+      padding: 0 3.5rem;
+      text-align: center;
+        
+        & p{
+          color:abstracts.$color-neutral;
+        }
+    }
+
+    @include abstracts.respond-to('small'){
+      & .slide-title{
+        font-size: 30px;
+      }
+      & .slide-content{
+        padding: 0 5rem;
+
+        & p{
+          font-size: 20px;
+        }
+      }
+    }
+
+    @include abstracts.respond-to('medium'){
+      & .slide-title{
+        font-size: 38px;
+      }
+    }
   }
   
-  .slide-active{
-    display:grid;
-    /* opacity:1; */
-  }
-  .slide-content{
-    display:grid;
-      
-      & p{
-        color:abstracts.$color-neutral;
-      }
+  .slide-darken{
+    img{
+      filter: brightness(70%);
+    }
   }
 
-  @media screen and (min-width: 1000px){
-    #matcha-slide .slide-content{
+
+  #matcha-slide .slide-content{
+    @include abstracts.respond-to('large'){
       justify-self:start;
-      margin-left: 2rem;
+      margin-left: 8rem;
+      max-width: 35ch;
+      padding: 0;
     }
   }

@@ -1,10 +1,10 @@
 import React, { useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { listMyOrders } from '../actions/orderActions';
-import { OrderCard } from '../components';
+import { OrderCard, Message, LoadingSpinner } from '../components';
 export default function MyOrders() {
     const myOrders = useSelector((state)=>state.orders.myOrders);
-    const {orders} = myOrders;
+    const {orders, loading} = myOrders;
     const dispatch = useDispatch();
 
     useEffect(()=>{
@@ -14,13 +14,13 @@ export default function MyOrders() {
     return (
         <div>
             <h1 className="page-title">My Orders</h1>
-            <div>
-                {orders.length>0 && orders.map((order)=>{
+            {loading ? <LoadingSpinner/> : <div>
+                {orders.length>0 ? orders.map((order)=>{
                     return(
                         <OrderCard key={order._id} {...order}/>
                     )
-                })}
-            </div>
+                }) : <Message>You have not placed any orders.</Message>}
+            </div>}
         </div>
     )
 }

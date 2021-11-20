@@ -5,23 +5,25 @@
     display:grid;
     place-items:center;
     top:0;
-    height: 100px;
+    min-height: 100px;
     transform: translateY(-100%);
     background-color: abstracts.$color-secondary;
     width: 100%;
     z-index: 2;
     transition: all 500ms ease-in;
+
+    &.show{
+      transform: translateY(0%);
+    }
   }
-  .alert-container.show{
-    transform: translateY(0%);
-  }
+  
   .alert{
     display: flex;
     justify-content: center;
     align-items: center;
     color: abstracts.$color-neutral;
     width: 80%;
-    padding: 1em;
+    padding: 1rem;
     text-align: center;
     
     font-family: abstracts.$ff-primary;
@@ -32,7 +34,7 @@
       font-size: 28px;
     }
 
-    p{
+    & p{
       font-size: 20px;
       font-weight: 500;
     }

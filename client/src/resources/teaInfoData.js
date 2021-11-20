@@ -93,13 +93,84 @@ export const teaInfo = [
     }
 
 ]
-
+export const teaProductTypes = [
+    {
+        id: 1,
+        type: "black tea",
+        image:"/images/all-tea.jfif",
+        bannerColor: "#87CEEB",
+        description: "All teas!",
+    },
+    {
+        id: 1,
+        type: "green tea",
+        image:"/images/all-tea.jfif",
+        bannerColor: "#87CEEB",
+        description: "All teas!",
+    },
+    {
+        id: 1,
+        type: "white tea",
+        image:"/images/all-tea.jfif",
+        bannerColor: "#87CEEB",
+        description: "All teas!",
+    },
+    {
+        id: 1,
+        type: "red tea",
+        image:"/images/all-tea.jfif",
+        bannerColor: "#87CEEB",
+        description: "All teas!",
+    },
+    {
+        id: 1,
+        type: "oolong tea",
+        image:"/images/all-tea.jfif",
+        bannerColor: "#87CEEB",
+        description: "All teas!",
+    },
+    {
+        id: 1,
+        type: "herbal tea",
+        image:"/images/all-tea.jfif",
+        bannerColor: "#87CEEB",
+        description: "All teas!",
+    },
+    {
+        id: 1,
+        type: "classic mixes",
+        image:"/images/all-tea.jfif",
+        bannerColor: "#87CEEB",
+        description: "All teas!",
+    },
+    {
+        id: 1,
+        type: "cocktail mixes",
+        image:"/images/all-tea.jfif",
+        bannerColor: "#87CEEB",
+        description: "All teas!",
+    },
+    {
+        id: 1,
+        type: "ceremonial matcha",
+        image:"/images/ceremonial-matcha.jfif",
+        bannerColor: "#8FBC8F",
+        description: "Pure, natural matcha.",
+    },
+    {
+        id: 1,
+        type: "flavoured matcha",
+        image:"/images/merry-matcha.jfif",
+        bannerColor: "#DEB887",
+        description: "Classical matcha is perfect with fruity flavours, spices and chocolate. Try our Maple Matcha and Gingerbread Matcha!",
+    },
+]
 export const teaProductCategories = [
     {
         id: 1,
         type: "all",
         image:"/images/all-tea.jfif",
-        bannerColor: "skyblue",
+        bannerColor: "#87CEEB",
         description: "All teas!",
         items: ["loose leaf","tea mixes", "matcha"],
     },
@@ -107,7 +178,7 @@ export const teaProductCategories = [
         id: 2,
         type: "loose leaf",
         image:"/images/hero-tealeaves.jfif",
-        bannerColor: "lavender",
+        bannerColor: "#E6E6FA",
         description: "Classic tea. Measure and steep for the perfect cup!",
         items: ["black tea", "green tea", "white tea", "red tea", "oolong tea","herbal tea"],
     },
@@ -115,7 +186,7 @@ export const teaProductCategories = [
         id: 3,
         type: "tea mixes",
         image:"/images/party-pitcher.jfif",
-        bannerColor: "palevioletred",
+        bannerColor: "#DB7093",
         description: "Sweet powdered tea blends perfect for tea lovers who are on the go or for brewing large quantities of tea.",
         items: ["classic mixes","cocktail mixes"],
     },

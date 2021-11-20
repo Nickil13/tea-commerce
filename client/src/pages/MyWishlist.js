@@ -1,11 +1,11 @@
 import React, { useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserProfile } from '../actions/userActions';
-import { WishlistCard } from '../components';
+import { WishlistCard, Message, LoadingSpinner } from '../components';
 
 export default function MyWishlist() {
     const {userProfile, userRemoveWishlist} = useSelector((state)=>state.user);
-    const {user} = userProfile;
+    const {user, loading} = userProfile;
     const {success: wishlistRemoveSuccess} = userRemoveWishlist;
     const dispatch = useDispatch();
 
@@ -21,13 +21,13 @@ export default function MyWishlist() {
         <div>
             <h1 className="page-title">My Wishlist</h1>
             <div className="wishlist-container">
-                <div className="profile-wishlist">
-                    {user.wishlist && user.wishlist.length>0 && user.wishlist.map((item)=>{
+                {loading ? <LoadingSpinner/> : <div className="profile-wishlist">
+                    {user.wishlist && user.wishlist.length>0 ? user.wishlist.map((item)=>{
                         return(
                             <WishlistCard key={item._id} {...item}/>
                         )
-                    })}
-                </div>
+                    }) : <Message>You haven't added any items to your wishlist.</Message>}
+                </div>}
             </div>
         </div>
     )

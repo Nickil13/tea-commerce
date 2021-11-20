@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import {Link, NavLink, useHistory} from "react-router-dom";
 import { FaShoppingCart, FaBars, FaUserCircle } from 'react-icons/fa';
-import { GiTeapot } from 'react-icons/gi';
 import { useSelector, useDispatch} from 'react-redux';
 import { getUserProfile, logout} from '../actions/userActions';
 import { useGlobalContext } from '../context';
@@ -20,6 +19,7 @@ export default function Navbar() {
     const{openSidebar} = useGlobalContext();
     const history = useHistory();
     const navbar = useRef(null);
+    const container = useRef(null);
 
     const cartItemAmount = cartItems.reduce((acc,item)=>acc + Number(item.quantity), 0);
 
@@ -39,16 +39,33 @@ export default function Navbar() {
     }, [user, localCart, dispatch, addToCartSuccess, removeFromCartSuccess])
 
     useEffect(()=>{
-        document.addEventListener("mousedown", handleDropdownMenu);
+        document.addEventListener("mousedown", closeDropdownMenu);
         return () => {
-            document.removeEventListener("mousedown", handleDropdownMenu);
+            document.removeEventListener("mousedown", closeDropdownMenu);
         }
     },[])
 
-    const handleDropdownMenu = (e) => {
+    const closeDropdownMenu = (e) => {
         if(navbar.current && !navbar.current.contains(e.target)){
             setShowDropdown(false);
         }
+        
+    }
+
+    const handleDropdownClick = (e) =>{
+        const temp = e.target.getBoundingClientRect();
+        const dropdownItems = document.getElementById('nav-dropdown-items');
+        const itemsWidth = dropdownItems.getBoundingClientRect().width!==0 ? dropdownItems.getBoundingClientRect().width : 125;
+
+        // Get dimensions of the container
+        const center = (temp.left + temp.right) /2;
+        const bottom = temp.bottom -10;
+        const dropdown = container.current;
+
+        dropdown.style.left = `-${Math.floor(itemsWidth/2-(center-temp.left))+4}px`;
+        dropdown.style.top = `${Math.floor(bottom)}px`;
+
+        setShowDropdown(true);
         
     }
 
@@ -66,65 +83,63 @@ export default function Navbar() {
     return (
         <div className="nav-container" ref={navbar}>
             <nav>
-                <div className="sidebar-toggle"
-                    onClick={openSidebar}><FaBars/></div>
-
                 <Link className="logo" to="/">Tea Commerce</Link>
 
-                <ul className="nav-links"><li>
-                        <NavLink activeClassName="active-nav" className="nav-link" to="/shop" exact>
-                            Shop All</NavLink>
+                <ul className="nav-links">
+                    <li>
+                        <NavLink activeClassName="active-nav" to="/shop" exact>Shop All</NavLink>
                     </li>
                     <li>
                         <NavLink
-                        activeClassName="active-nav" className="nav-link" to="/shop/loose leaf">
-                            Loose Leaf</NavLink>
+                        activeClassName="active-nav" to="/shop/loose leaf">Loose Leaf</NavLink>
                     </li>
                     <li>
                         <NavLink
-                        activeClassName="active-nav"  className="nav-link" to="/shop/matcha">
-                            Matcha</NavLink>
+                        activeClassName="active-nav" to="/shop/matcha">Matcha</NavLink>
                     </li>
                     <li>
                         <NavLink
-                        activeClassName="active-nav" className="nav-link" to="/shop/tea mixes">
-                            Mixes</NavLink>
+                        activeClassName="active-nav" to="/shop/tea mixes">Mixes</NavLink>
                     </li>
                     
                 </ul>
-                <ul className="nav-icons">
-                    {user && user.username ? 
-                    <div className="nav-dropdown">
-                        <FaUserCircle className="nav-icon nav-icon-loggedin" onClick={()=>setShowDropdown(true)}/>
-                        {showDropdown &&
-                        <ul className="dropdown-items"> 
-                            <li className="dropdown-username">
-                            <GiTeapot className="dropdown-icon"/>{user.username}</li>
-                            <li>
-                                <button onClick={handleAccountClick} className="btn dropdown-btn"> My Account
-                                    </button>
-                            </li>
-                            <li>
-                                <button onClick={handleLogoutClick} className="btn dropdown-btn"> Logout
-                                    </button>
-                            </li>
-                    </ul>}
+                <div className="nav-icon-container">
+                    <ul className="nav-icons">
+                        {user && user.username ? 
+                        <div className="nav-dropdown">
+                            <span onClick={handleDropdownClick}><FaUserCircle className="nav-icon nav-icon-loggedin"/></span>
+                            <ul className={`dropdown-items ${showDropdown && 'dropdown-items show'}`} ref={container} id="nav-dropdown-items">
+                                <h4>{user.username}</h4>
+                                <li>
+                                    <button onClick={handleAccountClick} className="btn dropdown-btn">Account
+                                        </button>
+                                </li>
+                                <li>
+                                    <button onClick={handleLogoutClick} className="btn dropdown-btn">Logout
+                                        </button>
+                                </li>
+                        </ul>
+                            
+                        </div>
+                        :
+                        <li>
+                            <Link to="/login">
+                                <FaUserCircle className="nav-icon"/>
+                            </Link>
+                        </li>
+                        }
                         
+                        <li className="cart-link">
+                            <Link to="/cart">
+                                <FaShoppingCart className="nav-icon" />
+                                {cartItemAmount>0 && <span className="cart-icon-amount">{cartItemAmount}</span>}
+                            </Link>
+                        </li>
+                    </ul>
+                    <div className="sidebar-toggle"
+                        onClick={openSidebar}><FaBars/>
                     </div>
-                     :
-                    <li className="nav-link">
-                        <Link to="/login">
-                            <FaUserCircle className="nav-icon"/>
-                        </Link>
-                    </li>
-                    } 
-                    <li className="nav-link cart-link">
-                        <Link to="/cart">
-                            <FaShoppingCart className="nav-icon" />
-                            {cartItemAmount>0 && <span className="cart-icon-amount">{cartItemAmount}</span>}
-                        </Link>
-                    </li>
-                </ul>
+                </div>
             </nav>      
         </div>
     )

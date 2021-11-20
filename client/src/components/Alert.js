@@ -7,9 +7,12 @@ export default function Alert() {
     const{isAlertShowing,closeAlert,alertContent} = useGlobalContext();
     
     React.useEffect(()=>{
-        setTimeout(()=>{
+        let alert = setTimeout(()=>{
             closeAlert();
-        },[4000])
+        },[4000]);
+        return () => {
+            clearTimeout(alert);
+        };
     },[isAlertShowing])
 
     return (
