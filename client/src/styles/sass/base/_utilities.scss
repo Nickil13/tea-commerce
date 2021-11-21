@@ -4,6 +4,10 @@
     border: 2px solid abstracts.$color-error;
 }
 
+.invalid-input-dark{
+    border: 2px solid darken(abstracts.$color-error, 20%);
+}
+
 .page-title{
     padding: 4rem 4rem 3rem 4rem;
     text-align: center;

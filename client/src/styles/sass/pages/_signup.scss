@@ -1,14 +1,15 @@
 @use '../abstracts';
 
 
-.login-container{
+.signup-container{
+    position: relative;
   display: grid;
   place-items: center;
   width: 80%;
   max-width: 400px;
   margin: 6rem auto 0 auto;
   padding: 4rem 1.5rem;
-  background-color: abstracts.$color-primary-light;
+  overflow: hidden;
   box-shadow: 0 2px 7px -5px rgb(0 0 0 / 90%);
 
   & h1 {
@@ -37,16 +38,24 @@
 
 }
 
-.login-form{
+.signup-blob{
+    position: absolute;
+    top: -150px;
+    left: -50%;
+    z-index: -1;
+}
+
+.signup-form{
   @include abstracts.form-format;
-  width: 100%;
+    width: 100%;
   & .input-control{
-    
+
     & input{
       font-size: 18px;
 
       &::placeholder{
         text-align: center;
+        text-transform: lowercase;
       }
     }
   }

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import Message from '../components/Message';
 import { useSelector, useDispatch} from 'react-redux';
 import { registerUser, updateUserProfile } from '../actions/userActions';
-import { Loader } from '../components';
+import { LoadingSpinner, Message } from '../components';
+import { USER_REGISTER_RESET } from '../constants/userConstants';
 
 export default function Signup() {
     const[username,setUsername] = useState("");
@@ -17,8 +17,14 @@ export default function Signup() {
     const {userRegister, userLogin} = useSelector((state)=>state.user);
     const {loading,error,userInfo} = userRegister;
     const localCart = useSelector((state)=>state.localCart);
+
+    const [usernameError, setUsernameError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+    const [passwordConfirmationError, setPasswordConfirmationError] = useState(false);
     
     useEffect(()=>{
+        dispatch({type: USER_REGISTER_RESET});
         if(userLogin.userInfo){
             // If the user is logging in in order to checkout, push to shipping.
             // Update the users cart to have the local cart items.
@@ -30,39 +36,63 @@ export default function Signup() {
             }else{
                 history.push("/account");
             }
-        }
-        // if(userLogin.userInfo || userInfo){
-        //     history.push("/account");
-        // }    
-    },[history,userInfo])
+        }   
+    },[history,userInfo, dispatch])
 
     const handleSubmit = (e) =>{
         e.preventDefault();
-        dispatch(registerUser(username, email, password, confirmPassword));
-        
-        
+
+        //Form validation
+        setUsernameError(false);
+        setEmailError(false);
+        setPasswordError(false);
+        setPasswordConfirmationError(false);
+
+        if(!username || !email || !password || !confirmPassword){
+            if(!username){
+                setUsernameError(true);
+            }
+            if(!email){
+                setEmailError(true);
+            }
+            if(!password){
+                setPasswordError(true);
+            }
+            if(!confirmPassword){
+                setPasswordConfirmationError(true);
+            }
+            
+        }else{
+            dispatch(registerUser(username, email, password, confirmPassword));
+        } 
     }
+
     return (
         <div className="signup-container" onSubmit={handleSubmit}>
             <h1>Sign up</h1>
-            {error && <Message type="error">{error}</Message>}
             <form className="signup-form">
-                <div className="form-control">
-                    <input type="text" name="username" id="username" placeholder="username" style={{textTransform:"capitalize"}} value={username} onChange={(e)=>setUsername(e.target.value)}/>           
+                <div className="input-control">
+                    <input type="text" name="username" id="username" placeholder="username" style={{textTransform:"capitalize"}} className={usernameError ? 'invalid-input-dark' : ''} value={username} onChange={(e)=>setUsername(e.target.value)}/>
+                    {usernameError  && <p className="validation-error">invalid username</p>}   
                 </div>
-                <div className="form-control">
-                    <input type="email" name="email" id="email" placeholder="email" value={email} onChange={(e)=>setEmail(e.target.value)}/>           
+                <div className="input-control">
+                    <input type="email" name="email" id="email" placeholder="email" className={emailError ? 'invalid-input-dark' : ''} value={email} onChange={(e)=>setEmail(e.target.value)}/>  
+                    {emailError  && <p className="validation-error">invalid email</p>}          
                 </div>
-                <div className="form-control">
-                    <input type="password" name="password" id="password" placeholder="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>           
+                <div className="input-control">
+                    <input type="password" name="password" id="password" placeholder="password" className={passwordError ? 'invalid-input-dark' : ''} value={password} onChange={(e)=>setPassword(e.target.value)}/>
+                    {passwordError  && <p className="validation-error">invalid password</p>}            
                 </div>
-                <div className="form-control">
-                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="confirm password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)}/>           
+                <div className="input-control">
+                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="confirm password" className={passwordConfirmationError ? 'invalid-input-dark' : ''} value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)}/>
+                    {passwordConfirmationError  && <p className="validation-error">confirmation required</p>}           
                 </div>
+                {error && <Message type="error">{error}</Message>}
                 <button type="submit" className="btn btn-primary">Sign up</button>
             </form>
             <p>Already have an account? <Link to="/login">Log in</Link></p>
-            {loading && <Loader/>}
+            <img src="/images/blob.svg" alt="blob" className="signup-blob" />
+            {loading && <LoadingSpinner/>}
         </div>
     )
 }

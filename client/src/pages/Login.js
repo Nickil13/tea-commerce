@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import Message from '../components/Message';
+import {Message }from '../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, updateUserProfile } from '../actions/userActions';
 
@@ -14,11 +14,6 @@ export default function Login() {
     const localCart = useSelector((state)=>state.localCart);
     const history = useHistory();
     const location = useLocation();
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        dispatch(login(username,password));
-    }
 
     useEffect(()=>{
         if(userInfo){
@@ -35,18 +30,24 @@ export default function Login() {
         }
     },[userInfo])
     
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(login(username,password));
+    }
+
     return (
-        <div className="signup-container" onSubmit={handleSubmit}>
-            <h1>Log in</h1>
-            {error && <Message type="error">{error}</Message>}
-            <form className="signup-form">
-                <div className="form-control">
-                    <input type="text" name="username" id="username" placeholder="username" value={username} onChange={(e)=>setUsername(e.target.value)}/>           
+        <div className="login-container" onSubmit={handleSubmit}>
+            <h1>Login</h1>
+            <form className="login-form">
+                <div className="input-control">
+                    <input type="text" name="username" id="username" placeholder="username" className={error ? 'invalid-input-dark' : ''}value={username} onChange={(e)=>setUsername(e.target.value)}/>           
                 </div>
-                <div className="form-control">
-                    <input type="password" name="password" id="password" placeholder="password" value={password} onChange={(e)=>setPassword(e.target.value)} />           
+                <div className="input-control">
+                    <input type="password" name="password" id="password" placeholder="password" className={error ? 'invalid-input-dark' : ''} value={password} onChange={(e)=>setPassword(e.target.value)} />           
                 </div>
+                {error && <Message type="error">{error}</Message>}
                 <button type="submit" className="btn btn-primary">Log in</button>
+                
             </form>
             <p>Don't have an account? <Link to={location.search.includes('redirect') ? `/signup?redirect=${location.search.split('=')[1]}` : '/signup'}>Sign up</Link></p>
         </div>
