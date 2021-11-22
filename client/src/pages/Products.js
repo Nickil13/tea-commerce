@@ -9,7 +9,7 @@ import { useGlobalContext } from '../context';
 
 export default function Products() {
     const[category,setCategory] = useState('');
-    const[productType,setProductType] = useState('');
+    const[productType,setProductType] = useState('select product type');
     const[keyword, setKeyword] = useState('');
     const{isDeleteConfirmationShowing, showDeleteConfirmation} = useGlobalContext();
     const location = useLocation();
@@ -23,17 +23,23 @@ export default function Products() {
 
 
     useEffect(()=>{
-        dispatch(listProducts((category==="all" ? "" : category),productType,pageNumber, keyword));
+        if(productType==='select product type'){
+            dispatch(listProducts((category==="all" ? "" : category),'',pageNumber, keyword));
+        }else{
+            dispatch(listProducts((category==="all" ? "" : category),productType,pageNumber, keyword));
+        }
+        
     }, [dispatch, pageNumber, category, productType, keyword, successDelete])
 
     useEffect(()=>{
-        //Automatically set the productType to the first value when a category is chosen.
-        const currentCategory = teaProductCategories.filter((cat)=>cat.type === category)[0];
-        if(currentCategory && currentCategory.type!=="all"){
-            setProductType((currentCategory.items)[0]);
-        }else{
-            setProductType('');
-        }
+        // //Automatically set the productType to the first value when a category is chosen.
+        // const currentCategory = teaProductCategories.filter((cat)=>cat.type === category)[0];
+        // if(currentCategory && currentCategory.type!=="all"){
+        //     setProductType((currentCategory.items)[0]);
+        // }else{
+        //     setProductType('');
+        // }
+
     }, [category])
 
     const handleSearch = (e) =>{
@@ -92,6 +98,7 @@ export default function Products() {
                     </form>
                     {category && category!=="all" && <form>
                         <select name="productType" id="productType" value={productType} onChange={(e)=>handleSelectChange('productType', e.target.value)}>
+                            <option value={'select product type'}>select product type</option>
                             {teaProductCategories.filter((x)=>x.type === category)[0] && teaProductCategories.filter((x)=>x.type === category)[0].items.map((item, index)=>{
                                 return(
                                     <option key={index} value={item}>{item}</option>

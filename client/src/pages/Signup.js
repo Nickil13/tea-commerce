@@ -87,7 +87,6 @@ export default function Signup() {
                     <input type="password" name="confirmPassword" id="confirmPassword" placeholder="confirm password" className={passwordConfirmationError ? 'invalid-input-dark' : ''} value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)}/>
                     {passwordConfirmationError  && <p className="validation-error">confirmation required</p>}           
                 </div>
-                {/* test */}
                 {error && <Message type="error">{error}</Message>}
                 <button type="submit" className="btn btn-primary">Sign up</button>
             </form>

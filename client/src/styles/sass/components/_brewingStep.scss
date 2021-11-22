@@ -31,3 +31,13 @@
         text-align: center;
     }
 }
+
+.step-num{
+    position: absolute;
+    top: 0;
+    left: 25px;
+    font-family: abstracts.$ff-secondary;
+    font-size: 40px;
+    font-weight: bold;
+    color: abstracts.$color-primary-dark;
+}

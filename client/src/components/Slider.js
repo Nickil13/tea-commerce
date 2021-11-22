@@ -37,14 +37,14 @@ export default function Slider() {
     return (
         <div className="slider">
             <div className={`slide ${sliderIndex===0 && "slide-active"}`}>
-                <img src="images/hero-loosetea.jfif" alt="black tea" />
+                <img src="/images/hero-loosetea.jfif" alt="black tea" />
                 <div className="slide-content">
                 <h1 className="slide-title">Over 50 flavours of quality tea for you to enjoy!</h1>
                 </div>
             </div>
                 
             <div className={`slide slide-darken ${sliderIndex===1 && "slide-active"}`} id="matcha-slide">
-                <img src="images/hero-matcha.jpg" alt="matcha" />
+                <img src="/images/hero-matcha.jpg" alt="matcha" />
                 <div className="slide-content">
                     <h1 className="slide-title">Caffeinate and energize with our original and flavoured matcha</h1>
                     <button className="btn btn-primary" onClick={()=>history.push('/shop/matcha')}>Shop Matcha</button>
@@ -52,7 +52,7 @@ export default function Slider() {
                 
             </div>
             <div className={`slide slide-darken ${sliderIndex===2 && "slide-active"}`} id="rooibos-slide">
-                <img src="images/hero-rooibos.jfif" alt="rooibos iced" />
+                <img src="/images/hero-rooibos.jfif" alt="rooibos iced" />
                 <div className="slide-content">
                     <h1 className="slide-title">Rooibos Americano</h1>
                     <p>A caffeine-free way to cool off at the end of your study session.</p>

@@ -188,7 +188,7 @@ export default function ProductProfile() {
                 <div className="brewing-steps">
                     {tea.brewingInstructions && tea.brewingInstructions.map((step, index)=>{
                         return(
-                            <BrewingStep key={index} step={step}/>
+                            <BrewingStep key={index} step={step} index={index}/>
                         )
                     })}
                 </div>
