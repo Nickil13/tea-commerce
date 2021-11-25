@@ -7,8 +7,8 @@
     place-items: center;
     text-align: center;
     background-color: abstracts.$color-neutral;
-    width: 80%;
-    max-width: 40rem;
+    width: 90%;
+    max-width: 36rem;
     padding: 3rem 4rem;
 
     & h2{
@@ -48,6 +48,7 @@
     top: 0;
     right: 0;
     margin: 1rem;
+    cursor: pointer;
     font-size: 30px;
 }
 

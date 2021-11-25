@@ -6,7 +6,6 @@ import { useGlobalContext } from '../context';
 import { deleteUser } from '../actions/userActions';
 
 export default function DeleteConfirmation() {
-    //Is open, closeDeleteConfirmation
     const {deleteConfirmationInfo, closeDeleteConfirmation} = useGlobalContext();
     const {id,name,subject} = deleteConfirmationInfo;
     const dispatch = useDispatch();

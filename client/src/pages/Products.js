@@ -31,16 +31,6 @@ export default function Products() {
         
     }, [dispatch, pageNumber, category, productType, keyword, successDelete])
 
-    useEffect(()=>{
-        // //Automatically set the productType to the first value when a category is chosen.
-        // const currentCategory = teaProductCategories.filter((cat)=>cat.type === category)[0];
-        // if(currentCategory && currentCategory.type!=="all"){
-        //     setProductType((currentCategory.items)[0]);
-        // }else{
-        //     setProductType('');
-        // }
-
-    }, [category])
 
     const handleSearch = (e) =>{
         e.preventDefault();
@@ -66,6 +56,7 @@ export default function Products() {
             history.push('/admin/products?page=1');
         }else if(type==='category'){
             setCategory(value);
+            setProductType('select product type');
             history.push('/admin/products?page=1');
         }
     }

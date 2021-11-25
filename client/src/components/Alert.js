@@ -7,13 +7,15 @@ export default function Alert() {
     const{isAlertShowing,closeAlert,alertContent} = useGlobalContext();
     
     React.useEffect(()=>{
-        let alert = setTimeout(()=>{
-            closeAlert();
-        },[4000]);
-        return () => {
-            clearTimeout(alert);
-        };
-    },[isAlertShowing])
+        if(isAlertShowing){
+            let alert = setTimeout(()=>{
+                closeAlert();
+            },[4000]);
+            return () => {
+                clearTimeout(alert);
+            };
+        }
+    },[isAlertShowing, closeAlert])
 
     return (
         <div className={`alert-container ${isAlertShowing && 'alert-container show'}`}>

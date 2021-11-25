@@ -176,7 +176,7 @@ export default function ProductProfile() {
             </section>
             <section className="profile-ingredients">
                 <h2>Ingredients</h2>
-                <CaffeineRating productType={product.teaMixBase ? product.teaMixBase : product.productType}/>
+                <CaffeineRating productType={product.category==='tea mixes' ? product.ingredients.find((ingredient)=>ingredient.includes('tea')) : product.productType}/>
                 <ul>{product.ingredients && product.ingredients.length>0 && product.ingredients.map((ingredient,index)=>{
                     return(
                         <li key={index}>{ingredient}</li>

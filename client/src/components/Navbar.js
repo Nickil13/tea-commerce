@@ -17,6 +17,7 @@ export default function Navbar() {
     const[showDropdown,setShowDropdown] = useState(false);
     const[cartItems,setCartItems] = useState([]);
     const{openSidebar} = useGlobalContext();
+
     const history = useHistory();
     const navbar = useRef(null);
     const container = useRef(null);
@@ -25,7 +26,7 @@ export default function Navbar() {
 
     useEffect(()=>{
         if(userLogin.userInfo){
-            if(user && !user.username || addToCartSuccess || removeFromCartSuccess){
+            if((user && !user.username) || addToCartSuccess || removeFromCartSuccess){
                 dispatch(getUserProfile());
                 dispatch({type: USER_CART_REMOVE_ITEM_RESET});
                 dispatch({type: USER_CART_ADD_ITEM_RESET});
@@ -36,7 +37,7 @@ export default function Navbar() {
             setCartItems(localCart.cartItems);
         }
         
-    }, [user, localCart, dispatch, addToCartSuccess, removeFromCartSuccess])
+    }, [user, userLogin.userInfo, localCart, dispatch, addToCartSuccess, removeFromCartSuccess])
 
     useEffect(()=>{
         document.addEventListener("mousedown", closeDropdownMenu);

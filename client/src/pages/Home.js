@@ -6,12 +6,6 @@ import Tabs from '../components/Tabs';
 
 export default function Home() {
     const history = useHistory();
-    
-
-    const handleClickThumb = (teaClicked) =>{
-        history.push("/shop");
-        console.log(`Clicked tea thumb: ${teaClicked}`);
-    }
 
     
     return (
@@ -35,7 +29,7 @@ export default function Home() {
                     <div className="seasonal-item"> 
                         <div className="seasonal-thumb"
                         style={{backgroundImage: "url('images/strawberry-matcha.jfif')"
-                        }} onClick={()=>handleClickThumb("strawberry matcha")}>
+                        }} onClick={()=>history.push('/shop/matcha/flavoured matcha/616354d9d98b8e3e2405a82d')}>
                             <div className="thumb-cover">
                                 Matcha
                             </div>
@@ -44,7 +38,7 @@ export default function Home() {
                     </div>
                     <div className="seasonal-item"> 
                         <div className="seasonal-thumb"
-                        style={{backgroundImage: "url(images/mango-milk-tea.jfif)"}} onClick={()=>handleClickThumb("mango milk tea")}>
+                        style={{backgroundImage: "url(images/mango-milk-tea.jfif)"}} onClick={()=>history.push('/shop/tea mixes/classic mixes/619eae083e45e51008c8cfb9')}>
                             <div className="thumb-cover">
                                 Black Tea Mix
                             </div>
@@ -53,7 +47,7 @@ export default function Home() {
                     </div>
                     <div className="seasonal-item"> 
                         <div className="seasonal-thumb"
-                        style={{backgroundImage: "url(images/iced-peach-tea.jfif)"}}onClick={()=>handleClickThumb("iced peach tea")}>
+                        style={{backgroundImage: "url(images/iced-peach-tea.jfif)"}}onClick={()=>history.push('/shop/loose leaf/herbal tea/619eae8d3e45e51008c8cfc3')}>
                             <div className="thumb-cover">
                                 Herbal
                             </div>

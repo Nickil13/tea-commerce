@@ -7,7 +7,6 @@ import CartCard from "./CartCard";
 import CheckoutSteps from "./CheckoutSteps";
 import DeleteConfirmation from "./DeleteConfirmation";
 import Footer from "./Footer";
-import Loader from "./Loader";
 import LoadingSpinner from "./LoadingSpinner";
 import Message from "./Message";
 import Navbar from "./Navbar";
@@ -21,4 +20,4 @@ import Slider from "./Slider";
 import Tabs from "./Tabs";
 import WishlistCard from "./WishlistCard";
 
-export {Alert, Banner, Breadcrumbs, BrewingStep, CaffeineRating, CartCard, CheckoutSteps, DeleteConfirmation, Footer, Loader, LoadingSpinner, Message, Navbar, OrderCard, Pagination, Rating, SearchBar, ShopCard, Sidebar, Slider, Tabs, WishlistCard};
+export {Alert, Banner, Breadcrumbs, BrewingStep, CaffeineRating, CartCard, CheckoutSteps, DeleteConfirmation, Footer, LoadingSpinner, Message, Navbar, OrderCard, Pagination, Rating, SearchBar, ShopCard, Sidebar, Slider, Tabs, WishlistCard};

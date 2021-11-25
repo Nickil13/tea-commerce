@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaTimes } from 'react-icons/fa';
+import { VscClose } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCart, updateCartItemQuantity } from '../actions/userActions';
 import { removeLocalCartItem, updateLocalCartItemQuantity} from '../actions/localCartActions';
@@ -31,7 +31,7 @@ export default function CartCard({name,_id,productType,category,image,price,quan
     return (
         <article className="cart-card">
             <div className="img-container">
-                <Link to={`/shop/${category}/${productType}/${_id}`}><img className="cart-image" src={image} alt={name} /></Link>
+                <Link to={`/shop/${category}/${productType}/${_id}`}><img src={image} alt={name} /></Link>
                 {flavourImage &&<div className="flavour-container">
                     <img src={flavourImage} alt={name} />
                 </div>}
@@ -55,10 +55,10 @@ export default function CartCard({name,_id,productType,category,image,price,quan
                             })}
                     </select>
                 </div>
+                <div onClick={handleRemoveClick}className="remove-item-btn"><VscClose/><span>remove</span></div>
                 <div className="cart-card-total">
                     <p>total: <strong>${total}</strong> | {quantity*50}g</p>
                 </div>
-                <FaTimes onClick={handleRemoveClick}className="remove-item-btn"/>
             </div>
         </article>
     )

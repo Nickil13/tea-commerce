@@ -26,6 +26,9 @@
 //Table format
 .search-container{
     overflow-x: auto;
+    width: 90%;
+    margin: 0 auto;
+    border: 1px solid abstracts.$color-neutral-gray;
 
     .search-table{
         padding: 2rem 1rem;

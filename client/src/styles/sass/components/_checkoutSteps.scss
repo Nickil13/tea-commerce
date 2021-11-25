@@ -6,8 +6,11 @@
     background-color: abstracts.$color-primary-light;
     padding: 1rem;
 
-    & a {
+    & li {
         margin-right: 1rem;
+    }
+
+    & a {
         color: abstracts.$color-neutral-dark;
 
         &:hover{

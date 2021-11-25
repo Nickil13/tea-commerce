@@ -3,7 +3,7 @@ import Moment from 'react-moment';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { getMyOrderDetails } from '../actions/orderActions';
-import { Message, Loader} from '../components';
+import { Message, LoadingSpinner} from '../components';
 
 
 export default function MyOrder() {
@@ -25,7 +25,7 @@ export default function MyOrder() {
     return (
         <div>
             <h1 className="page-title">Order Details</h1>
-            {loading ? <Loader/> : error ? <Message>{error}</Message> : <div>
+            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> : <div>
             <section className="order-status">
                 <h3>Order Status</h3>
                 <ul>

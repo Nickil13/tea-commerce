@@ -21,6 +21,7 @@
             width: 80%;
             margin: 0 auto;
             text-align: center;
+            padding: 1rem;
             
             & p{
                 padding: 1rem 0;
@@ -210,35 +211,8 @@
     }
 }
 
- //Star rating
-.star-rating-container{
-    padding: 1rem 0;
-}
- .star-rating{
-    display: flex;
 
-      & li{
-        padding: 0 0.25rem;
-      }
-  }
-
-  //Caffeine rating
-
-  .caffeine-rating{
-    display: grid;
-    justify-items: center;
-    padding: 1rem;
-    text-align: center;
-    
-
-    & div{
-      display: flex;
-      margin-top: 0.25rem;
-      width: 55px;
-      justify-content: space-between;
-      color: abstracts.$color-primary;
-    }
-  }
+  
 
   //Wishlist button
 

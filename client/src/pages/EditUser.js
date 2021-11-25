@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector} from 'react-redux';
 import { getUserDetails, updateUser} from '../actions/userActions';
 import { useParams, useHistory } from 'react-router';
-import { Loader, Message} from '../components';
+import { LoadingSpinner, Message} from '../components';
 import { UPDATE_USER_RESET } from '../constants/userConstants';
 
 export default function EditUser() {
@@ -52,7 +52,7 @@ export default function EditUser() {
                 <p>{user.username}</p>
             </div>
             
-            {loading ? <Loader/> : error ? <Message>{error}</Message> :
+            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> :
             <form className="edit-profile-form" onSubmit={handleEditUser}>
                 <div className="input-control">
                     <label htmlFor="username">Username</label>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector} from 'react-redux';
 import { getUserProfile, updateUserProfile} from '../actions/userActions';
-import { Loader, LoadingSpinner, Message} from '../components';
+import { LoadingSpinner, Message} from '../components';
 import { UPDATE_USER_PROFILE_RESET } from '../constants/userConstants';
 
 export default function EditUserProfile() {
@@ -84,7 +84,7 @@ export default function EditUserProfile() {
         <div>
             <h1 className="page-title">Edit User Profile</h1>
             
-            {loading ? <Loader/> : error ? <Message>{error}</Message> :<>
+            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> :<>
             <form className="edit-profile-form" onSubmit={handlePersonalSubmit}>
                 <h2>Personal Information</h2>
                 <div className="input-control">

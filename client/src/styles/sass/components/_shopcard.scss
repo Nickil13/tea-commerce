@@ -6,11 +6,16 @@
     padding: 1rem;
     margin: 1rem;
     overflow: hidden;
-    min-width: 300px;
+    width: 300px;
 
     .img-container{
       height: 200px;
       cursor: pointer;
+      transition: all 300ms ease-in;
+      
+      &:hover{
+        filter: brightness(70%);
+      }
     }
   }
   .card-info{

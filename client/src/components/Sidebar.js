@@ -19,9 +19,6 @@ export default function Sidebar() {
                             );
                         })}
                     </div>
-                    <div className="sidebar-footer">
-                
-                    </div>
                 </div>
                 
             </div>
