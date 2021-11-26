@@ -245,7 +245,7 @@ export default function ProductProfile() {
                         })}
                     </div>
                 </div>
-                {reviewedByUser ? <p>You have already reviewed this product.</p>  : user ? <form onSubmit={handleSubmitReview} className="customer-review-form">
+                {reviewedByUser ? <p>You have already reviewed this product.</p>  : userLogin.userInfo ? <form onSubmit={handleSubmitReview} className="customer-review-form">
                     <h3>Write a Customer Review</h3>
                     <div className="input-control">
                         <label htmlFor="rating">Rating</label>
@@ -264,7 +264,7 @@ export default function ProductProfile() {
                     </div>
                     <button className="btn" type="submit">Submit</button>
                     {reviewError && <Message>{reviewError}</Message>}
-                </form> : <p>Please <Link to="/login"><u>sign in</u></Link> to leave a review.</p>
+                </form> : <p>Please <Link to="/login"><u>log in</u></Link> to leave a review.</p>
                 }
                 
             </section></>}

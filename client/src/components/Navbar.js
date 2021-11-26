@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import {Link, NavLink, useHistory} from "react-router-dom";
-import { FaShoppingCart, FaBars, FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
+import { IoCart } from 'react-icons/io5';
+import { GrMenu} from 'react-icons/gr';
 import { useSelector, useDispatch} from 'react-redux';
 import { getUserProfile, logout} from '../actions/userActions';
 import { useGlobalContext } from '../context';
@@ -132,13 +134,13 @@ export default function Navbar() {
                         
                         <li className="cart-link">
                             <Link to="/cart">
-                                <FaShoppingCart className="nav-icon" />
+                                <IoCart className="nav-icon" />
                                 {cartItemAmount>0 && <span className="cart-icon-amount">{cartItemAmount}</span>}
                             </Link>
                         </li>
                     </ul>
                     <div className="sidebar-toggle"
-                        onClick={openSidebar}><FaBars/>
+                        onClick={openSidebar}><GrMenu/>
                     </div>
                 </div>
             </nav>      

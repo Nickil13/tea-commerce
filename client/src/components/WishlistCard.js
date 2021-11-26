@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { removeWishlistItem } from '../actions/userActions';
 import { useDispatch } from 'react-redux';
@@ -13,8 +13,7 @@ export default function WishlistCard({_id, image, name, category, productType, f
     }
 
     return (
-        <div className="wishlist-item">
-                                        
+        <div className="wishlist-card">                  
             <div className="img-container" >
                 <img src={image} alt={name} onClick={()=>history.push(`/shop/${category}/${productType}/${_id}`)}/>
                 <span onClick={()=>handleWishlistRemoveItem(_id)} className="remove-wishlist-item-btn"><AiOutlineCloseCircle/></span>
@@ -27,7 +26,6 @@ export default function WishlistCard({_id, image, name, category, productType, f
 
             <h3>{name}</h3>
             <span>{productType}</span>
-
         </div>
     )
 }

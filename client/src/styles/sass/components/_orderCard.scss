@@ -1,0 +1,38 @@
+@use '../abstracts';
+
+.order-card{
+    margin: 1rem 0;
+    border: 1px solid abstracts.$color-neutral-gray-light;
+
+    & h3 {
+        font-size: 18px;
+        padding: 0.25rem;
+        background-color: abstracts.$color-neutral-gray-light;
+    }
+
+    & a {
+      color: abstracts.$color-neutral-dark;
+    }
+
+    @include abstracts.respond-to('small'){
+        & h3 {
+            font-size: 24px;
+        }
+    }
+  }
+
+  .order-card-content{
+    padding: 1rem 0.25rem 0 0.25rem;
+
+    & .status-section{
+        padding: 1rem 0;
+      }
+      
+    & .status-tags{
+        padding: 0.50rem 0;
+    
+        & span:first-child{
+          margin-right: 1rem;
+        }
+    }
+  }

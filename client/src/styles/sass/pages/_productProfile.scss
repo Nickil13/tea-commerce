@@ -46,9 +46,7 @@
 
         & li{
             margin-right: 0.40rem;
-            &:first-child{
-                text-transform: capitalize;
-            }
+    
             &:not(:last-child){
                 &::after{
                     content: ",";

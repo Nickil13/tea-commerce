@@ -15,14 +15,15 @@
 @use 'components/dropdown';
 @use 'components/loadingSpinner';
 @use 'components/message';
+@use 'components/orderCard';
 @use 'components/pagination';
 @use 'components/rating';
 @use 'components/searchBar';
-@use 'components/searchModal';
 @use 'components/shopcard';
 @use 'components/slider';
 @use 'components/sidebar';
 @use 'components/tabs';
+@use 'components/wishlistCard';
 
 
 @use 'layout/header';

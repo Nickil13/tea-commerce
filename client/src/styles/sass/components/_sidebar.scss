@@ -25,8 +25,7 @@
     left:0;
     z-index: 2;
     height:100%;
-    width: 80%;
-    max-width: 400px;
+    width: 100%;
     transform: translateX(-100%);
     transition: all 500ms ease-in-out;
     background-color:abstracts.$color-neutral;
@@ -34,6 +33,11 @@
 
     &.show{
       transform: translateX(0);
+    }
+
+    @include abstracts.respond-to('small'){
+      width: 80%;
+      max-width: 400px;
     }
   }
 

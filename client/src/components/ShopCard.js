@@ -9,7 +9,7 @@ import { Rating } from '../components';
 export default function ShopCard({item}) {
     const history = useHistory();
     const {userLogin} = useSelector((state)=>state.user);
-    const{showAlert} = useGlobalContext();
+    const {showAlert} = useGlobalContext();
     const{name,category,productType,_id,image,price, rating, reviews} = item;
 
     const dispatch = useDispatch();
