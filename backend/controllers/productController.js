@@ -104,7 +104,6 @@ const createProduct = asyncHandler( async (req,res) => {
         res.status(400);
         throw new Error("Product already exists by that name." + req.body.name);
     }else{
-        console.log(req.user);
         const product = new Product({
             name: req.body.name,
             productType: req.body.productType,
@@ -147,6 +146,8 @@ const updateProduct = asyncHandler(async (req,res) => {
 
         if(flavourImage){
             product.flavourImage = flavourImage;
+        }else{
+            product.flavourImage = null;
         }
 
         try{

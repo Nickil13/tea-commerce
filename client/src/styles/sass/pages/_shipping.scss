@@ -1,8 +1,6 @@
 @use '../abstracts';
 
-.shipping-title{
-    @include abstracts.page-title;
-}
+
 .shipping-section{
     & button{
         margin-top: 2rem;

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link,useHistory} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import Slider from '../components/Slider';
 import Tabs from '../components/Tabs';
 
@@ -7,7 +7,6 @@ import Tabs from '../components/Tabs';
 export default function Home() {
     const history = useHistory();
 
-    
     return (
         <div>
             <div className="hero">
@@ -23,7 +22,7 @@ export default function Home() {
             {/* Seasonal Section */}
             <section className="seasonal-section section-wide">
                 <h2>Summer is Here!</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, autem facilis esse aperiam ratione soluta.</p>
+                <p>Enjoy our iced teas, mixes and iced matcha. Refreshing and perfect for the warm weather!</p>
                 <div className="seasonal-box">
                     <div className="seasonal-polygon"></div>
                     <div className="seasonal-item"> 
@@ -90,9 +89,7 @@ export default function Home() {
                     <h2>Got matcha?</h2>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum alias vero blanditiis illum exercitationem quis nemo? Corrupti iusto deserunt odit corporis maxime, possimus nam rem!</p>
                     <button className="btn btn-primary" onClick={()=>history.push("/shop/matcha")}>Shop Matcha</button>
-                </div>
-                
-                
+                </div>    
             </section>
         </div>
     )

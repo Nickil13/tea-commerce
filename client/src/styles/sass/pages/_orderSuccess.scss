@@ -1,9 +1,6 @@
 @use '../abstracts';
 
 
-.order-success-title{
-    @include abstracts.page-title;
-}
 
 .order-success-info{
     display: grid;

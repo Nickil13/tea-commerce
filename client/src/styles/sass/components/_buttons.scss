@@ -46,9 +46,4 @@
   
   .btn-secondary{
     @include btn-base(abstracts.$color-neutral, abstracts.$color-secondary, abstracts.$color-secondary-dark);
-    // margin-top: 1em;
-    // background-color: abstracts.$color-secondary;
-    //   &:hover{
-    //     background-color: abstracts.$color-secondary-dark;
-    //   }
   }

@@ -48,7 +48,11 @@
   }
  
   .tea-tabs-content{
-
+    & p {
+      width: 90%;
+      margin: 0 auto;
+    }
+    
     @include abstracts.respond-to('medium'){
       display: grid;
       grid-template-columns: 1fr 1fr;

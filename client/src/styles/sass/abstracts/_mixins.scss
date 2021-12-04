@@ -9,28 +9,80 @@
     object-fit: cover;
   }
 
-@mixin page-title{
-  padding: 4rem 4rem 3rem 4rem;
-  text-align: center;
-}
+// @mixin page-title{
+//   padding: 4rem 4rem 3rem 4rem;
+//   text-align: center;
+// }
 
 @mixin form-format{
-  & .input-control{
-    width: 80%;
-    max-width: 400px;
-    margin: 0 auto 1rem auto;
+  width: 80%;
+  max-width: 400px;
+  margin: 0 auto;
 
-    & label{
-        display: block;
-        margin-bottom: 0.25rem;
-        // font-weight: 600;
+  & .input-control{
+    margin-bottom: 1rem;
+
+    & label, .image-label{
+      display: block;
+      margin-bottom: 0.25rem;
+      font-weight: bold;
+        font-size: 18px;
     }
 
     & input{
-        width: 100%;
+      width: 100%;
+    }
+
+    & input[type=number]{
+      width: auto;
+    }
+
+    & select{
+      @include format-select;
+    }
+
+    & textarea {
+      resize: none;
+      width: 100%;
+      font-family: variables.$ff-primary;
+      font-size: 16px;
+      padding: 1rem;
+    }
+  }
+
+  & button{
+    margin-top: 3rem;
+  }
+
+  .checkbox-control{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    & input{
+        max-width: 50px;
+        align-self: center;
     }
   }
 }
+
+// @mixin form-format{
+//   & .input-control{
+//     width: 80%;
+//     max-width: 400px;
+//     margin: 0 auto 1rem auto;
+
+//     & label{
+//         display: block;
+//         margin-bottom: 0.25rem;
+//         // font-weight: 600;
+//     }
+
+//     & input{
+//         width: 100%;
+//     }
+//   }
+// }
 
 @mixin format-select{
   padding: 0.75rem 1rem;

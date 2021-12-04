@@ -43,16 +43,16 @@
     margin: 0 auto;
   }
   /*Input */
-  input[type=text], input[type=password], input[type=email]{
+  input[type=text], input[type=password], input[type=email], input[type=number]{
     padding: 0.75rem;
   }
 
-  section{
-    min-height: 300px;
-    width: 80%;
-    margin: 0 auto;
+section{
+  min-height: 300px;
+  width: 80%;
+  margin: 0 auto;
     
-    padding: 2em 1em;
+  padding: 2em 1em;
 }
 
 .section-wide{

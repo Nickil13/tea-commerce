@@ -1,5 +1,6 @@
 @use '../abstracts';
 
-.my-orders-title{
-    @include abstracts.page-title;
+.my-orders-container{
+    width: 80%;
+    margin: 0 auto;
 }

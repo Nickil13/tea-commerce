@@ -3,6 +3,7 @@
 .seasonal-section{
   background-color: abstracts.$color-secondary-light;
   padding: 4rem 0;
+
   & p{
     text-align: center;
     width: 80%;
@@ -21,6 +22,7 @@
       place-items: center;
     }
   }
+
   .seasonal-item{
     position:relative;
     display: grid;
@@ -33,6 +35,7 @@
       font-size: 20px;
     }
   }
+
   .seasonal-polygon{
     position: absolute;
     top:50%;
@@ -49,6 +52,7 @@
       top: 70%;
     }
   }
+
   .seasonal-thumb{
     background-size: cover;
     background-position: center;
@@ -58,6 +62,7 @@
     overflow:hidden;
     cursor:pointer;
   }
+  
   .thumb-cover{
     display: none;
     place-items: center;
@@ -71,9 +76,6 @@
     display:grid;
   }
 
-  
-  
-  
   /* Matcha Section*/ 
   .matcha-section{
     padding: 0;
@@ -148,6 +150,7 @@
       }
     }
   }
+
   .teaparty-section-info{
     display: grid;
     place-items:center;
@@ -157,36 +160,39 @@
       text-align: center;
       max-width: 50ch;
     }
+
     .tea-party-text{
       padding: 1rem;
     }
+
     .tea-party-list{
+      display: flex;
+      flex-direction: column;
+      text-align: center;
       font-family: abstracts.$ff-accent;
       padding: 1rem;
+      width: 90%;
+      max-width: 25rem;
 
       & li{
         margin-bottom: 1rem;
 
         &:first-child{
-          transform: translateX(-30%);
+          align-self: flex-start;
         }
         &:last-child{
-          transform: translateX(30%);
+          align-self: flex-end;
         }
 
         @include abstracts.respond-to('large'){
-          text-align: center;
-
           &:first-child{
-            transform: translateX(0);
+            align-self: center;
           }
           &:last-child{
-            transform: translateX(0);
+            align-self: center;         
           }
         }
       }
-
-      
 
       & a {
         color: abstracts.$color-secondary;

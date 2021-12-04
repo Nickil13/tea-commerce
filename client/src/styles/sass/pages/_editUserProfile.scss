@@ -2,16 +2,5 @@
 
 .edit-profile-form{
     @include abstracts.form-format;
-    margin: 5rem 0 5rem 0;
-}
-
-.checkbox-control{
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-
-    & input{
-        max-width: 50px;
-        align-self: center;
-    }
+    margin: 5rem auto;
 }

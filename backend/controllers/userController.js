@@ -113,6 +113,18 @@ const updateUserProfile = asyncHandler( async(req, res) =>{
     const user = await User.findById(req.user._id);
     
     if(user){
+
+        const usernameExists = await User.find({username: req.body.username});
+        const emailExists = await User.find({email: req.body.email});
+        
+        if(usernameExists.length>0 && usernameExists[0].username!==user.username){
+            res.status(400);
+            throw new Error("Username already in use.");
+        }
+        if(emailExists.length>0 && emailExists[0].email!==user.email){
+            res.status(400);
+            throw new Error("Email already in use.");
+        }
         user.username = req.body.username || user.username;
         user.email = req.body.email || user.email;
         user.shippingAddress = req.body.shippingAddress || user.shippingAddress;

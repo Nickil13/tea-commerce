@@ -1,8 +1,6 @@
 @use '../abstracts';
 
-.place-order-title{
-    @include abstracts.page-title;
-}
+
 .order-shipping-section, .order-payment-section{
     display: grid;
     place-items: start;

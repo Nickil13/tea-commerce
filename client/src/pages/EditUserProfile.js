@@ -12,7 +12,7 @@ export default function EditUserProfile() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState('');
     
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
@@ -24,7 +24,6 @@ export default function EditUserProfile() {
     const {loading: updateLoading, success: updateSuccess, error: updateError} = userUpdateProfile;
 
     useEffect(()=>{
-    
         if(!user || !user.username){
             dispatch(getUserProfile());
         }else{
@@ -41,28 +40,41 @@ export default function EditUserProfile() {
 
 
     const handlePersonalSubmit = (e) =>{
+        let validEmail = true;
         e.preventDefault();
         setFormEdited("personal");
         setMessage("");
         dispatch({type: UPDATE_USER_PROFILE_RESET});
 
-        if(password){
-            if(password!==confirmPassword){
-                setMessage("Passwords do not match.");
+        if(email){
+            let atloc = email.indexOf("@");
+            let dotloc = email.indexOf(".");
+            if(atloc < 1 || (dotloc - atloc < 2)){
+                validEmail=false;
+            }
+        }
+        if(validEmail){
+            if(password){
+                if(password!==confirmPassword){
+                    setMessage("Passwords do not match.");
+                }else{
+                    dispatch(updateUserProfile(
+                        {username,
+                        email,
+                        password,
+                        confirmPassword}
+                    ))
+                }
             }else{
                 dispatch(updateUserProfile(
                     {username,
-                    email,
-                    password,
-                    confirmPassword}
+                    email}
                 ))
-            }
+            } 
         }else{
-            dispatch(updateUserProfile(
-                {username,
-                email}
-            ))
-        }  
+            setMessage("Invalid email.");
+        }
+         
     }
 
     const handleAddressSubmit = (e) =>{

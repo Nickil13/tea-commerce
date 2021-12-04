@@ -32,29 +32,19 @@ export default function EditProduct() {
     const {productDetails, productUpdate, productUploadImage}= useSelector((state)=>state.products);
     const {product, loading, error} = productDetails;
     const {loading: updateLoading, success: updateSuccess, error: updateError} = productUpdate;
-    const {uploadedResponse, success: uploadSuccess, loading: uploading, msg, error: uploadError} = productUploadImage;
+    const {uploadedResponse, success: uploadSuccess, loading: uploading, error: uploadError} = productUploadImage;
 
     useEffect(()=>{
+        dispatch({type: PRODUCT_UPLOAD_IMAGE_RESET});
         //Load the  product
         if(!product.name || product._id!==id || updateSuccess){
             dispatch(getProductDetails(id));
             dispatch({type: PRODUCT_UPDATE_RESET});
-            dispatch({type: PRODUCT_UPLOAD_IMAGE_RESET});
 
             if(updateSuccess){
                 history.goBack();
             }
-        }else if(uploadSuccess && uploadedFile){
-            if(isUploadingFlavourImage){
-                setFlavourImageName(uploadedFile.name);
-                setFlavourImagePath(uploadedResponse.secure_url);
-                setIsUploadingFlavourImage(false);
-            }else{
-                setImageName(uploadedFile.name);
-                setImagePath(uploadedResponse.secure_url);
-            }
-            
-        }else{
+        }else if(!name || !productType){
             setName(product.name);
             setCategory(product.category);
             setProductType(product.productType);
@@ -69,16 +59,29 @@ export default function EditProduct() {
             setDescription(product.description);
             setPrice(product.price.toFixed(2));
             setCountInStock(Number(product.countInStock));
-        }      
+        }
         
-    },[id, product, updateSuccess, uploadSuccess])
+        if(uploadSuccess){
+            if(isUploadingFlavourImage){
+                setFlavourImageName(uploadedFile.name);
+                setFlavourImagePath(uploadedResponse.secure_url);
+                setIsUploadingFlavourImage(false);
+            }else{
+                setImageName(uploadedFile.name);
+                setImagePath(uploadedResponse.secure_url);
+            }
+        }
+        
+    },[id, product, updateSuccess, uploadSuccess, dispatch, history, isUploadingFlavourImage, uploadedFile, uploadedResponse, name, productType])
 
     useEffect(()=>{
         // When the image source is set, upload the image.
         if(imageURI){
-            uploadImage();
+            //Upload to cloudinary
+            dispatch(uploadProductImage(imageURI, uploadedFile.name));
+            setImageURI('');
         }
-    }, [imageURI])
+    }, [imageURI, dispatch, uploadedFile])
 
 
     const handleSelectImage =  (e) =>{
@@ -108,13 +111,6 @@ export default function EditProduct() {
         }
     }
 
-    const uploadImage = async () =>{
-        if(imageURI){
-            //Upload to cloudinary
-            dispatch(uploadProductImage(imageURI, uploadedFile.name));
-        }
-    }
-
     const handleEditProduct = (e) =>{
         e.preventDefault();
         let updatedIngredients = ingredients;
@@ -139,14 +135,20 @@ export default function EditProduct() {
         }));
     }
 
+    const handleFlavourCheckbox = (e) =>{
+        setHasFlavourImage(e.target.checked);
+        if(!e.target.checked){
+            setFlavourImagePath("");
+        }
+    }
     return (
         <div>
-            <div className="edit-product-title">
+            <div className="page-title">
                 <h1>Edit Product</h1>
                 <p>{product.name}</p>
             </div>
            
-            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> : <form className="edit-product-form" action="">
+            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> : <form className="product-form">
                 <div className="input-control">
                     <label htmlFor="name">Name: </label>
                     <input type="text" id="name" name="name" value={name} onChange={(e)=>setName(e.target.value)} />
@@ -155,7 +157,7 @@ export default function EditProduct() {
                     <div className="input-control">
                         <label htmlFor="">Category: </label>
                         <select name="category" id="category" value={category} onChange={(e)=>setCategory(e.target.value)}>
-                                {teaProductCategories.map((category)=>{
+                                {teaProductCategories.filter((cat)=>cat.type!=="all").map((category)=>{
                                     return(
                                         <option key={category.id} value={category.type}>{category.type}</option>
                                     )
@@ -176,22 +178,21 @@ export default function EditProduct() {
                 <div className="input-control">
                     <h4 className="image-label">Image: </h4>
                     <div className="image-input-box">
-                        <input type="file" accept="image/*" type="file" name="image" id="image" onChange={handleSelectImage} />
+                        <input type="file" accept="image/*" name="image" id="image" onChange={handleSelectImage} />
                         <p className="image-input-text">{imageName}</p>
                         <label htmlFor="image" className="image-input-label"><BsImage className="image-icon"/></label>
                         {!isUploadingFlavourImage && uploading && <LoadingSpinner  anchor="right"/>}
                     </div>
-                    {uploadSuccess ? <Message type="success">{msg}</Message> : uploadError && <Message>{uploadError}</Message>}
+                    {uploadError && <Message>{uploadError}</Message>}
                 </div>
                 <div className="input-control">
-                    
                     <div className="checkbox-control">
-                        <input type="checkbox" id="flavour-checkbox" name="flavour-checkbox" onChange={(e)=>setHasFlavourImage(e.target.checked)}/>
+                        <input type="checkbox" id="flavour-checkbox" name="flavour-checkbox" defaultChecked={product.flavourImage} onChange={handleFlavourCheckbox}/>
                         <label htmlFor="">Flavour Image: </label>
                     </div>
                     
                     {hasFlavourImage && <div className="image-input-box">
-                        <input type="file" accept="image/*" type="file" name="flavourImage" id="flavourImage" onChange={handleSelectFlavourImage} />
+                        <input type="file" accept="image/*" name="flavourImage" id="flavourImage" onChange={handleSelectFlavourImage} />
                         <p className="image-input-text">{flavourImageName}</p>
                         <label htmlFor="flavourImage" className="image-input-label"><BsImage className="image-icon"/></label>
                         {isUploadingFlavourImage && uploading && <LoadingSpinner  anchor="right"/>}
@@ -216,7 +217,7 @@ export default function EditProduct() {
                     <input type="number" step="1" name="count" id="count" value={countInStock} onChange={(e)=>setCountInStock(e.target.value)}/>
                 </div>
                 <button type="submit" className="btn btn-primary" onClick={handleEditProduct}>Edit</button>
-                {updateLoading ? <LoadingSpinner/> : updateError ? <Message>{updateError}</Message> : updateSuccess && <Message>Successfully updated product.</Message>}
+                {updateLoading ? <LoadingSpinner/> : updateError && <Message>{updateError}</Message>}
             </form>}
             
         </div>

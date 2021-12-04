@@ -1,31 +1,16 @@
 @use '../abstracts';
 
-.edit-product-title{
-    @include abstracts.page-title;
-}
-.edit-product-form{
+//Add Product & Edit Product 
+
+.product-form{
+    
     @include abstracts.form-format;
 
-    width: 80%;
-    max-width: 400px;
-    margin: 0 auto 5rem auto;
-
-    & select {
-        @include abstracts.format-select;
+    & label, .image-label {
+        font-weight: bold;
+        font-size: 18px;
     }
 
-    & textarea {
-        resize: none;
-        width: 100%;
-        font-family: abstracts.$ff-primary;
-        font-size: 16px;
-        padding: 1rem;
-    }
-    
-    & input[type=number]{
-        width: auto;
-        padding: 0.75rem;
-    }
     & #image, #flavourImage{
         display: none;
     }
@@ -39,15 +24,9 @@
             top: 0;
             left:-15px;
         }
-        
     }
 }
 
-// Image input
-.image-label{
-    font-weight: 300;
-    font-size: 18px;
-}
 
 .image-input-box{
     position: relative;

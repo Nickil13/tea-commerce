@@ -3,7 +3,7 @@ import { useDispatch, useSelector} from 'react-redux';
 import { getUserDetails, updateUser} from '../actions/userActions';
 import { useParams, useHistory } from 'react-router';
 import { LoadingSpinner, Message} from '../components';
-import { UPDATE_USER_RESET } from '../constants/userConstants';
+import { UPDATE_USER_RESET, USER_DETAILS_RESET } from '../constants/userConstants';
 
 export default function EditUser() {
     const {userDetails, userUpdate} = useSelector((state)=>state.user);
@@ -13,6 +13,7 @@ export default function EditUser() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [message, setMessage] = useState('');
 
     const {id} = useParams();
     const history = useHistory();
@@ -22,6 +23,7 @@ export default function EditUser() {
     useEffect(()=>{
         if(updateSuccess){
             dispatch({type: UPDATE_USER_RESET});
+            dispatch({type: USER_DETAILS_RESET});
             history.push('/admin/users');
         }else{
             if(!user.username || user._id !== id){
@@ -36,12 +38,26 @@ export default function EditUser() {
 
 
     const handleEditUser = (e) =>{
+        let validEmail = true;
         e.preventDefault();
-        dispatch(updateUser(user._id, {
-            username,
-            email,
-            isAdmin
-        }))
+        setMessage("");
+        if(email){
+            let atloc = email.indexOf("@");
+            let dotloc = email.indexOf(".");
+            if(atloc < 1 || (dotloc - atloc < 2)){
+                validEmail=false;
+            }
+        }
+        if(validEmail){
+            dispatch(updateUser(user._id, {
+                username,
+                email,
+                isAdmin
+            }))
+        }else{
+            setMessage("Invalid email.");
+        }
+        
         
     }
 
@@ -67,10 +83,10 @@ export default function EditUser() {
                 <div className="input-control checkbox-control">
                     <input type="checkbox" id="admin-checkbox" name="admin-checkbox" defaultChecked={user.isAdmin} onChange={(e)=>setIsAdmin(e.target.checked)}/>
                     <label htmlFor="admin-checkbox">Admin</label>
-                    
                 </div>
                 
                 <button type="submit" className="btn btn-primary">Edit</button>
+                {message && <Message>{message}</Message>}
             </form>
             }
         </div>

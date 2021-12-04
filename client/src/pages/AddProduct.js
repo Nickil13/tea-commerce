@@ -31,7 +31,7 @@ export default function AddProduct() {
     const dispatch = useDispatch();
     const history = useHistory();
     const {productUploadImage, productCreate}= useSelector((state)=>state.products);
-    const {uploadedResponse, success: uploadSuccess, loading: uploading, msg, error} = productUploadImage;
+    const {uploadedResponse, success: uploadSuccess, loading: uploading, error} = productUploadImage;
     const {loading, error: createError, success: createSuccess} = productCreate;
 
     
@@ -42,16 +42,6 @@ export default function AddProduct() {
         if(createSuccess){
             history.push('/admin/products');
         }
-    },[createSuccess])
-
-    useEffect(()=>{
-        // When the image source is set, upload the image.
-        if(imageURI){
-            uploadImage();
-        }
-    }, [imageURI])
-
-    useEffect(()=>{
         if(uploadSuccess){
             if(isUploadingFlavourImage){
                 setFlavourImageName(uploadedFile.name);
@@ -63,7 +53,17 @@ export default function AddProduct() {
             }
             
         }
-    },[uploadSuccess])
+    },[dispatch, createSuccess, uploadSuccess, history, uploadedFile, uploadedResponse, isUploadingFlavourImage])
+
+    useEffect(()=>{
+        // When the image source is set, upload the image.
+        if(imageURI){
+            //Upload to cloudinary
+            dispatch(uploadProductImage(imageURI, uploadedFile.name));
+            setImageURI('');
+        }
+    }, [imageURI, dispatch, uploadedFile])
+
 
     useEffect(()=>{
         //Automatically set the productType to the first value when a category is chosen.
@@ -100,12 +100,6 @@ export default function AddProduct() {
         }
     }
 
-    const uploadImage = async () =>{
-        if(imageURI){
-            //Upload to cloudinary
-            dispatch(uploadProductImage(imageURI, uploadedFile.name));
-        }
-    }
 
     const handleAddProduct = (e) =>{
         e.preventDefault();
@@ -131,13 +125,20 @@ export default function AddProduct() {
         }));
     }
 
+    const handleFlavourCheckbox = (e) =>{
+        setHasFlavourImage(e.target.checked);
+        if(!e.target.checked){
+            setFlavourImagePath("");
+        }
+    }
+
     return (
         <div>
-            <div className="edit-product-title">
+            <div className="page-title">
                 <h1>Add Product</h1>
             </div>
-           
-            <form className="edit-product-form" action="">
+        
+            <form className="product-form">
                 <div className="input-control">
                     <label htmlFor="name">Name: </label>
                     <input type="text" id="name" name="name" value={name} onChange={(e)=>setName(e.target.value)} />
@@ -148,16 +149,15 @@ export default function AddProduct() {
                         
                         <select name="category" id="category" value={category} onChange={(e)=>setCategory(e.target.value)}>
                             <option value="default" hidden>product category</option>
-                                {teaProductCategories.map((category)=>{
-                                    if(category.type!=="all"){
-                                        return(
-                                            <option key={category.id} value={category.type}>{category.type}</option>
-                                        )
-                                    } 
+                                {teaProductCategories.filter((cat)=>cat.type!=="all").map((category)=>{
+                                    return(
+                                        <option key={category.id} value={category.type}>{category.type}</option>
+                                    )
+                                     
                                 })}
                             </select>
                     </div>
-                    <div className="input-control">
+                    {category && <div className="input-control">
                         <label htmlFor="">Product Type: </label>
                         <select name="productType" id="productType" value={productType} onChange={(e)=>setProductType(e.target.value)}>
                                 {teaProductCategories.filter((x)=>x.type === category)[0] && teaProductCategories.filter((x)=>x.type === category)[0].items.map((item, index)=>{
@@ -166,12 +166,12 @@ export default function AddProduct() {
                                     )
                                 })}
                         </select>
-                    </div>
+                    </div>}
                 </div>
                 <div className="input-control">
                     <h4 className="image-label">Image: </h4>
                     <div className="image-input-box">
-                        <input type="file" accept="image/*" type="file" name="image" id="image" onChange={handleSelectImage} />
+                        <input type="file" accept="image/*" name="image" id="image" onChange={handleSelectImage} />
                         <p className="image-input-text">{imageName}</p>
                         <label htmlFor="image" className="image-input-label"><BsImage className="image-icon"/></label>
                         {!isUploadingFlavourImage && uploading && <LoadingSpinner  anchor="right"/>}
@@ -180,26 +180,29 @@ export default function AddProduct() {
                 </div>
                 <div className="input-control">
                     <div className="checkbox-control">
-                        <input type="checkbox" id="flavour-checkbox" name="flavour-checkbox" onChange={(e)=>setHasFlavourImage(e.target.checked)}/>
+                        <input type="checkbox" id="flavour-checkbox" name="flavour-checkbox" onChange={handleFlavourCheckbox}/>
                         <label htmlFor="">Flavour Image: </label>
                     </div>
                     
                     {hasFlavourImage && <div className="image-input-box">
-                        <input type="file" accept="image/*" type="file" name="flavourImage" id="flavourImage" onChange={handleSelectFlavourImage} />
+                        <input type="file" accept="image/*" name="flavourImage" id="flavourImage" onChange={handleSelectFlavourImage} />
                         <p className="image-input-text">{flavourImageName}</p>
                         <label htmlFor="flavourImage" className="image-input-label"><BsImage className="image-icon"/></label>
                         {isUploadingFlavourImage && uploading && <LoadingSpinner  anchor="right"/>}
                     </div>}
                 </div>
+
                 <div className="input-control">
                     <label htmlFor="">Ingredients: </label>
-                    <p>Separate ingredients with a comma</p>
+                    <p>(separate ingredients with a comma)</p>
                     <textarea type="text" rows="3" value={ingredients} onChange={(e)=>setIngredients(e.target.value)}/>
                 </div>
+
                 <div className="input-control">
                     <label htmlFor="">Description: </label>
                     <textarea type="text" rows="6" value={description} onChange={(e)=>setDescription(e.target.value)}/>
                 </div>
+
                 <div className="input-control">
                     <label htmlFor="price">Price (CAD): </label>
                     <span className="price-wrapper">
@@ -210,7 +213,7 @@ export default function AddProduct() {
                     <input type="number" step="1" name="count" id="count" value={countInStock} onChange={(e)=>setCountInStock(e.target.value)}/>
                 </div>
                 <button type="submit" className="btn btn-primary" onClick={handleAddProduct}>Add</button>
-                {loading ? <LoadingSpinner/> : createError ? <Message>{createError}</Message> : createSuccess && <Message>Successfully added product.</Message>}
+                {loading ? <LoadingSpinner/> : createError && <Message>{createError}</Message>}
             </form>
             
         </div>

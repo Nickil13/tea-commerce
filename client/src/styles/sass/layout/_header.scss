@@ -6,6 +6,7 @@
     align-items: center;
     top:0;
     z-index: 1;
+    padding: 1rem;
     width: 100%;
     height: abstracts.$nav-height;
     background-color: abstracts.$color-neutral;
@@ -18,7 +19,6 @@
     justify-content: space-between;
     width: 100%;
     max-width: 70rem;
-    padding: 0 1rem;
     margin: 0 auto;
   }
   
@@ -37,6 +37,7 @@
       }
       
     }
+    
     @include abstracts.respond-to('large'){
         display: flex;
     }
@@ -60,11 +61,11 @@
     position: absolute;
     display: grid;
     place-items: center;
-    bottom: 5px;
-    right: 5px;
-    height: 24px;
-    width: 24px;
-    border-radius: 12px;
+    bottom: 0;
+    right: 0;
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
     color: abstracts.$color-neutral;
     background-color: abstracts.$color-primary;
   }
@@ -74,7 +75,6 @@
     display:flex;
     align-items: center;
     justify-self: flex-end;
-    padding-left: 2rem;
 
     .nav-icons{
       display: flex;
@@ -101,6 +101,10 @@
         color: abstracts.$color-secondary-light;
       }
     }
+
+    @include abstracts.respond-to('small'){
+      font-size: 28px;
+    }
   }
   
   .nav-dropdown{
@@ -110,9 +114,13 @@
 
   //Menu toggle
   .sidebar-toggle{
+    font-size: 25px;
     cursor: pointer;
     padding: 1rem;
 
+    @include abstracts.respond-to('small'){
+      font-size: 28px;
+    }
     @include abstracts.respond-to('large'){
       display:none;
     }
@@ -121,7 +129,6 @@
   //Logo
   .logo, .sidebar-toggle{
     color: abstracts.$color-dark;
-    font-size: 25px;
 
     &:hover{
       color: abstracts.$color-neutral-dark;
@@ -129,9 +136,13 @@
   }
   
   .logo{
-    font-size: 25px;
+    font-size: 22px;
     font-family: abstracts.$ff-secondary;
     text-align: center;
+
+    @include abstracts.respond-to('small'){
+      font-size: 25px;
+    }
   }
 
   //Hero
