@@ -1,0 +1,30 @@
+@use '../abstracts';
+
+.order-table{
+    margin: 1rem 0;
+        
+    & th{
+        text-align: left;
+    }
+}
+
+.order-item{
+    & td{
+        min-width: 100px;
+        padding: 1rem 2rem 1rem 0;
+    }
+
+    & img{
+        @include abstracts.fit-image;
+        height: 100px;
+        width: 100px;
+    }
+}
+
+.image-table-data, .image-table-header{
+    display: none;
+
+    @include abstracts.respond-to("small"){
+        display: block;
+    }
+}

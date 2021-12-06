@@ -1,7 +1,5 @@
 @use '../abstracts';
 
-
-
 .order-success-info{
     display: grid;
     place-items: center;
@@ -11,5 +9,9 @@
 
     & p:first-child{
         margin-bottom: 1rem;
+    }
+
+    & a{
+        color: abstracts.$color-primary-light;
     }
 }

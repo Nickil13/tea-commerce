@@ -1,15 +1,13 @@
 @use '../abstracts';
 
-
-
 .payment-form{
-
     & .input-control{
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 auto 2rem auto;
     }
+
     & input[type=radio]{
         margin-right: 1rem;
     }

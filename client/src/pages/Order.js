@@ -3,7 +3,7 @@ import Moment from 'react-moment';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router';
 import { getOrderDetails, updateOrderToDelivered } from '../actions/orderActions';
-import { Message, LoadingSpinner} from '../components';
+import { Message, LoadingSpinner, OrderTable} from '../components';
 
 
 export default function Order() {
@@ -69,36 +69,13 @@ export default function Order() {
 
             <section className="order-items-section">
                 <h3>Order Items</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {orderItems.map((item)=>{
-                        return(
-                            <tr key={item._id} className="order-item">
-                                <td>
-                                    <img src={item.image} alt={item.name} />
-                                </td>
-                                <td>{item.name}</td>
-                                <td>{item.quantity}</td>
-                                <td>${item.price} x {item.quantity}</td>
-                            </tr>
-                        )
-                    })}
-                    </tbody>
-                </table>
+                <OrderTable orderItems={orderItems}/>
             </section>
 
             <section className="order-summary">
                 <h3>Order Summary</h3>
                 <ul>
-                    <li>${subtotal}</li>
+                    <li>Subtotal: ${subtotal}</li>
                     <li>Shipping cost: ${shippingPrice}</li>
                     <li>Taxes: ${taxPrice}</li>
                     <li>Total: ${totalPrice}</li>

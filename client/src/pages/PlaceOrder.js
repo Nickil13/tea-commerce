@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { CheckoutSteps } from '../components'
+import { CheckoutSteps, OrderTable } from '../components'
 import { useSelector, useDispatch } from 'react-redux';
 import { createCheckoutSession } from '../actions/checkoutActions';
 import { createOrder } from '../actions/orderActions';
@@ -62,36 +62,13 @@ export default function PlaceOrder() {
 
             <section className="order-items-section">
                 <h3>Order Items</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {cartItems.map((item)=>{
-                        return(
-                            <tr key={item._id} className="order-item">
-                                <td>
-                                    <img src={item.image} alt={item.name} />
-                                </td>
-                                <td>{item.name}</td>
-                                <td>{item.quantity}</td>
-                                <td>${item.price} x {item.quantity}</td>
-                            </tr>
-                        )
-                    })}
-                    </tbody>
-                </table>
+                <OrderTable orderItems={cartItems}/>
             </section>
 
             <section className="order-summary">
                 <h3>Order Summary</h3>
                 <ul>
-                    <li>${subtotal}</li>
+                    <li>Subtotal: ${subtotal}</li>
                     <li>Shipping cost: ${shipping}</li>
                     <li>Taxes: ${taxes}</li>
                     <li>Total: ${total}</li>

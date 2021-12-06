@@ -20,6 +20,9 @@ export default function MyWishlist() {
     return (
         <div>
             <h1 className="page-title">My Wishlist</h1>
+            <div className="page-description">
+                <p>Things you want to try, or buy again!</p>
+            </div>
             <div className="wishlist-container">
                 {loading ? <LoadingSpinner/> : <div className="profile-wishlist">
                     {user.wishlist && user.wishlist.length>0 ? user.wishlist.map((item)=>{
