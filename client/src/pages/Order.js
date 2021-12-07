@@ -26,7 +26,7 @@ export default function Order() {
             dispatch(getOrderDetails(id));
         }
         
-    },[id, order, setDeliveredSuccess])
+    },[id, order, setDeliveredSuccess, dispatch, history])
 
     
     return (
@@ -46,6 +46,12 @@ export default function Order() {
                     <h3>Status</h3>
                     <ul>
                         <li><strong>Placed on: </strong> <Moment format="YYYY-MM-DD, HH:mm" date={createdAt}/></li>
+                        <li className="payment-status"><strong>Paid: </strong> 
+                            <ul>
+                                <li>Paid at: {isPaid? <Moment format="YYYY-MM-DD, HH:mm" date={paidAt}/>: 'Not paid'}</li>
+                                <li>Payment method: {paymentMethod}</li>
+                            </ul>
+                        </li>
                         <li><strong>Delivered: </strong> {isDelivered?<Moment format="YYYY-MM-DD, HH:mm" date={deliveredAt}/> : 'Not delivered'}</li>
                     </ul>
                     {!isDelivered && <button onClick={()=>dispatch(updateOrderToDelivered(id))} className="btn">mark as delivered</button>}

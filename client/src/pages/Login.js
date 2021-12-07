@@ -28,7 +28,7 @@ export default function Login() {
                 history.push("/account");
             }
         }
-    },[userInfo])
+    },[userInfo, dispatch, history, localCart, location])
     
     const handleSubmit = (e) => {
         e.preventDefault();

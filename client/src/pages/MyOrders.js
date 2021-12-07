@@ -10,7 +10,7 @@ export default function MyOrders() {
 
     useEffect(()=>{
         dispatch(listMyOrders());
-    },[])
+    },[dispatch])
 
     return (
         <div>

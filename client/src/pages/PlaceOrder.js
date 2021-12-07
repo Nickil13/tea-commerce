@@ -22,7 +22,7 @@ export default function PlaceOrder() {
 
     const checkout = useSelector((state)=>state.checkout);
     const {checkoutSession} = checkout;
-    const {url, success: checkoutSessionSuccess} = checkoutSession;
+    const {url, loading: sessionLoading, success: checkoutSessionSuccess, error: sessionError} = checkoutSession;
 
     const createdOrder = useSelector((state)=>state.orders.createdOrder);
     const {loading, success: orderSuccess, error: orderError, order} = createdOrder;
@@ -51,8 +51,12 @@ export default function PlaceOrder() {
             <h1 className="page-title">Place Order</h1>
             <section className="order-shipping-section">
                 <h3>Shipping Information</h3>
-                <p>{`${shippingAddress.address} ${shippingAddress.city}, ${shippingAddress.province}`}</p>
-                <p>{`${shippingAddress.country}, ${shippingAddress.postalCode}`}</p>
+                <ul>
+                    <li>{shippingAddress.address}</li>
+                    <li>{shippingAddress.city}, {shippingAddress.province}</li>
+                    <li>{shippingAddress.country}</li>
+                    <li>{shippingAddress.postalCode}</li>
+                </ul>
             </section>
 
             <section className="order-payment-section">
@@ -74,8 +78,10 @@ export default function PlaceOrder() {
                     <li>Total: ${total}</li>
                 </ul>
                 <button className="btn-secondary" onClick={handlePlaceOrder}>Place Order</button>
-                {loading && <p>Placing order...</p>}
-                {orderError && <Message>{orderError}</Message>}
+        
+                {loading ? <Message>Placing order...</Message> : orderError && <Message>{orderError}</Message>}
+
+                {sessionLoading ? <Message>Loading Stripe session...</Message> : sessionError && <Message>Error loading Stripe session.</Message>}
             </section>
             
         </div>

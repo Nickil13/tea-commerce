@@ -11,11 +11,7 @@ export default function MyWishlist() {
 
     useEffect(()=>{
         dispatch(getUserProfile());
-    },[])
-
-    useEffect(()=>{
-        dispatch(getUserProfile())
-    },[wishlistRemoveSuccess])
+    },[dispatch, wishlistRemoveSuccess])
 
     return (
         <div>

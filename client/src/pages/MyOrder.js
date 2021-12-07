@@ -12,14 +12,14 @@ export default function MyOrder() {
     const {myOrderDetails}= useSelector((state)=>state.orders);
     const {order, loading, error} = myOrderDetails;
 
-    const {user,createdAt, isDelivered, isPaid, orderItems, paidAt, deliveredAt, shippingAddress, shippingPrice, taxPrice, totalPrice} = order;
+    const {user,createdAt, isDelivered, isPaid, orderItems, paidAt, paymentMethod, deliveredAt, shippingAddress, shippingPrice, taxPrice, totalPrice} = order;
 
 
     const subtotal = orderItems ? orderItems.reduce((acc,item)=>acc + (item.price*item.quantity),0).toFixed(2) : 0;
 
     useEffect(()=>{
         dispatch(getMyOrderDetails(id));
-    },[id])
+    },[id, dispatch])
 
 
     return (
@@ -39,6 +39,12 @@ export default function MyOrder() {
                     <h3>Status</h3>
                     <ul>
                         <li><strong>Placed on: </strong> <Moment format="YYYY-MM-DD, HH:mm" date={createdAt}/></li>
+                        <li className="payment-status"><strong>Paid: </strong> 
+                            <ul>
+                                <li>Paid at: {isPaid? <Moment format="YYYY-MM-DD, HH:mm" date={paidAt}/>: 'Not paid'}</li>
+                                <li>Payment method: {paymentMethod}</li>
+                            </ul>
+                        </li>
                         <li><strong>Delivered: </strong> {isDelivered?<Moment format="YYYY-MM-DD, HH:mm" date={deliveredAt}/> : 'Not delivered'}</li>
                     </ul>
                 </div>
