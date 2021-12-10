@@ -1,14 +1,17 @@
-import React, {useState,useEffect} from 'react'
+import React, {useState,useEffect, useCallback} from 'react';
 import { useParams, useLocation, Link} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
-import { createProductReview, getProductDetails, getTopProductReview } from '../actions/productActions';
-import { CaffeineRating, Rating, Breadcrumbs, Message, BrewingStep } from '../components';
-import Moment from 'react-moment';
+import { CaffeineRating, Rating, Breadcrumbs, Message, BrewingStep, LoadingSpinner, ProductReview } from '../components';
+
 import { useGlobalContext } from '../context';
 import { FaHeart, FaRegHeart} from 'react-icons/fa';
+
+import { createProductReview, getProductDetails, getTopProductReview } from '../actions/productActions';
 import { addToWishlist, getUserProfile, addToCart} from '../actions/userActions';
+
 import { WISHLIST_ADD_ITEM_RESET } from '../constants/userConstants';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
+
 import { teaInfo } from '../resources/teaInfoData';
 import { addToLocalCart } from '../actions/localCartActions';
 
@@ -42,6 +45,17 @@ export default function ProductProfile() {
     const localCart = useSelector((state)=>state.localCart);
     const existsInCart = cartItems.find((item)=>item._id === id);
     
+    const checkWishlist = useCallback(() =>{
+        if(user && user.wishlist){
+            const wishlist = user.wishlist;
+            const itemExists = wishlist.filter((item)=>item._id === id);
+            if(itemExists.length===0){
+                setIsInWishlist(false);
+            }else{
+                setIsInWishlist(true);
+            }
+        }
+    },[user, id])
     
     useEffect(()=>{
         dispatch(getProductDetails(id));
@@ -68,21 +82,11 @@ export default function ProductProfile() {
                 dispatch(getUserProfile());
             }
         }
-        
-    },[user,id,localCart,reviewSuccess, wishlistSuccess,dispatch])
+        //eslint-disable-next-line
+    },[user,id,localCart,reviewSuccess, wishlistSuccess,dispatch, checkWishlist])
 
 
-    const checkWishlist = () =>{
-        if(user && user.wishlist){
-            const wishlist = user.wishlist;
-            const itemExists = wishlist.filter((item)=>item._id === id);
-            if(itemExists.length===0){
-                setIsInWishlist(false);
-            }else{
-                setIsInWishlist(true);
-            }
-        }
-    }
+    
 
     const handleAddToCart = () =>{
         //Check if the user typed in a value higher than the amount of product in stock.
@@ -105,7 +109,7 @@ export default function ProductProfile() {
         }
     }
 
-    const handleHeartClick = () =>{
+    const handleAddToWishlistClick = () =>{
         dispatch((addToWishlist(id)));
     }
 
@@ -123,12 +127,11 @@ export default function ProductProfile() {
     }
     return (
         <div>
-            {loading ? <h2>Loading...</h2> : error ? <h2>Error! {error}</h2>  : <>
+            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message>  : <>
             <div className="product-breadcrumbs">
                 <Breadcrumbs path={location.pathname} productName={product.name}/>
             </div>
             <section className="product-profile">
-                
                 <div className="title-box">
                     <h2>{product.name}</h2>
                     <span>{product.productType}</span>
@@ -164,7 +167,7 @@ export default function ProductProfile() {
                     </div>}
                     {message && <Message type="error">{message}</Message>}
                     {userLogin.userInfo && (!isInWishlist ? 
-                        <div className="btn add-wishlist-btn" onClick={handleHeartClick}>
+                        <div className="btn add-wishlist-btn" onClick={handleAddToWishlistClick}>
                             <span><FaRegHeart/></span>
                             <p>Add to wishlist</p>
                         </div> :
@@ -174,6 +177,7 @@ export default function ProductProfile() {
                         </div> )}
                 </div>  
             </section>
+
             <section className="profile-ingredients">
                 <h2>Ingredients</h2>
                 <CaffeineRating productType={product.category==='tea mixes' ? product.ingredients.find((ingredient)=>ingredient.includes('tea')) : product.productType}/>
@@ -193,6 +197,7 @@ export default function ProductProfile() {
                     })}
                 </div>
             </section>
+
             <section className="review-section">
                 <h2>Reviews</h2>
                 <span>({product.reviews && product.reviews.length} review{product.reviews && product.reviews.length!==1 ? 's' : ''})</span>
@@ -203,49 +208,16 @@ export default function ProductProfile() {
                     </div> : <p className="product-not-reviewed">This product has not been reviewed yet!</p>}
                     <div className="product-review-list">
                         {topReview &&
-                            <div className="product-review product-review-top">
-                            <div className="review-info">
-                                <div>
-                                    <h3>{topReview.username}</h3>
-                                    <div className="review-sub-info">
-                                        <Rating value={topReview.rating}/>
-                                        <span className="review-date">
-                                            <Moment format="MMMM DD, YYYY" date={topReview.createdAt}/>
-                                        </span>
-                                    </div>
-                                </div>  
-                            </div>
-                            <div className="review-description">
-                                <p>{topReview.comment}</p>
-                            </div>
-                            </div>
-                        }
-                        {product.reviews && product.reviews.map((review)=>{
-                            if(topReview && topReview._id === review._id){
-                                return;
-                            }
+                        <ProductReview review={topReview} topReview/>}
+                        {product.reviews && product.reviews.filter((r)=>topReview && r._id!==topReview._id).map((review)=>{
                             return(
-                            <div key={review._id} className="product-review">
-                            <div className="review-info">
-                                <div>
-                                    <h3>{review.username}</h3>
-                                    <div className="review-sub-info">
-                                        <Rating value={review.rating}/>
-                                        <span className="review-date">
-                                            <Moment format="MMMM DD, YYYY" date={review.createdAt}/>
-                                        </span>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            <div className="review-description">
-                                <p>{review.comment}</p>
-                            </div>
-                        </div>);
+                                <ProductReview key={review._id} review={review}/>
+                            );
                         })}
                     </div>
                 </div>
-                {reviewedByUser ? <p>You have already reviewed this product.</p>  : userLogin.userInfo ? <form onSubmit={handleSubmitReview} className="customer-review-form">
+                {reviewedByUser ? <p>You have already reviewed this product.</p>  : userLogin.userInfo ? 
+                <form onSubmit={handleSubmitReview} className="customer-review-form">
                     <h3>Write a Customer Review</h3>
                     <div className="input-control">
                         <label htmlFor="rating">Rating</label>

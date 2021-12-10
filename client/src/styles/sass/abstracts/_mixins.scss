@@ -9,10 +9,6 @@
     object-fit: cover;
   }
 
-// @mixin page-title{
-//   padding: 4rem 4rem 3rem 4rem;
-//   text-align: center;
-// }
 
 @mixin form-format{
   width: 80%;
@@ -66,23 +62,6 @@
   }
 }
 
-// @mixin form-format{
-//   & .input-control{
-//     width: 80%;
-//     max-width: 400px;
-//     margin: 0 auto 1rem auto;
-
-//     & label{
-//         display: block;
-//         margin-bottom: 0.25rem;
-//         // font-weight: 600;
-//     }
-
-//     & input{
-//         width: 100%;
-//     }
-//   }
-// }
 
 @mixin format-select{
   padding: 0.75rem 1rem;

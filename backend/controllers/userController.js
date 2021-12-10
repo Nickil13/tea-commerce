@@ -111,9 +111,7 @@ const getUserProfile = async(req,res) =>{
 // @access   Private
 const updateUserProfile = asyncHandler( async(req, res) =>{
     const user = await User.findById(req.user._id);
-    
     if(user){
-
         const usernameExists = await User.find({username: req.body.username});
         const emailExists = await User.find({email: req.body.email});
         

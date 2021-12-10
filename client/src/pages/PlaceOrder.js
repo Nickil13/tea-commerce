@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createCheckoutSession } from '../actions/checkoutActions';
 import { createOrder } from '../actions/orderActions';
 import { Message } from '../components';
+import { getUserProfile } from '../actions/userActions';
 
 export default function PlaceOrder() {
     const {userProfile, userPaymentMethod} = useSelector((state)=>state.user);
@@ -30,14 +31,17 @@ export default function PlaceOrder() {
     useEffect(()=>{
         if(orderSuccess){
             dispatch(createCheckoutSession(order._id,cartItems, taxes, shipping)); 
+        }else{
+            dispatch(getUserProfile());
         }
+        // eslint-disable-next-line
     },[orderSuccess,dispatch])
 
     useEffect(()=>{
         if(checkoutSessionSuccess && url){
-            window.location = checkoutSession.url;
+            window.location = url;
         }
-    },[checkoutSessionSuccess])
+    },[checkoutSessionSuccess, url])
 
     const handlePlaceOrder = () =>{
         dispatch(createOrder(

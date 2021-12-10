@@ -13,9 +13,9 @@ export default function OrderSuccess() {
     const {id} = useParams();
 
     
-    useEffect(()=>{
-        dispatch(getCheckoutDetails(location.search.split("=")[1]));
-    }, [dispatch, id])
+    // useEffect(()=>{
+    //     dispatch(getCheckoutDetails(location.search.split("=")[1]));
+    // }, [dispatch, location, id])
     
     useEffect(()=>{
         if(detailsSuccess){
@@ -31,8 +31,10 @@ export default function OrderSuccess() {
             dispatch(updateUserProfile({
                 cartItems: []
             }))
+        }else{
+            dispatch(getCheckoutDetails(location.search.split("=")[1]));
         }
-    }, [detailsSuccess])
+    }, [detailsSuccess, dispatch, id, session, location])
 
     return (
         <div>

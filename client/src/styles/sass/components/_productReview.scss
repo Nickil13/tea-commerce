@@ -1,0 +1,50 @@
+@use '../abstracts';
+
+.product-review{
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    max-width: 30rem;
+
+    & .star-rating{
+        color: abstracts.$color-primary-light;
+    }
+    &-top{
+        background-color: abstracts.$color-secondary-light;
+
+        & .star-rating{
+            color: abstracts.$color-secondary-dark;
+        }
+    }
+
+    .review-description{
+        margin-top: 1rem;
+    }
+}
+
+.review-info{
+    display: flex;
+
+    & .review-sub-info {
+
+        & .review-date {
+            font-size: 16px;
+            
+            color: lighten(abstracts.$color-neutral-dark, 10%);
+    
+            @include abstracts.respond-to('small'){
+                margin-left: 0.75rem;
+                &::before{
+                    content: "•";
+                    margin-right: 0.75rem;
+                }
+            }
+            
+        }
+
+        @include abstracts.respond-to('small'){
+            display: flex;
+            align-items: center;
+        }
+    }  
+}

@@ -13,6 +13,7 @@ import Navbar from "./Navbar";
 import OrderCard from './OrderCard';
 import OrderTable from "./OrderTable";
 import Pagination from "./Pagination";
+import ProductReview from "./ProductReview";
 import Rating from "./Rating";
 import SearchBar from "./SearchBar";
 import ShopCard from "./ShopCard";
@@ -21,4 +22,4 @@ import Slider from "./Slider";
 import Tabs from "./Tabs";
 import WishlistCard from "./WishlistCard";
 
-export {Alert, Banner, Breadcrumbs, BrewingStep, CaffeineRating, CartCard, CheckoutSteps, DeleteConfirmation, Footer, LoadingSpinner, Message, Navbar, OrderCard, OrderTable, Pagination, Rating, SearchBar, ShopCard, Sidebar, Slider, Tabs, WishlistCard};
+export {Alert, Banner, Breadcrumbs, BrewingStep, CaffeineRating, CartCard, CheckoutSteps, DeleteConfirmation, Footer, LoadingSpinner, Message, Navbar, OrderCard, OrderTable, Pagination, ProductReview, Rating, SearchBar, ShopCard, Sidebar, Slider, Tabs, WishlistCard};
