@@ -37,7 +37,7 @@ export default function Signup() {
                 history.push("/account");
             }
         }   
-    },[history,userInfo, dispatch])
+    },[history,userInfo, userLogin, location, localCart, dispatch])
 
     const handleSubmit = (e) =>{
         e.preventDefault();
@@ -68,9 +68,9 @@ export default function Signup() {
     }
 
     return (
-        <div className="signup-container" onSubmit={handleSubmit}>
+        <div className="login-container signup-container" onSubmit={handleSubmit}>
             <h1>Sign up</h1>
-            <form className="signup-form">
+            <form className="login-form">
                 <div className="input-control">
                     <input type="text" name="username" id="username" placeholder="username" style={{textTransform:"capitalize"}} className={usernameError ? 'invalid-input-dark' : ''} value={username} onChange={(e)=>setUsername(e.target.value)}/>
                     {usernameError  && <p className="validation-error">invalid username</p>}   

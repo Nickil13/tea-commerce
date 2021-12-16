@@ -1,7 +1,7 @@
 import React, { useState,useEffect, useRef} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { useLocation, useHistory} from 'react-router';
-import { LoadingSpinner, Message, Pagination, SearchBar} from '../components';
+import { AdminBar, LoadingSpinner, Message, Pagination, SearchBar} from '../components';
 import { Link } from 'react-router-dom';
 import { listOrders} from '../actions/orderActions';
 import Moment from 'react-moment';
@@ -37,13 +37,7 @@ export default function Orders() {
    
     return (
         <div>
-            <div className="admin-bar">
-                <div className="admin-links">
-                    <Link className="btn btn-primary" to="/admin/orders">Orders</Link>
-                    <Link className="btn btn-primary" to="/admin/users"> Users</Link>
-                    <Link className="btn btn-primary" to="/admin/products">Products</Link>
-                </div> 
-            </div>
+            <AdminBar/>
             
             <h1 className="page-title">Orders</h1>
 

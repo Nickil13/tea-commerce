@@ -1,7 +1,7 @@
 import React, { useState,useEffect, useRef} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { useLocation, useHistory } from 'react-router';
-import { DeleteConfirmation, LoadingSpinner, Message, Pagination, SearchBar } from '../components';
+import { AdminBar, DeleteConfirmation, LoadingSpinner, Message, Pagination, SearchBar } from '../components';
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../context';
 import { listUsers} from '../actions/userActions';
@@ -40,14 +40,7 @@ export default function Users() {
 
     return (
         <div>
-            <div className="admin-bar">
-                <div className="admin-links">
-                    <Link className="btn btn-primary" to="/admin/orders">Orders</Link>
-                    <Link className="btn btn-primary" to="/admin/users"> Users</Link>
-                    <Link className="btn btn-primary" to="/admin/products">Products</Link>
-                </div> 
-            </div>
-                
+            <AdminBar/>
             <h1 className="page-title">Users</h1>
         
             <SearchBar handleSearch={handleSearch} searchRef={searchRef} placeholder={"filter users"} handleResetSearch={handleResetSearch}/>

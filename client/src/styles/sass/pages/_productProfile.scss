@@ -185,8 +185,8 @@
         text-align: center;
     }
 
-    & button:hover{
-        background-color: lighten(abstracts.$color-primary-light, 10%);
+    & button{
+        font-size: 18px;
     }
 
     @include abstracts.respond-to('small'){

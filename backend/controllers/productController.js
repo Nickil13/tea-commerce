@@ -62,7 +62,7 @@ const getTopProductReview = async (req,res) => {
     if(product){
         let topReview = product.reviews[0];
         for(let i=0;i<product.reviews.length;i++){
-            if(product.reviews[i]>topReview){
+            if(product.reviews[i].rating>topReview.rating){
                 topReview = product.reviews[i];
             }
         }

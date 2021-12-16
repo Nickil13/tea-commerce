@@ -56,37 +56,40 @@ export default function ProductProfile() {
             }
         }
     },[user, id])
-    
+
     useEffect(()=>{
-        dispatch(getProductDetails(id));
-        dispatch(getTopProductReview(id));
-        // Once the user profile is successfully loaded, check the wishlist for the current product. Otherwise, fetch the user profile information.
-        if(!userLogin.userInfo){
-            setCartItems(localCart.cartItems);
-        }else{
-            if(user && user.username){
-                checkWishlist();
-                setCartItems(user.cartItems);
-            }else{
-                dispatch(getUserProfile());
-            }   
-    
+        if(!product.name || product._id!==id || reviewSuccess){
+            dispatch(getProductDetails(id));
+            dispatch(getTopProductReview(id));
+
             if(reviewSuccess){
                 setRating(0);
                 setComment('');
                 dispatch({type: PRODUCT_CREATE_REVIEW_RESET});
             }
-            if(wishlistSuccess){
-                dispatch({type: WISHLIST_ADD_ITEM_RESET});
-                showAlert(product.name,'wishlist');
-                dispatch(getUserProfile());
+        }else{
+            //If the user is logged in
+            if(!userLogin.userInfo){
+                setCartItems(localCart.cartItems);
+            }else{
+                if(user && user.username){
+                    checkWishlist();
+                    setCartItems(user.cartItems);
+
+                    if(wishlistSuccess){
+                        dispatch({type: WISHLIST_ADD_ITEM_RESET});
+                        showAlert(product.name,'wishlist');
+                        dispatch(getUserProfile());
+                    }
+                }else{
+                    dispatch(getUserProfile());
+                }
             }
+            
         }
         //eslint-disable-next-line
-    },[user,id,localCart,reviewSuccess, wishlistSuccess,dispatch, checkWishlist])
+    },[id, dispatch, userLogin, user, product, showAlert, checkWishlist, reviewSuccess, wishlistSuccess])
 
-
-    
 
     const handleAddToCart = () =>{
         //Check if the user typed in a value higher than the amount of product in stock.
@@ -209,7 +212,7 @@ export default function ProductProfile() {
                     <div className="product-review-list">
                         {topReview &&
                         <ProductReview review={topReview} topReview/>}
-                        {product.reviews && product.reviews.filter((r)=>topReview && r._id!==topReview._id).map((review)=>{
+                        {product.reviews && product.reviews.filter((r)=>topReview && r._id!==topReview._id).slice(0).reverse().map((review)=>{
                             return(
                                 <ProductReview key={review._id} review={review}/>
                             );
@@ -234,7 +237,7 @@ export default function ProductProfile() {
                         <label htmlFor="comment">Comment</label>
                         <textarea rows="6" type="text" name="comment" id="comment" value={comment} onChange={(e)=>setComment(e.target.value)}/>
                     </div>
-                    <button className="btn" type="submit">Submit</button>
+                    <button className="btn btn-primary" type="submit">Submit</button>
                     {reviewError && <Message>{reviewError}</Message>}
                 </form> : <p>Please <Link to="/login"><u>log in</u></Link> to leave a review.</p>
                 }

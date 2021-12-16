@@ -1,6 +1,8 @@
 @use '../abstracts';
 
+//Login & Sign up forms
 
+//Login
 .login-container{
   display: grid;
   place-items: center;
@@ -47,7 +49,24 @@
 
       &::placeholder{
         text-align: center;
+        text-transform: lowercase;
       }
     }
   }
+}
+
+
+// Sign up CSS specifications
+.signup-container{
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 7px -5px rgb(0 0 0 / 90%);
+  background-color: transparent;
+
+  .signup-blob{
+    position: absolute;
+    top: -150px;
+    left: -50%;
+    z-index: -1;
+}
 }

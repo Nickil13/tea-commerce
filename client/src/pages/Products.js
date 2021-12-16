@@ -2,7 +2,7 @@ import React, { useState,useEffect, useRef} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { useLocation, useHistory } from 'react-router';
 import { listProducts } from '../actions/productActions';
-import { DeleteConfirmation, LoadingSpinner, Message, Pagination, SearchBar } from '../components';
+import { AdminBar, DeleteConfirmation, LoadingSpinner, Message, Pagination, SearchBar } from '../components';
 import { teaProductCategories } from '../resources/teaInfoData';
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../context';
@@ -23,11 +23,8 @@ export default function Products() {
 
 
     useEffect(()=>{
-        if(productType==='select product type'){
-            dispatch(listProducts((category==="all" ? "" : category),'',pageNumber, keyword));
-        }else{
-            dispatch(listProducts((category==="all" ? "" : category),productType,pageNumber, keyword));
-        }
+        dispatch(listProducts((category==="all" ? "" : category),(productType==='select product type' ? '' : productType),
+        pageNumber, keyword));
         
     }, [dispatch, pageNumber, category, productType, keyword, successDelete])
 
@@ -62,14 +59,7 @@ export default function Products() {
     }
     return (
         <div>
-            <div className="admin-bar">
-                <div className="admin-links">
-                    <Link className="btn btn-primary" to="/admin/orders">Orders</Link>
-                    <Link className="btn btn-primary" to="/admin/users"> Users</Link>
-                    <Link className="btn btn-primary" to="/admin/products">Products</Link>
-                </div> 
-            </div>
-            
+            <AdminBar/>
             <h1 className="page-title">Products</h1>
 
             <button className="btn btn-primary" onClick={()=>history.push('/admin/products/add')}>Create a new product</button>

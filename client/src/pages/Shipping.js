@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { CheckoutSteps, Message } from '../components';
 import { useDispatch, useSelector } from 'react-redux';
-// import { saveShippingInfo } from '../actions/cartActions';
 import { getUserProfile, updateUserProfile } from '../actions/userActions';
 import { useHistory } from 'react-router';
 
@@ -13,7 +12,7 @@ export default function Shipping() {
     const[province,setProvince] = useState('');
     const[country,setCountry] = useState('');
     const[postalCode, setPostalCode] = useState('');
-    const[error,setError] = useState("");
+    const[error,setError] = useState('');
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -65,7 +64,7 @@ export default function Shipping() {
         }else{
             form.postalcode.classList.remove("invalid-input");
         }
-
+        
         if(!address || !city || !province || !country || !postalCode){
             throw Error("Please fill out all fields.");
         }
@@ -111,7 +110,7 @@ export default function Shipping() {
                         <label htmlFor="postalcode">Postal Code</label>
                         <input type="text" name="postalcode" value={postalCode} onChange={(e)=>setPostalCode(e.target.value)}/>
                     </div>
-                    <button className="btn-secondary" type="submit" >Submit</button>
+                    <button className="btn-secondary" type="submit">Submit</button>
                 </form>
             </section>
             <Message type={"error"}>{error}</Message>

@@ -19,15 +19,15 @@ export default function MyWishlist() {
             <div className="page-description">
                 <p>Things you want to try, or buy again!</p>
             </div>
-            <div className="wishlist-container">
+            {user.wishlist && user.wishlist.length>0 ?<div className="wishlist-container">
                 {loading ? <LoadingSpinner/> : <div className="profile-wishlist">
-                    {user.wishlist && user.wishlist.length>0 ? user.wishlist.map((item)=>{
+                     {user.wishlist.map((item)=>{
                         return(
                             <WishlistCard key={item._id} {...item}/>
                         )
-                    }) : <Message>You haven't added any items to your wishlist.</Message>}
+                    })}
                 </div>}
-            </div>
+            </div>: <Message>You haven't added any items to your wishlist.</Message>}
         </div>
     )
 }

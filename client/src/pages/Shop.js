@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef, useCallback} from 'react';
 import { ShopCard, Breadcrumbs, Banner, SearchBar, Message} from '../components';
 import { useParams ,useHistory, useLocation} from 'react-router-dom';
 import { teaProductCategories as categories} from '../resources/teaInfoData';
@@ -21,23 +21,26 @@ export default function Shop() {
     const pageNumber = location.search.split('=')[1] || 1;
     const searchRef = useRef(null);
     
-  
-    useEffect(()=>{
-        dispatch(listProducts(category ? category : '',type ? type: '',pageNumber,keyword));
-        updateShopButtons();
-    },[category,type,pageNumber,keyword,dispatch])
-
-    const updateShopButtons = () =>{
+    const updateShopButtons = useCallback(() =>{
         let newShopButtons = [];
         if(category){
-            newShopButtons = categories.filter((cat)=>cat.type === category.replace("-"," "))[0].items;
-            
+            newShopButtons = categories.filter((cat)=>cat.type === category)[0].items;
+
+            if(type){
+                newShopButtons = [];
+            }
         }else{
             newShopButtons = categories.map((category)=>category.type);
         }
+        setShopButtons(newShopButtons);
+    },[category,type])
 
-        setShopButtons(newShopButtons.filter((btn)=>btn!=="all"));
-    }
+    useEffect(()=>{
+        dispatch(listProducts(category ? category : '',type ? type: '',pageNumber,keyword));
+        updateShopButtons();
+    },[category,type,pageNumber,keyword,updateShopButtons,dispatch])
+
+    
 
     const handleShopButtonClick = (value) => {
         if(category){
@@ -87,6 +90,7 @@ export default function Shop() {
                 }) : <Message>No items found.</Message>}
                 </div>
             }
+            <Pagination page={page} pages={pages}/>
         </div>
     )
 }

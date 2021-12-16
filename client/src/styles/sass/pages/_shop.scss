@@ -28,46 +28,28 @@
           font-size: 18px;
         }
       }
-  }
 
-  @media screen and (min-width: 600px){
-    .shop-hero{
-      display: grid;
-      grid-template-columns: 3fr 2fr;
-      place-items:center;
+      @include abstracts.respond-to('small'){
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        place-items:center;
 
-      & img{
-        grid-column: 2;
-        grid-row: 1;
+        & img{
+          grid-column: 2;
+          grid-row: 1;
+        }
+  
+        &-info{
+          grid-column: 1;
+          grid-row: 1;
+          padding: 0;
+        }
       }
-
-      &-info{
-        grid-column: 1;
-        grid-row: 1;
-        padding: 0;
-      }
-    }
   }
   
   .filter-bar{
-    padding: 2em;
-    min-height: 200px;
-  }
-
-  .tea-filter{
-    margin: 0 auto;
-    width: 300px;
-
-    & label{
-      margin-right: 10px;
-    }
-
-    & select{
-      font-family: abstracts.$ff-primary;
-      font-size: 16px;
-      color: abstracts.$color-neutral-dark;
-      padding: 0.75em;
-    }
+    padding: 2rem;
+    min-height: 150px;
   }
  
   .shop-btns{
