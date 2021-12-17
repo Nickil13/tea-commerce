@@ -11,7 +11,7 @@ As an admin:
    - Managing other users and updating order status
 
 ## Live site
-- Still in progress!
+- Site deployed with Heroku at: https://tea-commerce-app.herokuapp.com/
 
 ## Technologies Used
 - HTML
