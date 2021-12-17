@@ -16,7 +16,6 @@ if(process.env.NODE_ENV === 'production'){
     url = process.env.DEVELOPMENT_URL;
     
 }
-console.log(url);
 router.post('/sessions', async (req, res)=>{
     try{
         const session = await stripe.checkout.sessions.create({
