@@ -1,4 +1,3 @@
-const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 
@@ -14,8 +13,10 @@ const router = express.Router();
 let url = process.env.CLIENT_URL;
 
 if(process.env.NODE_ENV === 'production'){
-    url = path.join(path.resolve(), '/client/build');
+    url = process.env.DEVELOPMENT_URL;
+    
 }
+console.log(url);
 router.post('/sessions', async (req, res)=>{
     try{
         const session = await stripe.checkout.sessions.create({

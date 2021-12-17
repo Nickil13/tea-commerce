@@ -9,7 +9,7 @@ const Product = require('../models/ProductModel');
 const getProducts = asyncHandler(async (req,res) => {
     const pageSize = 8;
     const page = Number(req.query.page) || 1;
-    console.log('getting products');
+    
     let query = {};
 
     //Query by product category (ex. loose leaf teas)
