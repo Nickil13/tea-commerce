@@ -83,7 +83,7 @@ export default function Shop() {
             
             {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> :
                 <div className="shop-list">
-                {products.length>0 ? products.map((item,index)=>{
+                {products && products.length>0 ? products.map((item,index)=>{
                     return (
                         <ShopCard key={index} item={item}/>
                     );

@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
@@ -18,12 +19,6 @@ if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'));
 }
 
-if(process.env.NODE_ENV === 'production'){
-    app.use(express.static(path.join(__dirname, '/frontend/build')));
-    app.get('*', (req,res) =>{
-        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
-    })
-}
 
 app.use(express.json({limit: '50mb'}));
 
@@ -35,9 +30,17 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/cloudinary', cloudinaryRoutes);
 app.use('/api/stripe', stripeRoutes);
 
-app.use('/', (req,res)=>{
-    res.send('API is running!')
-})
+if(process.env.NODE_ENV === 'production'){
+    console.log("In production!");
+    app.use(express.static(path.join(path.resolve(), '/client/build')));
+    app.get('*', (req,res) =>{
+        res.sendFile(path.resolve(path.resolve(), 'client', 'build', 'index.html'));
+    })
+}else{
+    app.use('/', (req,res)=>{
+        res.send('API is running!')
+    })
+}
 
 
 //Middleware
