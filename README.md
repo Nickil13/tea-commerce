@@ -28,4 +28,5 @@ As an admin:
 
 
 ## Preview
+<img src='https://user-images.githubusercontent.com/36387179/146479091-2836740b-ccbd-40f8-90a6-708c14ad676c.PNG' width="700">
 
