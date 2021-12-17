@@ -10,7 +10,7 @@ const convertToCents = (price) =>{
 }
 
 const router = express.Router();
-const url = process.env.CLIENT_URL;
+let url = process.env.CLIENT_URL;
 
 if(process.env.NODE_ENV === 'production'){
     url = path.join(path.resolve(), '/client/build');
