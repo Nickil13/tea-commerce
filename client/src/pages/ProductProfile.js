@@ -152,7 +152,7 @@ export default function ProductProfile() {
                     <p><span>${product.price && product.price.toFixed(2)}</span> / 50g</p>
 
                     
-                    {product.countInStock === 0 ? <span className="tag tag-not">product out of stock</span> : (existsInCart && Number(existsInCart.quantity)===Number(product.countInStock)) ? <p className="max-cart-message">You have added the max amount of this product to your cart.</p> :
+                    {product.countInStock === 0 ? <p>Sorry, this product is currently <u>out of stock.</u></p> : (existsInCart && Number(existsInCart.quantity)===Number(product.countInStock)) ? <p className="max-cart-message">You have added the max amount of this product to your cart.</p> :
                     <div className="product-btn-container">
                        {!isHigherQuantity ? <select name="qty" id="qty" className="product-quantity-select" value={quantity} onChange={handleQuantitySelect}>
                             {product.countInStock && [...Array(product.countInStock).keys()].slice(1,11).map((num, index)=>{

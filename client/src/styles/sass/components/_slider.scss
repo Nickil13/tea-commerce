@@ -7,9 +7,6 @@
   
   .slide{
     position: relative;
-    // place-items:center;
-    // background-position:center;
-    // background-size: cover;
     width:100%;
     background-color: lavender;
     height:abstracts.$hero-height;
@@ -18,7 +15,6 @@
     
 
     &-active{
-      // display: grid;
       display: block;
     }
 
@@ -26,7 +22,6 @@
       max-width: 25ch;
       font-size: 25px;
       margin-bottom: 0.25rem;
-      // text-align: center;
       color: abstracts.$color-neutral;
     }
 
@@ -81,7 +76,7 @@
 
   #matcha-slide .slide-content{
     @include abstracts.respond-to('large'){
-      // justify-content:start;
+
       justify-self: start;
       margin-left: 8rem;
       max-width: 35ch;
@@ -112,7 +107,8 @@
   .slider-arrow{
     position: absolute;
     display:grid;
-    place-items:center;
+    align-items: center;
+    // place-items:center;
     top: 0;
     color: abstracts.$color-neutral;
     
