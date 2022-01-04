@@ -64,8 +64,8 @@ export default function Slider() {
                 <li onClick={()=>setSliderIndex(1)}>{sliderIndex===1 ? <FaCircle/> : <FaRegCircle/>}</li>
                 <li onClick={()=>setSliderIndex(2)}>{sliderIndex===2 ? <FaCircle/> : <FaRegCircle/>}</li>
             </ul>
-            <span className="slider-arrow arrow-left" onClick={()=>handleSliderClick("left")}><BsChevronLeft/></span>
-            <span className="slider-arrow arrow-right" onClick={()=>handleSliderClick("right")}><BsChevronRight/></span>
+            <div className="slider-arrow arrow-left" onClick={()=>handleSliderClick("left")}><BsChevronLeft/></div>
+            <div className="slider-arrow arrow-right" onClick={()=>handleSliderClick("right")}><BsChevronRight/></div>
         </div>
     )
 }
