@@ -118,7 +118,22 @@ export default function ProductProfile() {
 
     const handleSubmitReview = (e) => {
         e.preventDefault();
-        dispatch(createProductReview(id,{rating, comment}));
+
+        let modifiedComment = comment;
+        if(!user.isAdmin){
+            if(rating==="1"){
+                modifiedComment = "I didn't like this tea much.";
+            }else if(rating==="2"){
+                modifiedComment = "This tea isn't my favourite.";
+            }else if(rating==="3"){
+                modifiedComment = `I don't usually drink ${tea.type} tea, but I got this as a gift. Not too bad!`;
+            }else if(rating==="4"){
+                modifiedComment = "Really good. I'm ordering some for my friends to see what they think.";
+            }else{
+                modifiedComment = "I love this tea!";
+            }
+        }
+        dispatch(createProductReview(id,{rating, comment: modifiedComment}));
     }
 
     const handleQuantitySelect = (e) => {
@@ -130,7 +145,7 @@ export default function ProductProfile() {
     }
     return (
         <div>
-            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message>  : <>
+            {loading ? <div className="content-container"><LoadingSpinner/></div> : error ? <Message>{error}</Message>  : <>
             <div className="product-breadcrumbs">
                 <Breadcrumbs path={location.pathname} productName={product.name}/>
             </div>
@@ -235,7 +250,7 @@ export default function ProductProfile() {
                     </div>
                     <div className="input-control">
                         <label htmlFor="comment">Comment</label>
-                        <textarea rows="6" type="text" name="comment" id="comment" value={comment} onChange={(e)=>setComment(e.target.value)}/>
+                        <textarea rows="6" type="text" disabled={user.isAdmin ? false : true} name="comment" id="comment" value={comment} onChange={(e)=>setComment(e.target.value)}/>
                     </div>
                     <button className="btn btn-primary" type="submit">Submit</button>
                     {reviewError && <Message>{reviewError}</Message>}

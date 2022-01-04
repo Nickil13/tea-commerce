@@ -35,6 +35,9 @@ export default function Login() {
         dispatch(login(username,password));
     }
 
+    const handleDemoLogin = () =>{
+        dispatch(login("demoUser1","d3m0us3r"));
+    }
     return (
         <div className="login-container" onSubmit={handleSubmit}>
             <h1>Login</h1>
@@ -49,7 +52,7 @@ export default function Login() {
                 <button type="submit" className="btn btn-primary">Log in</button>
                 
             </form>
-            <p>Don't have an account? <Link to={location.search.includes('redirect') ? `/signup?redirect=${location.search.split('=')[1]}` : '/signup'}>Sign up</Link></p>
+            <p>Don't have an account? <Link to={location.search.includes('redirect') ? `/signup?redirect=${location.search.split('=')[1]}` : '/signup'}>Sign up</Link><br/>or <span className="demo-login-link" onClick={handleDemoLogin}>login as a demo user</span></p>
         </div>
     )
 }
