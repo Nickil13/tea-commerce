@@ -107,6 +107,7 @@
   .slider-arrow{
     position: absolute;
     display:grid;
+    --webkit-align-items: center;
     align-items: center;
     // place-items:center;
     top: 0;
