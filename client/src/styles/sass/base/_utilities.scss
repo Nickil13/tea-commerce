@@ -24,6 +24,13 @@
     width: 80%;
 }
 
+//For centering main page content (especially messages and the loading spinner).
+.content-container{
+    display: grid;
+    place-items: center;
+    min-height: calc(100vh - abstracts.$nav-height);
+}
+
 // Images
 .img-container{
     position: relative;

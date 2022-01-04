@@ -6,6 +6,7 @@ import { GrMenu} from 'react-icons/gr';
 import { useSelector, useDispatch} from 'react-redux';
 import { getUserProfile, logout} from '../actions/userActions';
 import { useGlobalContext } from '../context';
+import { teaProductCategories as categories } from '../resources/teaInfoData';
 import { USER_CART_ADD_ITEM_RESET, USER_CART_REMOVE_ITEM_RESET } from '../constants/userConstants';
 
 export default function Navbar() {
@@ -87,24 +88,15 @@ export default function Navbar() {
         <div className="nav-container" ref={navbar}>
             <nav>
                 <Link className="logo" to="/">Tea Commerce</Link>
-
                 <ul className="nav-links">
-                    <li>
-                        <NavLink activeClassName="active-nav" to="/shop" exact>Shop All</NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                        activeClassName="active-nav" to="/shop/loose leaf">Loose Leaf</NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                        activeClassName="active-nav" to="/shop/matcha">Matcha</NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                        activeClassName="active-nav" to="/shop/tea mixes">Mixes</NavLink>
-                    </li>
-                    
+                    {categories.map((category,index)=>{
+                        let url = category.type==='all' ? '/shop' : `/shop/${category.type}`;
+                        return(
+                            <li key={index}>
+                                <NavLink activeClassName="active-nav" to={url} exact>{category.type==='all' ? 'Shop All' : category.type}</NavLink>
+                            </li>
+                        )
+                    })}
                 </ul>
                 <div className="nav-icon-container">
                     <ul className="nav-icons">

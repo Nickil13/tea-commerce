@@ -5,7 +5,90 @@
     background-color: abstracts.$color-dark;
   }
   
+  .slide{
+    position: relative;
+    // place-items:center;
+    // background-position:center;
+    // background-size: cover;
+    width:100%;
+    background-color: lavender;
+    height:abstracts.$hero-height;
+    display: none;
+    animation: fade-in 1s ease-in;
+    
+
+    &-active{
+      // display: grid;
+      display: block;
+    }
+
+    & .slide-title{
+      max-width: 25ch;
+      font-size: 25px;
+      margin-bottom: 0.25rem;
+      // text-align: center;
+      color: abstracts.$color-neutral;
+    }
+
+    & img{
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    & .slide-content{
+      position: absolute;
+      display:grid;
+      height: 100%;
+      width: 100%;
+      justify-content: center;
+      align-content: center;
+      padding: 0 3.5rem;
+      text-align: center;
+        
+        & p{
+          color:abstracts.$color-neutral;
+        }
+    }
+
+    @include abstracts.respond-to('small'){
+      & .slide-title{
+        font-size: 30px;
+      }
+      & .slide-content{
+        padding: 0 5rem;
+
+        & p{
+          font-size: 20px;
+        }
+      }
+    }
+
+    @include abstracts.respond-to('medium'){
+      & .slide-title{
+        font-size: 38px;
+      }
+    }
+  }
   
+  .slide-darken{
+    img{
+      filter: brightness(70%);
+    }
+  }
+
+
+  #matcha-slide .slide-content{
+    @include abstracts.respond-to('large'){
+      // justify-content:start;
+      justify-self: start;
+      margin-left: 8rem;
+      max-width: 35ch;
+      padding: 0;
+    }
+  }
+
   .slide-dots{
     display:flex;
     position: absolute;
@@ -52,80 +135,4 @@
   }
   .arrow-right{
     right:0;
-  }
-  
-  .slide{
-    place-items:center;
-    background-position:center;
-    background-size: cover;
-    width:100%;
-    height:abstracts.$hero-height;
-    display: none;
-    animation: fade-in 1s ease-in;
-    
-
-    &-active{
-      display: grid;
-    }
-
-    & .slide-title{
-      max-width: 25ch;
-      font-size: 25px;
-      margin-bottom: 0.25rem;
-      text-align: center;
-      color: abstracts.$color-neutral;
-    }
-
-    & img{
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-    }
-
-    & .slide-content{
-      position: absolute;
-      display:grid;
-      padding: 0 3.5rem;
-      text-align: center;
-        
-        & p{
-          color:abstracts.$color-neutral;
-        }
-    }
-
-    @include abstracts.respond-to('small'){
-      & .slide-title{
-        font-size: 30px;
-      }
-      & .slide-content{
-        padding: 0 5rem;
-
-        & p{
-          font-size: 20px;
-        }
-      }
-    }
-
-    @include abstracts.respond-to('medium'){
-      & .slide-title{
-        font-size: 38px;
-      }
-    }
-  }
-  
-  .slide-darken{
-    img{
-      filter: brightness(70%);
-    }
-  }
-
-
-  #matcha-slide .slide-content{
-    @include abstracts.respond-to('large'){
-      justify-self:start;
-      margin-left: 8rem;
-      max-width: 35ch;
-      padding: 0;
-    }
   }

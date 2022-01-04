@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FaRegHeart, FaUserEdit} from 'react-icons/fa';
+import { FaRegHeart} from 'react-icons/fa';
 import { GoPackage} from 'react-icons/go';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -20,7 +20,7 @@ export default function UserProfile() {
 
     return (
         <div>
-            {loading ? <LoadingSpinner /> : error ? <Message>{error}</Message> : <>
+            {loading ? <div className="content-container"><LoadingSpinner/></div> : error ? <Message>{error}</Message> : <>
             <div className="account-banner">
                 <div className="user-bar">
                     <div>
@@ -50,10 +50,7 @@ export default function UserProfile() {
             <h1 className="page-title">My Account</h1>
         
             <section className="account-section account-details">
-                <div className="title-box-account">
-                    <span className="account-icon"><FaUserEdit/></span>
-                    <h2>Account details</h2>
-                </div>
+                
                 <div className="section-content">
                     <ul className="account-details-list">
                         <li><strong>Username: </strong> {user.username}</li>

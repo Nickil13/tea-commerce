@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector} from 'react-redux';
 import { getUserProfile, updateUserProfile} from '../actions/userActions';
 import { LoadingSpinner, Message} from '../components';
@@ -22,6 +23,8 @@ export default function EditUserProfile() {
     
     const[formEdited, setFormEdited] = useState('');
     const {loading: updateLoading, success: updateSuccess, error: updateError} = userUpdateProfile;
+
+    const history = useHistory();
 
     useEffect(()=>{
         if(!user || !user.username){
@@ -64,12 +67,14 @@ export default function EditUserProfile() {
                         password,
                         confirmPassword}
                     ))
+                    history.push('/account');
                 }
             }else{
                 dispatch(updateUserProfile(
                     {username,
                     email}
                 ))
+                history.push('/account');
             } 
         }else{
             setMessage("Invalid email.");
@@ -95,7 +100,6 @@ export default function EditUserProfile() {
     return (
         <div>
             <h1 className="page-title">Edit User Profile</h1>
-            
             {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> :<>
             <form className="edit-profile-form" onSubmit={handlePersonalSubmit}>
                 <h2>Personal Information</h2>

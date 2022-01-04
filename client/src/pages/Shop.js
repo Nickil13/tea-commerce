@@ -30,7 +30,7 @@ export default function Shop() {
                 newShopButtons = [];
             }
         }else{
-            newShopButtons = categories.map((category)=>category.type);
+            newShopButtons = categories.filter((category)=>category.type!=='all').map((category)=>category.type);
         }
         setShopButtons(newShopButtons);
     },[category,type])

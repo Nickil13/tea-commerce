@@ -1,0 +1,17 @@
+@use '../abstracts';
+
+.wishlist-container{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.profile-wishlist{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+
+    @include abstracts.respond-to('large'){
+        grid-template-columns: repeat(3, 250px);
+    }
+}
