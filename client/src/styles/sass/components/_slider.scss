@@ -106,22 +106,15 @@
   
   .slider-arrow{
     position: absolute;
-      display:grid;
-      height: 100%;
-      // width: 100%;
-      justify-content: center;
-      align-content: center;
-      padding: 1rem;
-      text-align: center;
-      top:0;
-    // position: absolute;
-    // display:grid;
-    // align-items: center;
-    // top: 0;
+    display:grid;
+    height: 100%;
+    justify-content: center;
+    align-content: center;
+    padding: 1rem;
+    // text-align: center;
+    top:0;
     color: abstracts.$color-neutral;
-    // font-size: 30px;
-    // padding: 1rem;
-    // height:100%;
+    font-size: 30px;
     cursor: pointer;
     transition: abstracts.$btn-transition;
 
