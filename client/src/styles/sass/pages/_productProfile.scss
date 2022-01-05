@@ -185,6 +185,22 @@
         text-align: center;
     }
 
+    & p {
+        margin-bottom: 1rem;
+    }
+
+    & select {
+        width: 100%;
+        text-overflow: ellipsis;
+    }
+
+    & option {
+        word-wrap: break-word;
+        white-space: normal;
+        overflow: hidden;
+        max-width: 100%;
+    }
+
     & button{
         font-size: 18px;
     }

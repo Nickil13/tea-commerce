@@ -13,6 +13,7 @@ import { WISHLIST_ADD_ITEM_RESET } from '../constants/userConstants';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 
 import { teaInfo } from '../resources/teaInfoData';
+import { reviewComments } from '../resources/reviewComments';
 import { addToLocalCart } from '../actions/localCartActions';
 
 export default function ProductProfile() {
@@ -119,21 +120,22 @@ export default function ProductProfile() {
     const handleSubmitReview = (e) => {
         e.preventDefault();
 
-        let modifiedComment = comment;
-        if(!user.isAdmin){
-            if(rating==="1"){
-                modifiedComment = "I didn't like this tea much.";
-            }else if(rating==="2"){
-                modifiedComment = "This tea isn't my favourite.";
-            }else if(rating==="3"){
-                modifiedComment = `I don't usually drink ${tea.type} tea, but I got this as a gift. Not too bad!`;
-            }else if(rating==="4"){
-                modifiedComment = "Really good. I'm ordering some for my friends to see what they think.";
-            }else{
-                modifiedComment = "I love this tea!";
-            }
-        }
-        dispatch(createProductReview(id,{rating, comment: modifiedComment}));
+        // let modifiedComment = comment;
+        // if(!user.isAdmin){
+        //     if(rating==="1"){
+        //         modifiedComment = "I didn't like this tea much.";
+        //     }else if(rating==="2"){
+        //         modifiedComment = "This tea isn't my favourite.";
+        //     }else if(rating==="3"){
+        //         modifiedComment = `I don't usually drink ${tea.type} tea, but I got this as a gift. Not too bad!`;
+        //     }else if(rating==="4"){
+        //         modifiedComment = "Really good. I'm ordering some for my friends to see what they think.";
+        //     }else{
+        //         modifiedComment = "I love this tea!";
+        //     }
+        // }
+        // dispatch(createProductReview(id,{rating, comment: modifiedComment}));
+        dispatch(createProductReview(id,{rating, comment}));
     }
 
     const handleQuantitySelect = (e) => {
@@ -240,7 +242,7 @@ export default function ProductProfile() {
                     <div className="input-control">
                         <label htmlFor="rating">Rating</label>
                         <select name="rating" id="rating" value={rating} onChange={(e)=>setRating(e.target.value)}>
-                            <option value="">Select...</option>
+                            <option value="" hidden>Select...</option>
                             <option value="1">Poor</option>
                             <option value="2">Fair</option>
                             <option value="3">Good</option>
@@ -248,10 +250,23 @@ export default function ProductProfile() {
                             <option value="5">Excellent</option>
                         </select>
                     </div>
+                    {user.isAdmin ?
                     <div className="input-control">
                         <label htmlFor="comment">Comment</label>
-                        <textarea rows="6" type="text" disabled={user.isAdmin ? false : true} name="comment" id="comment" value={comment} onChange={(e)=>setComment(e.target.value)}/>
+                        <textarea rows="6" type="text" name="comment" id="comment" value={comment} onChange={(e)=>setComment(e.target.value)}/>
                     </div>
+                    : rating!==0 && 
+                    <div className="input-control">
+                        <label htmlFor="comment">Comment</label>
+                        <p>*In order to regulate comments for this personal website, select your favourite from the dropdown!</p>
+                        <select name="comment" id="comment" value={comment} onChange={(e)=>setComment(e.target.value)}>
+                                <option value="" hidden>Select a comment</option>
+                                {reviewComments.find((comment)=>Number(comment.rating)===Number(rating)).comments && reviewComments.find((comment)=>Number(comment.rating)===Number(rating)).comments.map((description, index)=>{
+                                    return(
+                                    <option value={description} key={index}>{description}</option>)
+                                })}
+                        </select>
+                    </div>}
                     <button className="btn btn-primary" type="submit">Submit</button>
                     {reviewError && <Message>{reviewError}</Message>}
                 </form> : <p>Please <Link to="/login"><u>log in</u></Link> to leave a review.</p>
