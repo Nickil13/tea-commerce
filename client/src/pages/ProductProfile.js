@@ -1,7 +1,7 @@
 import React, {useState,useEffect, useCallback} from 'react';
 import { useParams, useLocation, Link} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
-import { CaffeineRating, Rating, Breadcrumbs, Message, BrewingStep, LoadingSpinner, ProductReview } from '../components';
+import { CaffeineRating, Rating, Breadcrumbs, Message, BrewingStep, LoadingSpinner, ProductReview, CustomSelect } from '../components';
 
 import { useGlobalContext } from '../context';
 import { FaHeart, FaRegHeart} from 'react-icons/fa';
@@ -119,22 +119,6 @@ export default function ProductProfile() {
 
     const handleSubmitReview = (e) => {
         e.preventDefault();
-
-        // let modifiedComment = comment;
-        // if(!user.isAdmin){
-        //     if(rating==="1"){
-        //         modifiedComment = "I didn't like this tea much.";
-        //     }else if(rating==="2"){
-        //         modifiedComment = "This tea isn't my favourite.";
-        //     }else if(rating==="3"){
-        //         modifiedComment = `I don't usually drink ${tea.type} tea, but I got this as a gift. Not too bad!`;
-        //     }else if(rating==="4"){
-        //         modifiedComment = "Really good. I'm ordering some for my friends to see what they think.";
-        //     }else{
-        //         modifiedComment = "I love this tea!";
-        //     }
-        // }
-        // dispatch(createProductReview(id,{rating, comment: modifiedComment}));
         dispatch(createProductReview(id,{rating, comment}));
     }
 
@@ -144,6 +128,11 @@ export default function ProductProfile() {
         }else if(e.target.value==="higher quantity"){
             setIsHigherQuantity(true);
         }
+    }
+    const handleSelectRating = (e) =>{
+        setRating(e.target.value);
+        setComment('');
+        
     }
     return (
         <div>
@@ -241,7 +230,7 @@ export default function ProductProfile() {
                     <h3>Write a Customer Review</h3>
                     <div className="input-control">
                         <label htmlFor="rating">Rating</label>
-                        <select name="rating" id="rating" value={rating} onChange={(e)=>setRating(e.target.value)}>
+                        <select name="rating" id="rating" value={rating} onChange={handleSelectRating}>
                             <option value="" hidden>Select...</option>
                             <option value="1">Poor</option>
                             <option value="2">Fair</option>
@@ -259,16 +248,12 @@ export default function ProductProfile() {
                     <div className="input-control">
                         <label htmlFor="comment">Comment</label>
                         <p>*In order to regulate comments for this personal website, select your favourite from the dropdown!</p>
-                        <select name="comment" id="comment" value={comment} onChange={(e)=>setComment(e.target.value)}>
-                                <option value="" hidden>Select a comment</option>
-                                {reviewComments.find((comment)=>Number(comment.rating)===Number(rating)).comments && reviewComments.find((comment)=>Number(comment.rating)===Number(rating)).comments.map((description, index)=>{
-                                    return(
-                                    <option value={description} key={index}>{description}</option>)
-                                })}
-                        </select>
+                        <CustomSelect optionList={reviewComments.find((comment)=>Number(comment.rating)===Number(rating)) && reviewComments.find((comment)=>Number(comment.rating)===Number(rating)).comments} defaultOption="Select a comment" value={comment} setValue={setComment}/>
                     </div>}
+
                     <button className="btn btn-primary" type="submit">Submit</button>
                     {reviewError && <Message>{reviewError}</Message>}
+
                 </form> : <p>Please <Link to="/login"><u>log in</u></Link> to leave a review.</p>
                 }
                 

@@ -206,7 +206,8 @@
     }
 
     @include abstracts.respond-to('small'){
-        max-width: 35rem;
+        max-width: 30rem;
     }
   }
+
 

@@ -6,6 +6,7 @@ import BrewingStep from "./BrewingStep";
 import CaffeineRating from "./CaffeineRating";
 import CartCard from "./CartCard";
 import CheckoutSteps from "./CheckoutSteps";
+import CustomSelect from "./CustomSelect";
 import DeleteConfirmation from "./DeleteConfirmation";
 import Footer from "./Footer";
 import LoadingSpinner from "./LoadingSpinner";
@@ -23,4 +24,4 @@ import Slider from "./Slider";
 import Tabs from "./Tabs";
 import WishlistCard from "./WishlistCard";
 
-export {Alert, AdminBar, Banner, Breadcrumbs, BrewingStep, CaffeineRating, CartCard, CheckoutSteps, DeleteConfirmation, Footer, LoadingSpinner, Message, Navbar, OrderCard, OrderTable, Pagination, ProductReview, Rating, SearchBar, ShopCard, Sidebar, Slider, Tabs, WishlistCard};
+export {Alert, AdminBar, Banner, Breadcrumbs, BrewingStep, CaffeineRating, CartCard, CheckoutSteps, CustomSelect, DeleteConfirmation, Footer, LoadingSpinner, Message, Navbar, OrderCard, OrderTable, Pagination, ProductReview, Rating, SearchBar, ShopCard, Sidebar, Slider, Tabs, WishlistCard};
