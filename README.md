@@ -1,5 +1,5 @@
 # Tea-commerce
-E-commerce website for tea built with a React frontend and a Nodejs backend.
+E-commerce website for tea built with a React frontend and a Node.js backend.
 
 - Register as a new user
 - Inspect products and add them to your cart
@@ -16,17 +16,17 @@ As an admin:
 ## Technologies Used
 - HTML
 - SCSS
-- React JS
+- React
 - Redux
 - MongoDB, Mongoose
-- Nodejs, Express
+- Node.js, Express
 
 ## My process
-One of my biggest time sinks while working on a project is design. So for this project I worked a good deal with Figma getting the look I wanted so when i dived into styling I had some references! I plan to add a link to Figma doc when I've cleaned it up a bit for presentation, since it was my first real work with the technology.
+I noticed that I spend a good amount of time on a project working on its design. For this project I decided to use Figma so I would have some references for when I dove into styling.
 
-I started out with the client and the parts of the site unrelated to accounts. The shop, the home page and the cart. I got these set up with the backend using a sample data file and then moved onto the user experience. I really like how Stripe looks and works, so I set that up. I used Paypal in a course before, so I had a general idea of how payment sandboxes worked.
+I started out with the frontend and the parts of the site unrelated to accounts. The shop, the home page and the cart. I got these set up with the backend using a sample data file and then moved onto the user experience. I really like how Stripe looks and works, so I set that up. I used Paypal in a course before, so I had a general idea of how payment sandboxes worked.
 
-Once I got the basics down, I implemented a local cart for a user that wasn't logged in addition to the stored cart. I also added the admin functionality of managing users, products and orders.
+Once I got the base down, I implemented a local cart for a user that wasn't logged in addition to the stored cart. I also added the admin functionality of managing users, products and orders.
 
 
 ## What I learned
