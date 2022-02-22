@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
-const dotenv = require('dotenv');
+const dotenv =  require('dotenv');
+
 const morgan = require('morgan');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -21,7 +22,19 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(helmet());
+app.use( 
+    helmet({
+        crossOriginEmbedderPolicy: false,
+        crossOriginResourcePolicy: false
+    })
+);
+app.use(
+    helmet.contentSecurityPolicy({
+       directives: {
+           "img-src": ["'self'", "data:", "https://res.cloudinary.com"]
+       } 
+    }))
+
 
 if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'));
@@ -29,14 +42,13 @@ if(process.env.NODE_ENV === 'development'){
 
 //  Limit number of API requests
 const limiter = rateLimit({
-    max: 100,
+    max: 150,
     windowMs: 60 * 60 * 1000,
     message: "Too many requests from this IP, please try again in an hour."
 })
 app.use('/api',limiter);
 
-// app.use(express.json({limit: '50mb'}));
-app.use(express.json({limit: '10kb'}));
+app.use(express.json({limit: '50mb'}));
 
 // Data sanitization
 app.use(mongoSanitize());
@@ -57,6 +69,7 @@ if(process.env.NODE_ENV === 'production'){
     app.get('*', (req,res) =>{
         res.sendFile(path.resolve(path.resolve(), 'client', 'build', 'index.html'));
     })
+
 }else{
     app.use('/', (req,res)=>{
         res.send('API is running!')

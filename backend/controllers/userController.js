@@ -7,6 +7,7 @@ const asyncHandler = require('express-async-handler');
 // @access   Public
 const loginUser = asyncHandler(async (req,res) =>{
     const {username, password} = req.body;
+    
     const user = await User.findOne({username});
 
     if(user && (await user.matchPassword(password))){
