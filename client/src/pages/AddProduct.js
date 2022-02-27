@@ -5,11 +5,11 @@ import { useParams, useHistory } from "react-router-dom";
 import { createProduct, uploadProductImage } from "../actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingSpinner, Message } from "../components";
+
 import {
-    PRODUCT_CREATE_RESET,
-    PRODUCT_UPLOAD_IMAGE_RESET,
-} from "../constants/productConstants";
-import { productUploadImageReset } from "../reducers/productsSlice";
+    productAddedReset,
+    productUploadImageReset,
+} from "../reducers/productsSlice";
 
 export default function AddProduct() {
     const [name, setName] = useState("");
@@ -34,40 +34,43 @@ export default function AddProduct() {
     const { id } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
-    const { productImage, productImageUploading, productImageError } =
-        useSelector((state) => state.productsSlice);
-    const createError = "";
-    const createSuccess = false;
-    const loading = false;
-    // const {productUploadImage, productCreate}= useSelector((state)=>state.products);
-    // const {uploadedResponse, success: uploadSuccess, loading: uploading, error} = productUploadImage;
-    // const {loading, error: createError, success: createSuccess} = productCreate;
+    const {
+        productImage,
+        productImageUploading,
+        productImageError,
+        productAdded,
+        addingProduct,
+        addingProductError,
+    } = useSelector((state) => state.productsSlice);
 
     useEffect(() => {
+        //On page load
         dispatch(productUploadImageReset());
-        dispatch({ type: PRODUCT_CREATE_RESET });
-        // dispatch({type: PRODUCT_UPLOAD_IMAGE_RESET});
+        dispatch(productAddedReset());
+    }, []);
 
-        if (createSuccess) {
+    useEffect(() => {
+        if (productAdded) {
             history.push("/admin/products");
+            dispatch(productAddedReset());
         }
-        if (uploadSuccess) {
+        if (productImage?.secure_url) {
             if (isUploadingFlavourImage) {
                 setFlavourImageName(uploadedFile.name);
-                setFlavourImagePath(uploadedResponse.secure_url);
+                setFlavourImagePath(productImage.secure_url);
                 setIsUploadingFlavourImage(false);
             } else {
                 setImageName(uploadedFile.name);
-                setImagePath(uploadedResponse.secure_url);
+                setImagePath(productImage.secure_url);
             }
+            dispatch(productUploadImageReset());
         }
     }, [
         dispatch,
-        createSuccess,
-        uploadSuccess,
+        productAdded,
+        productImage,
         history,
         uploadedFile,
-        uploadedResponse,
         isUploadingFlavourImage,
     ]);
 
@@ -75,7 +78,11 @@ export default function AddProduct() {
         // When the image source is set, upload the image.
         if (imageURI) {
             //Upload to cloudinary
-            dispatch(uploadProductImage(imageURI, uploadedFile.name));
+            const arg = {
+                imageURI,
+                name: uploadedFile.name,
+            };
+            dispatch(uploadProductImage(arg)).unwrap();
             setImageURI("");
         }
     }, [imageURI, dispatch, uploadedFile]);
@@ -238,11 +245,13 @@ export default function AddProduct() {
                         <label htmlFor="image" className="image-input-label">
                             <BsImage className="image-icon" />
                         </label>
-                        {!isUploadingFlavourImage && uploading && (
+                        {!isUploadingFlavourImage && productImageUploading && (
                             <LoadingSpinner anchor="right" />
                         )}
                     </div>
-                    {error && <Message>{error}</Message>}
+                    {productImageError && (
+                        <Message>{productImageError}</Message>
+                    )}
                 </div>
                 <div className="input-control">
                     <div className="checkbox-control">
@@ -273,9 +282,10 @@ export default function AddProduct() {
                             >
                                 <BsImage className="image-icon" />
                             </label>
-                            {isUploadingFlavourImage && uploading && (
-                                <LoadingSpinner anchor="right" />
-                            )}
+                            {isUploadingFlavourImage &&
+                                productImageUploading && (
+                                    <LoadingSpinner anchor="right" />
+                                )}
                         </div>
                     )}
                 </div>
@@ -333,10 +343,12 @@ export default function AddProduct() {
                 >
                     Add
                 </button>
-                {loading ? (
+                {addingProduct ? (
                     <LoadingSpinner />
                 ) : (
-                    createError && <Message>{createError}</Message>
+                    addingProductError && (
+                        <Message>{addingProductError}</Message>
+                    )
                 )}
             </form>
         </div>

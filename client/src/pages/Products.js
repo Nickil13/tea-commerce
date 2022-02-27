@@ -13,6 +13,7 @@ import {
 import { teaProductCategories } from "../resources/teaInfoData";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../context";
+import { productDeletedReset } from "../reducers/productsSlice";
 
 export default function Products() {
     const [category, setCategory] = useState("");
@@ -29,10 +30,6 @@ export default function Products() {
     const { products, page, pages, loading, error, successDelete } =
         useSelector((state) => state.productsSlice);
 
-    // const {productList, productDelete} = useSelector((state)=>state.products);
-    // const {products, pages, page, loading, error} = productList;
-    // const {success: successDelete} = productDelete;
-
     useEffect(() => {
         dispatch(
             listProducts(
@@ -42,6 +39,9 @@ export default function Products() {
                 keyword
             )
         );
+        if (successDelete) {
+            dispatch(productDeletedReset());
+        }
     }, [dispatch, pageNumber, category, productType, keyword, successDelete]);
 
     const handleSearch = (e) => {

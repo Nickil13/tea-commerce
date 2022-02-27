@@ -4,16 +4,15 @@ import { teaProductCategories } from "../resources/teaInfoData";
 import { useParams, useHistory } from "react-router-dom";
 import {
     getProductDetails,
-    updateProduct,
-    productUploadImageReset,
+    editProduct,
+    uploadProductImage,
 } from "../actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingSpinner, Message } from "../components";
 import {
-    PRODUCT_UPDATE_RESET,
-    PRODUCT_UPLOAD_IMAGE_RESET,
-} from "../constants/productConstants";
-import { uploadProductImageReset } from "../reducers/productsSlice";
+    productEditedReset,
+    productUploadImageReset,
+} from "../reducers/productsSlice";
 
 export default function EditProduct() {
     const [name, setName] = useState("");
@@ -43,24 +42,26 @@ export default function EditProduct() {
         productImage,
         productImageUploading,
         productImageError,
+        productEditedLoading,
+        productEditedSuccess,
+        productEditedError,
         loading,
         error,
     } = useSelector((state) => state.productsSlice);
 
-    const updateLoading = false;
-    const updateSuccess = false;
-    const updateError = "";
+    useEffect(() => {
+        // On page load
+        dispatch(productUploadImageReset());
+    }, []);
 
     useEffect(() => {
-        dispatch(productUploadImageReset());
-
         //Load the  product
-        if (!product.name || product._id !== id || updateSuccess) {
-            dispatch(getProductDetails(id));
-            // dispatch({type: PRODUCT_UPDATE_RESET});
-
-            if (updateSuccess) {
+        if (!product.name || product._id !== id || productEditedSuccess) {
+            if (productEditedSuccess) {
                 history.goBack();
+                dispatch(productEditedReset());
+            } else {
+                dispatch(getProductDetails(id));
             }
         } else if (!name || !productType) {
             setName(product.name);
@@ -102,7 +103,7 @@ export default function EditProduct() {
     }, [
         id,
         product,
-        updateSuccess,
+        productEditedSuccess,
         productImage,
         dispatch,
         history,
@@ -165,7 +166,7 @@ export default function EditProduct() {
         }
 
         dispatch(
-            updateProduct({
+            editProduct({
                 _id: id,
                 name,
                 category,
@@ -372,10 +373,12 @@ export default function EditProduct() {
                     >
                         Edit
                     </button>
-                    {updateLoading ? (
+                    {productEditedLoading ? (
                         <LoadingSpinner />
                     ) : (
-                        updateError && <Message>{updateError}</Message>
+                        productEditedError && (
+                            <Message>{productEditedError}</Message>
+                        )
                     )}
                 </form>
             )}

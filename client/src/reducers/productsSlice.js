@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { uploadProductImage } from "../actions/productActions";
+import {
+    createProduct,
+    editProduct,
+    uploadProductImage,
+} from "../actions/productActions";
 
 const initialState = {
     loading: false,
@@ -35,17 +39,7 @@ const productsSlice = createSlice({
             state.topReview = action.payload;
             state.loading = false;
         },
-        productAdded(state, action) {
-            state.products.push(action.payload);
-        },
-        productEdited(state, action) {
-            const index = state.products.find(
-                (product) => product._id === action.payload._id
-            );
-            const newProducts = [...state.products];
-            newProducts[index] = action.payload;
-            state.products = newProducts;
-        },
+
         productDeleted(state, action) {
             state.products = state.products.filter(
                 (product) => product._id !== action.payload.id
@@ -56,10 +50,23 @@ const productsSlice = createSlice({
             state.productImageError = "";
             state.productImage = null;
         },
+        productAddedReset(state) {
+            state.productAdded = null;
+            state.addingProduct = false;
+            state.addingProductError = "";
+        },
+        productEditedReset(state) {
+            state.productEditedSuccess = false;
+            state.productEditedError = "";
+            state.productEditedLoading = false;
+        },
+        productDeletedReset(state) {
+            state.successDelete = false;
+        },
     },
 
     extraReducers: (builder) => {
-        //Upload Product Image builders
+        // Upload Product Image builders
         builder.addCase(uploadProductImage.pending, (state) => {
             state.productImageUploading = true;
         });
@@ -71,7 +78,40 @@ const productsSlice = createSlice({
             state.productImageError = action.payload;
             state.productImageUploading = false;
         });
-        //
+
+        // Add Product builders
+        builder.addCase(createProduct.pending, (state) => {
+            state.addingProduct = true;
+        });
+        builder.addCase(createProduct.fulfilled, (state, action) => {
+            state.productAdded = action.payload;
+            state.addingProduct = false;
+        });
+        builder.addCase(createProduct.rejected, (state, action) => {
+            state.addingProductError = action.payload;
+            state.addingProduct = false;
+        });
+
+        // Update Product builders
+        builder.addCase(editProduct.pending, (state) => {
+            state.productEditedLoading = true;
+        });
+        builder.addCase(editProduct.fulfilled, (state, action) => {
+            const index = state.products.find(
+                (product) => product._id === action.payload._id
+            );
+            const newProducts = [...state.products];
+            newProducts[index] = action.payload;
+            state.products = newProducts;
+
+            state.productEditedSuccess = true;
+            state.productEditedLoading = false;
+        });
+        builder.addCase(editProduct.rejected, (state, action) => {
+            state.productEditedError = action.payload;
+            state.productEditedLoading = false;
+            state.productEditedSuccess = false;
+        });
     },
 });
 
@@ -85,6 +125,9 @@ export const {
     productDeleted,
     productTopReviewLoaded,
     productUploadImageReset,
+    productAddedReset,
+    productEditedReset,
+    productDeletedReset,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;
