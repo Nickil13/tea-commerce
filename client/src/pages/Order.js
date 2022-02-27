@@ -28,7 +28,6 @@ export default function Order() {
         
     },[id, order, setDeliveredSuccess, dispatch, history])
 
-    
     return (
         <div>
             <h1 className="page-title">Order Details</h1>
@@ -38,8 +37,8 @@ export default function Order() {
                 <div className="order-subsection">
                     <h3>Customer</h3>
                     <ul>
-                        <li><strong>Customer Id: </strong> {user._id}</li>
-                        <li><strong>Customer name: </strong> {user.username}</li>
+                        <li><strong>Customer Id: </strong> {user && user._id}</li>
+                        <li><strong>Customer name: </strong> {user && user.username}</li>
                     </ul>
                 </div>
                 <div className="order-subsection">

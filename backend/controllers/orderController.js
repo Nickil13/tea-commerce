@@ -47,6 +47,7 @@ const getOrderById = async(req, res)=>{
     const order = await Order.findById({
         _id: req.params.id
     }).populate('user', 'id username');
+
     if(order){
         res.json(order);
     }else{

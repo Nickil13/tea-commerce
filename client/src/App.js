@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import {BrowserRouter as Router, Route, Switch, Redirect, useLocation} from "react-router-dom";
+import {BrowserRouter as Router, Route, Redirect, Switch, useLocation} from "react-router-dom";
 import { AddProduct, Cart, Shipping, Home, Login, Order, Orders, OrderSuccess,Payment, PlaceOrder, Products, ProductProfile, Shop, Signup, EditUser, EditUserProfile, MyOrder, MyOrders, MyWishlist, Users, UserProfile, EditProduct } from "./pages";
 import {Navbar, Footer, Sidebar, Alert} from './components';
-import { useSelector} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
+import { isUserLoggedIn } from "./actions/userActions";
 
 const ScrollToTop = (props) =>{
   const {pathname} = useLocation();
@@ -15,9 +16,12 @@ const ScrollToTop = (props) =>{
 }
 
 function App() {
-  const user = useSelector((state)=>state.user.userLogin);
-  const {userInfo} = user;
- 
+  const dispatch = useDispatch();
+  const { isLoggedIn} = useSelector((state)=>state.user);
+
+  useEffect(()=>{
+    dispatch(isUserLoggedIn());
+  },[])
 
   return (
       <Router>
@@ -31,10 +35,10 @@ function App() {
                 <Route path="/account/orders/:id"><MyOrder/></Route>
                 <Route path="/account/orders/"><MyOrders/></Route>
                 <Route path="/account/edit-profile">
-                  {userInfo ? <EditUserProfile/> : <Redirect to="/login"/>}
+                  <EditUserProfile/>
                 </Route>
                 <Route path="/account" exact>
-                  {userInfo ? <UserProfile/> : <Redirect to="/login"/> }
+                  {isLoggedIn.user ? <UserProfile/> : <Redirect to="/login"/>}
                 </Route>
                 <Route path="/account/wishlist"><MyWishlist/></Route>
 

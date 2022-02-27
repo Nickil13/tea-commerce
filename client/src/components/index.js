@@ -24,4 +24,5 @@ import Slider from "./Slider";
 import Tabs from "./Tabs";
 import WishlistCard from "./WishlistCard";
 
+
 export {Alert, AdminBar, Banner, Breadcrumbs, BrewingStep, CaffeineRating, CartCard, CheckoutSteps, CustomSelect, DeleteConfirmation, Footer, LoadingSpinner, Message, Navbar, OrderCard, OrderTable, Pagination, ProductReview, Rating, SearchBar, ShopCard, Sidebar, Slider, Tabs, WishlistCard};

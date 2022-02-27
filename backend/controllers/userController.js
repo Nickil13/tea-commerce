@@ -1,5 +1,6 @@
 const User = require('../models/UserModel');
 const generateToken = require('../utils/generateToken');
+const sendCookie = require('../utils/sendCookie');
 const asyncHandler = require('express-async-handler');
 
 // @desc     Login user
@@ -11,12 +12,14 @@ const loginUser = asyncHandler(async (req,res) =>{
     const user = await User.findOne({username});
 
     if(user && (await user.matchPassword(password))){
+        const token = generateToken(user._id);
+        sendCookie(token, res);
         res.json({
             _id: user._id,
             username: user.username,
             email: user.email,
             isAdmin: user.isAdmin,
-            token: generateToken(user._id)
+            token
         })
     } else {
         res.status(401);
@@ -72,12 +75,14 @@ const registerUser = asyncHandler(async(req,res) =>{
     })
 
     if(user){
+        const token = generateToken(user._id);
+        sendCookie(token, res);
         res.status(201).json({
             _id: user.id,
             username: user.username,
             email: user.email,
             isAdmin: user.isAdmin,
-            token: generateToken(user._id)
+            token
         })
     }else{
         res.status(400);

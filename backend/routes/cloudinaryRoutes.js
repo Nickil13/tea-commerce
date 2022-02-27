@@ -1,6 +1,6 @@
-const express = require('express');
-const {protect, admin} = require('../middleware/authMiddleware');
-const { cloudinary } = require('../utils/cloudinary');
+const express = require("express");
+const { protect, admin } = require("../middleware/authMiddleware");
+const { cloudinary } = require("../utils/cloudinary");
 
 const router = express.Router();
 
@@ -9,29 +9,24 @@ const router = express.Router();
 // @desc    Upload an image to cloudinary
 // @route   POST /api/cloudinary/upload
 // @access  Private/Admin
-router.post('/upload', async (req, res)=>{
-    
-    try{
-        const fileStr = req.body.data;
-        const fileName = req.body.file_name;
+router.post("/upload", async (req, res) => {
+    const fileStr = req.body.data;
+    const fileName = req.body.name;
 
-        const uploadedResponse = await cloudinary.uploader.upload(
-            fileStr, {
-                folder: 'tea-commerce',
-                use_filename: true,
-                unique_filename: false,
-                filename_override: fileName
-            }
-        )
-        res.json({
-            uploadedResponse, msg: "Successfully uploaded the image!"
+    try {
+        const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+            folder: "tea-commerce",
+            use_filename: true,
+            unique_filename: false,
+            filename_override: fileName,
         });
 
-    }catch(error){
+        res.json(uploadedResponse);
+    } catch (error) {
         console.error(error);
         res.status(500);
+        throw new Error(`Error uploading image: ${error.message}`);
     }
-})
-
+});
 
 module.exports = router;
