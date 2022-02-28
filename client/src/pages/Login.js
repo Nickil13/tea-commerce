@@ -9,14 +9,17 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
 
-    const user = useSelector((state) => state.user.userLogin);
-    const { userInfo, error } = user;
+    const { user, loggingIn, loginError } = useSelector(
+        (state) => state.usersSlice
+    );
+    // const user = useSelector((state) => state.user.userLogin);
+    // const { userInfo, error } = user;
     const localCart = useSelector((state) => state.localCart);
     const history = useHistory();
     const location = useLocation();
 
     useEffect(() => {
-        if (userInfo) {
+        if (user.username) {
             history.push("/account");
         }
         // if(userInfo){
@@ -31,7 +34,7 @@ export default function Login() {
         //         history.push("/account");
         //     }
         // }
-    }, [userInfo, dispatch, history, localCart, location]);
+    }, [user, dispatch, history, localCart, location]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -51,7 +54,7 @@ export default function Login() {
                         name="username"
                         id="username"
                         placeholder="username"
-                        className={error ? "invalid-input-dark" : ""}
+                        className={loginError ? "invalid-input-dark" : ""}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
@@ -62,12 +65,12 @@ export default function Login() {
                         name="password"
                         id="password"
                         placeholder="password"
-                        className={error ? "invalid-input-dark" : ""}
+                        className={loginError ? "invalid-input-dark" : ""}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                {error && <Message type="error">{error}</Message>}
+                {loginError && <Message type="error">{loginError}</Message>}
                 <button type="submit" className="btn btn-primary">
                     Log in
                 </button>
@@ -77,7 +80,9 @@ export default function Login() {
                 <Link
                     to={
                         location.search.includes("redirect")
-                            ? `/signup?redirect=${location.search.split("=")[1]}`
+                            ? `/signup?redirect=${
+                                  location.search.split("=")[1]
+                              }`
                             : "/signup"
                     }
                 >

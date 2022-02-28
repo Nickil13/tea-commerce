@@ -1,16 +1,17 @@
-import React, { useEffect} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { listMyOrders } from '../actions/orderActions';
-import { OrderCard, Message, LoadingSpinner } from '../components';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { listMyOrders } from "../actions/orderActions";
+import { OrderCard, Message, LoadingSpinner } from "../components";
 
 export default function MyOrders() {
-    const myOrders = useSelector((state)=>state.orders.myOrders);
-    const {orders, loading} = myOrders;
+    const { orders, loading, error } = useSelector(
+        (state) => state.ordersSlice
+    );
     const dispatch = useDispatch();
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(listMyOrders());
-    },[dispatch])
+    }, [dispatch]);
 
     return (
         <div>
@@ -18,13 +19,21 @@ export default function MyOrders() {
             <div className="page-description">
                 <p>All orders made. For more details, click the order card.</p>
             </div>
-            {loading ? <LoadingSpinner/> : <div className="my-orders-container">
-                {orders.length>0 ? orders.map((order)=>{
-                    return(
-                        <OrderCard key={order._id} {...order}/>
-                    )
-                }) : <Message>You have not placed any orders.</Message>}
-            </div>}
+            {loading ? (
+                <LoadingSpinner />
+            ) : error ? (
+                <Message>{error}</Message>
+            ) : (
+                <div className="my-orders-container">
+                    {orders.length > 0 ? (
+                        orders.map((order) => {
+                            return <OrderCard key={order._id} {...order} />;
+                        })
+                    ) : (
+                        <Message>You have not placed any orders.</Message>
+                    )}
+                </div>
+            )}
         </div>
-    )
+    );
 }

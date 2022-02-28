@@ -21,7 +21,8 @@ export const listProducts =
 
             dispatch(productsLoaded(data));
         } catch (error) {
-            dispatch(productError(error));
+            let errorMessage = error.response?.data.message || error.message;
+            dispatch(productError(errorMessage));
         }
     };
 
@@ -34,7 +35,8 @@ export const getProductDetails = (id) => async (dispatch) => {
 
         dispatch(productLoaded(data));
     } catch (error) {
-        dispatch(productError(error));
+        let errorMessage = error.response?.data.message || error.message;
+        dispatch(productError(errorMessage));
     }
 };
 
@@ -60,7 +62,8 @@ export const createProductReview = (id, review) => async (dispatch) => {
 
         dispatch(editProduct(data));
     } catch (error) {
-        dispatch(productError(error));
+        let errorMessage = error.response?.data.message || error.message;
+        dispatch(productError(errorMessage));
     }
 };
 
@@ -75,7 +78,8 @@ export const getTopProductReview = (id) => async (dispatch) => {
 
         dispatch(productTopReviewLoaded(data));
     } catch (error) {
-        dispatch(productError(error));
+        let errorMessage = error.response?.data.message || error.message;
+        dispatch(productError(errorMessage));
     }
 };
 
@@ -146,7 +150,8 @@ export const deleteProduct = (id) => async (dispatch) => {
 
         dispatch(productDeleted(id));
     } catch (error) {
-        dispatch(productError(error));
+        let errorMessage = error.response?.data.message || error.message;
+        dispatch(productError(errorMessage));
     }
 };
 

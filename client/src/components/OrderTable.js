@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-export default function OrderTable({orderItems}) {
+export default function OrderTable({ orderItems }) {
     return (
         <table className="order-table">
-             <thead>
+            <thead>
                 <tr>
                     <th className="image-table-header"></th>
                     <th>Name</th>
@@ -12,8 +12,8 @@ export default function OrderTable({orderItems}) {
                 </tr>
             </thead>
             <tbody>
-                {orderItems.map((item)=>{
-                    return(
+                {orderItems.map((item) => {
+                    return (
                         <tr key={item._id} className="order-item">
                             <td className="image-table-data">
                                 <img src={item.image} alt={item.name} />
@@ -22,9 +22,9 @@ export default function OrderTable({orderItems}) {
                             <td>{item.quantity}</td>
                             <td>${item.price}</td>
                         </tr>
-                    )
+                    );
                 })}
             </tbody>
         </table>
-    )
+    );
 }

@@ -52,10 +52,8 @@ export default function ProductProfile() {
         (state) => state.productsSlice
     );
 
-    // const {productDetails, productCreateReview, productTopReview} = useSelector((state)=>state.products);
     // const { success: reviewSuccess, error: reviewError} = productCreateReview;
-    // const{loading, error,product} = productDetails;
-    // const{topReview} = productTopReview;
+
     const tea = product.productType
         ? teaInfo.filter((tea) =>
               product.productType.split(" ").includes(tea.type)

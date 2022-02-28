@@ -9,11 +9,22 @@ import {
     Message,
     Pagination,
     SearchBar,
+    Table,
 } from "../components";
 import { teaProductCategories } from "../resources/teaInfoData";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../context";
 import { productDeletedReset } from "../reducers/productsSlice";
+
+const TABLE_HEADERS = [
+    "Id",
+    "Name",
+    "Category",
+    "Product Type",
+    "Quantity",
+    "Edit",
+    "Delete",
+];
 
 export default function Products() {
     const [category, setCategory] = useState("");
@@ -157,61 +168,48 @@ export default function Products() {
             ) : (
                 <div className="search-container">
                     {products && products.length > 0 ? (
-                        <table className="search-table">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Product Type</th>
-                                    <th>Quantity</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {products.map((product) => {
-                                    return (
-                                        <tr key={product._id}>
-                                            <td>{product._id}</td>
-                                            <td>{product.name}</td>
-                                            <td>{product.category}</td>
-                                            <td>{product.productType}</td>
-                                            <td>
-                                                {product.countInStock === 0 ? (
-                                                    <span className="tag tag-not">
-                                                        out of stock
-                                                    </span>
-                                                ) : (
-                                                    product.countInStock
-                                                )}
-                                            </td>
-                                            <td>
-                                                <Link
-                                                    className="btn"
-                                                    to={`/admin/products/${product._id}/edit`}
-                                                >
-                                                    Edit
-                                                </Link>
-                                            </td>
-                                            <td>
-                                                <button
-                                                    className="btn"
-                                                    onClick={() =>
-                                                        handleDelete(
-                                                            product._id,
-                                                            product.name
-                                                        )
-                                                    }
-                                                >
-                                                    Delete
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
+                        <Table headers={TABLE_HEADERS}>
+                            {products.map((product) => {
+                                return (
+                                    <tr key={product._id}>
+                                        <td>{product._id}</td>
+                                        <td>{product.name}</td>
+                                        <td>{product.category}</td>
+                                        <td>{product.productType}</td>
+                                        <td>
+                                            {product.countInStock === 0 ? (
+                                                <span className="tag tag-not">
+                                                    out of stock
+                                                </span>
+                                            ) : (
+                                                product.countInStock
+                                            )}
+                                        </td>
+                                        <td>
+                                            <Link
+                                                className="btn"
+                                                to={`/admin/products/${product._id}/edit`}
+                                            >
+                                                Edit
+                                            </Link>
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="btn"
+                                                onClick={() =>
+                                                    handleDelete(
+                                                        product._id,
+                                                        product.name
+                                                    )
+                                                }
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </Table>
                     ) : (
                         <Message>No products found.</Message>
                     )}

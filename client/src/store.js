@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { userReducer } from "./reducers/userReducers";
-// import { productReducer } from "./reducers/productReducers";
+import userReducer from "./reducers/usersSlice";
+
 import productReducer from "./reducers/productsSlice";
-import { orderReducer } from "./reducers/orderReducers";
+import orderReducer from "./reducers/ordersSlice";
+
 import { checkoutReducer } from "./reducers/checkoutReducers";
 import { localCartReducer } from "./reducers/localCartReducer";
 
@@ -25,9 +26,9 @@ import { localCartReducer } from "./reducers/localCartReducer";
 
 const store = configureStore({
     reducer: {
-        user: userReducer,
+        usersSlice: userReducer,
         productsSlice: productReducer,
-        orders: orderReducer,
+        ordersSlice: orderReducer,
         checkout: checkoutReducer,
         localCart: localCartReducer,
     },

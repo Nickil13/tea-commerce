@@ -12,7 +12,7 @@ import Footer from "./Footer";
 import LoadingSpinner from "./LoadingSpinner";
 import Message from "./Message";
 import Navbar from "./Navbar";
-import OrderCard from './OrderCard';
+import OrderCard from "./OrderCard";
 import OrderTable from "./OrderTable";
 import Pagination from "./Pagination";
 import ProductReview from "./ProductReview";
@@ -21,8 +21,35 @@ import SearchBar from "./SearchBar";
 import ShopCard from "./ShopCard";
 import Sidebar from "./Sidebar";
 import Slider from "./Slider";
+import Table from "./Table";
 import Tabs from "./Tabs";
 import WishlistCard from "./WishlistCard";
 
-
-export {Alert, AdminBar, Banner, Breadcrumbs, BrewingStep, CaffeineRating, CartCard, CheckoutSteps, CustomSelect, DeleteConfirmation, Footer, LoadingSpinner, Message, Navbar, OrderCard, OrderTable, Pagination, ProductReview, Rating, SearchBar, ShopCard, Sidebar, Slider, Tabs, WishlistCard};
+export {
+    Alert,
+    AdminBar,
+    Banner,
+    Breadcrumbs,
+    BrewingStep,
+    CaffeineRating,
+    CartCard,
+    CheckoutSteps,
+    CustomSelect,
+    DeleteConfirmation,
+    Footer,
+    LoadingSpinner,
+    Message,
+    Navbar,
+    OrderCard,
+    OrderTable,
+    Table,
+    Pagination,
+    ProductReview,
+    Rating,
+    SearchBar,
+    ShopCard,
+    Sidebar,
+    Slider,
+    Tabs,
+    WishlistCard,
+};

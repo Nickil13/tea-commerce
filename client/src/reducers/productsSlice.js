@@ -17,9 +17,8 @@ const productsSlice = createSlice({
     initialState,
     reducers: {
         productError(state, action) {
-            const error = action.payload.error;
-            console.log(error);
-            state.error = error;
+            state.error = action.payload;
+            state.loading = false;
         },
         productsLoaded(state, action) {
             const { products, page, pages } = action.payload;
@@ -30,6 +29,7 @@ const productsSlice = createSlice({
         },
         productsLoading(state) {
             state.loading = true;
+            state.error = "";
         },
         productLoaded(state, action) {
             state.product = action.payload;
@@ -85,6 +85,7 @@ const productsSlice = createSlice({
         });
         builder.addCase(createProduct.fulfilled, (state, action) => {
             state.productAdded = action.payload;
+            state.products.push(action.payload);
             state.addingProduct = false;
         });
         builder.addCase(createProduct.rejected, (state, action) => {

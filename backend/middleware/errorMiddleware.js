@@ -1,10 +1,6 @@
-const errorHandler = (error, req, res) => {
-    console.log("inside error handler");
-    console.error(error.error);
-    console.log(error.message);
+const errorHandler = (error, req, res, next) => {
     const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
     res.status(statusCode);
-
     res.json({
         message: error.message,
         stack: process.env.NODE_ENV === "production" ? null : error.stack,
