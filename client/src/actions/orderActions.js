@@ -23,6 +23,7 @@ import axios from "axios";
 //     ORDER_UPDATE_PAID_SUCCESS,
 // } from "../constants/orderConstants";
 import {
+    myOrdersLoaded,
     orderAdded,
     orderDelivered,
     orderError,
@@ -79,7 +80,7 @@ export const listMyOrders = () => async (dispatch) => {
         dispatch(ordersLoading());
         const { data } = await axios.get("/api/orders/myorders");
 
-        dispatch(ordersLoaded(data));
+        dispatch(myOrdersLoaded(data));
     } catch (error) {
         let errorMessage = error.response?.data.message || error.message;
         dispatch(orderError(errorMessage));

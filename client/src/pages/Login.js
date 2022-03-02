@@ -9,36 +9,39 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
 
-    const { user, loggingIn, loginError } = useSelector(
+    const { user, authenticated, loggingIn, loginError } = useSelector(
         (state) => state.usersSlice
     );
     // const user = useSelector((state) => state.user.userLogin);
     // const { userInfo, error } = user;
-    const localCart = useSelector((state) => state.localCart);
+    const { cartItems: localCartItems } = useSelector(
+        (state) => state.localCartSlice
+    );
+    // const localCart = useSelector((state) => state.localCart);
     const history = useHistory();
     const location = useLocation();
 
     useEffect(() => {
-        if (user.username) {
-            history.push("/account");
+        if (authenticated) {
+            // If the user is logging in in order to checkout, push to shipping.
+            // Update the users cart to have the local cart items.
+            if (location.search.includes("redirect")) {
+                history.push(location.search.split("=")[1]);
+                dispatch(
+                    updateUserProfile({
+                        cartItems: localCartItems,
+                    })
+                );
+            } else {
+                history.push("/account");
+            }
         }
-        // if(userInfo){
-        //     // If the user is logging in in order to checkout, push to shipping.
-        //     // Update the users cart to have the local cart items.
-        //     if(location.search.includes('redirect')){
-        //         history.push(location.search.split('=')[1]);
-        //         dispatch(updateUserProfile({
-        //             cartItems: localCart.cartItems
-        //         }))
-        //     }else{
-        //         history.push("/account");
-        //     }
-        // }
-    }, [user, dispatch, history, localCart, location]);
+    }, [authenticated, dispatch, history, localCartItems, location]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(login(username, password));
+        const loginInfo = { username, password };
+        dispatch(login(loginInfo));
     };
 
     const handleDemoLogin = () => {

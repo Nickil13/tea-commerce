@@ -42,7 +42,7 @@ const productsSlice = createSlice({
 
         productDeleted(state, action) {
             state.products = state.products.filter(
-                (product) => product._id !== action.payload.id
+                (product) => product._id !== action.payload
             );
             state.successDelete = true;
         },
@@ -60,8 +60,11 @@ const productsSlice = createSlice({
             state.productEditedError = "";
             state.productEditedLoading = false;
         },
-        productDeletedReset(state) {
-            state.successDelete = false;
+        productReviewAdded(state) {
+            state.productReviewAddedSuccess = true;
+        },
+        productReviewReset(state) {
+            state.productReviewAddedSuccess = false;
         },
     },
 
@@ -128,7 +131,8 @@ export const {
     productUploadImageReset,
     productAddedReset,
     productEditedReset,
-    productDeletedReset,
+    productReviewAdded,
+    productReviewReset,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

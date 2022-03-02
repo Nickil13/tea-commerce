@@ -4,14 +4,16 @@ import { listMyOrders } from "../actions/orderActions";
 import { OrderCard, Message, LoadingSpinner } from "../components";
 
 export default function MyOrders() {
-    const { orders, loading, error } = useSelector(
-        (state) => state.ordersSlice
-    );
+    const {
+        myOrders: orders,
+        loading,
+        error,
+    } = useSelector((state) => state.ordersSlice);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(listMyOrders());
-    }, [dispatch]);
+        if (!orders) dispatch(listMyOrders());
+    }, [orders, dispatch]);
 
     return (
         <div>

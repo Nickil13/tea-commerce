@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, updateUserProfile } from "../actions/userActions";
+import { login, updateUserProfile, updateUser } from "../actions/userActions";
 
 const initialState = {
     loading: false,
-    user: {},
+    user: {
+        cartItems: [],
+    },
     authenticated: false,
     users: [],
+    selectedUser: {},
     error: "",
 };
 
@@ -20,9 +23,16 @@ const usersSlice = createSlice({
             state.loading = false;
             state.user = action.payload;
         },
-        usersLoaded(state, action) {
+        selectedUserLoaded(state, action) {
             state.loading = false;
-            state.users = [...action.payload];
+            state.selectedUser = action.payload;
+        },
+        usersLoaded(state, action) {
+            const { users, page, pages } = action.payload;
+            state.loading = false;
+            state.users = [...users];
+            state.page = page;
+            state.pages = pages;
         },
         userRegistered(state, action) {
             state.loading = false;
@@ -32,12 +42,19 @@ const usersSlice = createSlice({
         userLoggedOut() {
             return initialState;
         },
-        userAuthenticated(state) {
-            state.authenticated = true;
+        userAuthenticated(state, action) {
+            if (action.payload) {
+                state.authenticated = true;
+            } else {
+                state.authenticated = false;
+            }
         },
         userError(state, action) {
             state.error = action.payload;
             state.loading = false;
+        },
+        cartSuccessReset(state) {
+            state.cartItemAddedSuccess = false;
         },
         cartItemAdded(state, action) {
             state.user.cartItems = [...action.payload];
@@ -46,15 +63,39 @@ const usersSlice = createSlice({
         cartItemRemoved(state, action) {
             state.user.cartItems = [...action.payload];
         },
+        cartItemQuantityUpdated(state, action) {
+            state.user.cartItems = [...action.payload];
+        },
         cartCleared(state) {
             state.user.cartItems = [];
         },
         wishlistItemAdded(state, action) {
             state.user.wishlist = [...action.payload];
-            state.wishlistAddedSuccess = true;
+            state.wishlistItemAddedSuccess = true;
         },
         wishlistItemRemoved(state, action) {
             state.user.wishlist = [...action.payload];
+        },
+        wishlistSuccessReset(state) {
+            state.wishlistItemAddedSuccess = false;
+        },
+        // Selected users for admin
+        selectedUserDeleted(state, action) {
+            state.users = state.users.filter(
+                (user) => user._id !== action.payload
+            );
+        },
+        selectedUserReset(state) {
+            state.selectedUser = {};
+            state.selectedUserUpdateSuccess = false;
+            state.selectedUserUpdateError = "";
+        },
+        userUpdatingReset(state) {
+            state.userUpdatingError = "";
+            state.userUpdatingSuccess = false;
+        },
+        userPaymentMethodSaved(state, action) {
+            state.userPaymentMethod = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -64,6 +105,7 @@ const usersSlice = createSlice({
         });
         builder.addCase(login.fulfilled, (state, { payload }) => {
             state.user = payload;
+            state.authenticated = true;
             state.loggingIn = false;
         });
         builder.addCase(login.rejected, (state, action) => {
@@ -78,10 +120,25 @@ const usersSlice = createSlice({
         builder.addCase(updateUserProfile.fulfilled, (state, { payload }) => {
             state.user = payload;
             state.userUpdating = false;
+            state.userUpdatingSuccess = true;
         });
         builder.addCase(updateUserProfile.rejected, (state, action) => {
             state.userUpdatingError = action.payload;
             state.userUpdating = false;
+        });
+
+        // Selected User update builders (for admin updating another user)
+        builder.addCase(updateUser.pending, (state) => {
+            state.selectedUserUpdating = true;
+        });
+        builder.addCase(updateUser.fulfilled, (state, { payload }) => {
+            state.selectedUser = payload;
+            state.selectedUserUpdateSuccess = true;
+            state.selectedUserUpdating = false;
+        });
+        builder.addCase(updateUser.rejected, (state, action) => {
+            state.selectedUserUpdateError = action.payload;
+            state.selectedUserUpdating = false;
         });
     },
 });
@@ -90,15 +147,23 @@ export const {
     usersLoading,
     userLoaded,
     usersLoaded,
+    selectedUserLoaded,
     userRegistered,
     userLoggedOut,
     userAuthenticated,
     userError,
     cartItemAdded,
     cartItemRemoved,
+    cartItemQuantityUpdated,
     cartCleared,
+    cartSuccessReset,
     wishlistItemAdded,
     wishlistItemRemoved,
+    wishlistSuccessReset,
+    selectedUserDeleted,
+    selectedUserReset,
+    userUpdatingReset,
+    userPaymentMethodSaved,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

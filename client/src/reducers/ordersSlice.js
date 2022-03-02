@@ -7,6 +7,7 @@ const initialState = {
         orderItems: [],
         shippingAddress: {},
     },
+    myOrders: [],
     error: "",
 };
 
@@ -25,6 +26,10 @@ const ordersSlice = createSlice({
             state.page = page;
             state.pages = pages;
 
+            state.loading = false;
+        },
+        myOrdersLoaded(state, action) {
+            state.orders = [...action.payload];
             state.loading = false;
         },
         orderLoaded(state, action) {
@@ -51,6 +56,7 @@ const ordersSlice = createSlice({
 export const {
     orderError,
     ordersLoaded,
+    myOrdersLoaded,
     orderLoaded,
     ordersLoading,
     orderAdded,

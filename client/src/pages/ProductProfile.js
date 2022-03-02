@@ -26,12 +26,11 @@ import {
     addToCart,
 } from "../actions/userActions";
 
-import { WISHLIST_ADD_ITEM_RESET } from "../constants/userConstants";
-import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
-
 import { teaInfo } from "../resources/teaInfoData";
 import { reviewComments } from "../resources/reviewComments";
 import { addToLocalCart } from "../actions/localCartActions";
+import { wishlistSuccessReset } from "../reducers/usersSlice";
+import { productReviewReset } from "../reducers/productsSlice";
 
 export default function ProductProfile() {
     const [isInWishlist, setIsInWishlist] = useState(false);
@@ -48,11 +47,8 @@ export default function ProductProfile() {
     const { showAlert } = useGlobalContext();
     const dispatch = useDispatch();
 
-    const { product, topReview, loading, error } = useSelector(
-        (state) => state.productsSlice
-    );
-
-    // const { success: reviewSuccess, error: reviewError} = productCreateReview;
+    const { product, productReviewAddedSuccess, topReview, loading, error } =
+        useSelector((state) => state.productsSlice);
 
     const tea = product.productType
         ? teaInfo.filter((tea) =>
@@ -60,11 +56,10 @@ export default function ProductProfile() {
           )[0]
         : {};
 
-    const { userProfile, userAddWishlist, userLogin } = useSelector(
-        (state) => state.user
+    const { user, wishlistItemAddedSuccess, authenticated } = useSelector(
+        (state) => state.usersSlice
     );
-    const { user } = userProfile;
-    const { success: wishlistSuccess } = userAddWishlist;
+
     const reviewedByUser =
         product.reviews && user
             ? product.reviews.find(
@@ -72,7 +67,9 @@ export default function ProductProfile() {
               )
             : false;
 
-    const localCart = useSelector((state) => state.localCart);
+    const { cartItems: localCartItems } = useSelector(
+        (state) => state.localCartSlice
+    );
     const existsInCart = cartItems.find((item) => item._id === id);
 
     const checkWishlist = useCallback(() => {
@@ -93,22 +90,22 @@ export default function ProductProfile() {
             dispatch(getProductDetails(id));
             dispatch(getTopProductReview(id));
 
-            // if(reviewSuccess){
-            //     setRating(0);
-            //     setComment('');
-            //     dispatch({type: PRODUCT_CREATE_REVIEW_RESET});
-            // }
+            if (productReviewAddedSuccess) {
+                setRating(0);
+                setComment("");
+                dispatch(productReviewReset());
+            }
         } else {
-            //If the user is logged in
-            if (!userLogin.userInfo) {
-                setCartItems(localCart.cartItems);
-            } else {
-                if (user && user.username) {
+            if (authenticated) {
+                setCartItems(localCartItems);
+
+                // Load the user information if its not already in state.
+                if (user.username) {
                     checkWishlist();
                     setCartItems(user.cartItems);
 
-                    if (wishlistSuccess) {
-                        dispatch({ type: WISHLIST_ADD_ITEM_RESET });
+                    if (wishlistItemAddedSuccess) {
+                        dispatch(wishlistSuccessReset());
                         showAlert(product.name, "wishlist");
                         dispatch(getUserProfile());
                     }
@@ -117,16 +114,16 @@ export default function ProductProfile() {
                 }
             }
         }
-        //eslint-disable-next-line
     }, [
         id,
         dispatch,
-        userLogin,
+        authenticated,
         user,
         product,
         showAlert,
         checkWishlist,
-        wishlistSuccess,
+        wishlistItemAddedSuccess,
+        productReviewAddedSuccess,
     ]);
 
     const handleAddToCart = () => {
@@ -143,7 +140,7 @@ export default function ProductProfile() {
                 } left in stock.`
             );
         } else {
-            if (!userLogin.userInfo) {
+            if (!authenticated) {
                 dispatch(addToLocalCart(product._id, quantity));
             } else {
                 dispatch(addToCart(product._id, quantity));
@@ -286,7 +283,7 @@ export default function ProductProfile() {
                             {message && (
                                 <Message type="error">{message}</Message>
                             )}
-                            {userLogin.userInfo &&
+                            {authenticated &&
                                 (!isInWishlist ? (
                                     <div
                                         className="btn add-wishlist-btn"
@@ -391,7 +388,7 @@ export default function ProductProfile() {
                         </div>
                         {reviewedByUser ? (
                             <p>You have already reviewed this product.</p>
-                        ) : userLogin.userInfo ? (
+                        ) : authenticated ? (
                             <form
                                 onSubmit={handleSubmitReview}
                                 className="customer-review-form"

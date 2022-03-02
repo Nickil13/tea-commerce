@@ -4,6 +4,7 @@ import {
     productDeleted,
     productError,
     productLoaded,
+    productReviewAdded,
     productsLoaded,
     productsLoading,
     productTopReviewLoaded,
@@ -61,6 +62,7 @@ export const createProductReview = (id, review) => async (dispatch) => {
         );
 
         dispatch(editProduct(data));
+        dispatch(productReviewAdded());
     } catch (error) {
         let errorMessage = error.response?.data.message || error.message;
         dispatch(productError(errorMessage));

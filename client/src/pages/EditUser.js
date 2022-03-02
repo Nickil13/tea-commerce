@@ -1,94 +1,120 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector} from 'react-redux';
-import { getUserDetails, updateUser} from '../actions/userActions';
-import { useParams, useHistory } from 'react-router';
-import { LoadingSpinner, Message} from '../components';
-import { UPDATE_USER_RESET, USER_DETAILS_RESET } from '../constants/userConstants';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails, updateUser } from "../actions/userActions";
+import { useParams, useHistory } from "react-router";
+import { LoadingSpinner, Message } from "../components";
+import { selectedUserReset } from "../reducers/usersSlice";
 
 export default function EditUser() {
-    const {userDetails, userUpdate} = useSelector((state)=>state.user);
-    const {user,loading,error} = userDetails;
-    const {success: updateSuccess} = userUpdate;
+    const {
+        selectedUser: user,
+        loading,
+        error,
+        selectedUserUpdateSuccess,
+    } = useSelector((state) => state.usersSlice);
 
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [isAdmin, setIsAdmin] = useState(false);
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState("");
 
-    const {id} = useParams();
+    const { id } = useParams();
     const history = useHistory();
     const dispatch = useDispatch();
-    
-    
-    useEffect(()=>{
-        if(updateSuccess){
-            dispatch({type: UPDATE_USER_RESET});
-            dispatch({type: USER_DETAILS_RESET});
-            history.push('/admin/users');
-        }else{
-            if(!user.username || user._id !== id){
+
+    useEffect(() => {
+        if (selectedUserUpdateSuccess) {
+            dispatch(selectedUserReset());
+            history.push("/admin/users");
+        } else {
+            if (!user.username || user._id !== id) {
                 dispatch(getUserDetails(id));
-            }else{
+            } else {
                 setUsername(user.username);
                 setEmail(user.email);
                 setIsAdmin(user.isAdmin);
             }
         }
-    },[id, user, updateSuccess, dispatch, history])
+    }, [id, user, selectedUserUpdateSuccess, dispatch, history]);
 
-
-    const handleEditUser = (e) =>{
+    const handleEditUser = (e) => {
         let validEmail = true;
         e.preventDefault();
         setMessage("");
-        if(email){
+        if (email) {
             let atloc = email.indexOf("@");
             let dotloc = email.indexOf(".");
-            if(atloc < 1 || (dotloc - atloc < 2)){
-                validEmail=false;
+            if (atloc < 1 || dotloc - atloc < 2) {
+                validEmail = false;
             }
         }
-        if(validEmail){
-            dispatch(updateUser(user._id, {
-                username,
-                email,
-                isAdmin
-            }))
-        }else{
+        if (validEmail) {
+            const args = {
+                id: user._id,
+                user: {
+                    username,
+                    email,
+                    isAdmin,
+                },
+            };
+            dispatch(updateUser(args));
+        } else {
             setMessage("Invalid email.");
         }
-        
-        
-    }
+    };
 
     return (
         <div>
             <div className="page-title">
                 <h1>Edit User</h1>
-                <p>{user.username}</p>
+                <p>{user?.username}</p>
             </div>
-            
-            {loading ? <LoadingSpinner/> : error ? <Message>{error}</Message> :
-            <form className="edit-profile-form" onSubmit={handleEditUser}>
-                <div className="input-control">
-                    <label htmlFor="username">Username</label>
-                    <input type="text" name="username" id="username" value={username} onChange={(e)=>setUsername(e.target.value)}/>
-                </div>
 
-                <div className="input-control">
-                    <label htmlFor="email">Email</label>
-                    <input type="text" name="email" id="email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
-                </div>
+            {loading ? (
+                <LoadingSpinner />
+            ) : error ? (
+                <Message>{error}</Message>
+            ) : (
+                <form className="edit-profile-form" onSubmit={handleEditUser}>
+                    <div className="input-control">
+                        <label htmlFor="username">Username</label>
+                        <input
+                            type="text"
+                            name="username"
+                            id="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                    </div>
 
-                <div className="input-control checkbox-control">
-                    <input type="checkbox" id="admin-checkbox" name="admin-checkbox" defaultChecked={user.isAdmin} onChange={(e)=>setIsAdmin(e.target.checked)}/>
-                    <label htmlFor="admin-checkbox">Admin</label>
-                </div>
-                
-                <button type="submit" className="btn btn-primary">Edit</button>
-                {message && <Message>{message}</Message>}
-            </form>
-            }
+                    <div className="input-control">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="text"
+                            name="email"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="input-control checkbox-control">
+                        <input
+                            type="checkbox"
+                            id="admin-checkbox"
+                            name="admin-checkbox"
+                            defaultChecked={user.isAdmin}
+                            onChange={(e) => setIsAdmin(e.target.checked)}
+                        />
+                        <label htmlFor="admin-checkbox">Admin</label>
+                    </div>
+
+                    <button type="submit" className="btn btn-primary">
+                        Edit
+                    </button>
+                    {message && <Message>{message}</Message>}
+                </form>
+            )}
         </div>
-    )
+    );
 }

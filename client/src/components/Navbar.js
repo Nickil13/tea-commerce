@@ -4,18 +4,22 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoCart } from "react-icons/io5";
 import { GrMenu } from "react-icons/gr";
 import { useSelector, useDispatch } from "react-redux";
-import { getUserProfile, isUserLoggedIn, logout } from "../actions/userActions";
+import { getUserProfile, logout } from "../actions/userActions";
 import { useGlobalContext } from "../context";
 import { teaProductCategories as categories } from "../resources/teaInfoData";
-import { USER_CART_ADD_ITEM_RESET, USER_CART_REMOVE_ITEM_RESET } from "../constants/userConstants";
 
 export default function Navbar() {
     const dispatch = useDispatch();
-    const { userProfile, isLoggedIn, userRemoveFromCart, userAddToCart } = useSelector((state) => state.user);
-    const localCart = useSelector((state) => state.localCart);
-    const { user } = userProfile;
-    const { success: addToCartSuccess } = userAddToCart;
-    const { success: removeFromCartSuccess } = userRemoveFromCart;
+    const {
+        user,
+        authenticated,
+        cartItemAddedSuccess,
+        cartItemRemovedSuccess,
+    } = useSelector((state) => state.usersSlice);
+
+    const { cartItems: localCartItems } = useSelector(
+        (state) => state.localCartSlice
+    );
 
     const [showDropdown, setShowDropdown] = useState(false);
     const [cartItems, setCartItems] = useState([]);
@@ -25,24 +29,28 @@ export default function Navbar() {
     const navbar = useRef(null);
     const container = useRef(null);
 
-    const cartItemAmount = cartItems.reduce((acc, item) => acc + Number(item.quantity), 0);
+    const cartItemAmount = cartItems
+        ? cartItems.reduce((acc, item) => acc + Number(item.quantity), 0)
+        : 0;
 
-    // useEffect(()=>{
-    //     dispatch(isUserLoggedIn());
-    // },[])
     useEffect(() => {
-        if (isLoggedIn.user) {
-            if ((user && !user.username) || addToCartSuccess || removeFromCartSuccess) {
+        if (authenticated) {
+            if (!user.username) {
                 dispatch(getUserProfile());
-                dispatch({ type: USER_CART_REMOVE_ITEM_RESET });
-                dispatch({ type: USER_CART_ADD_ITEM_RESET });
             } else {
                 setCartItems(user.cartItems);
             }
         } else {
-            setCartItems(localCart.cartItems);
+            setCartItems(localCartItems);
         }
-    }, [user, isLoggedIn, localCart, dispatch, addToCartSuccess, removeFromCartSuccess]);
+    }, [
+        user,
+        authenticated,
+        localCartItems,
+        dispatch,
+        cartItemAddedSuccess,
+        cartItemRemovedSuccess,
+    ]);
 
     useEffect(() => {
         document.addEventListener("mousedown", closeDropdownMenu);
@@ -61,14 +69,18 @@ export default function Navbar() {
         const temp = e.target.getBoundingClientRect();
         const dropdownItems = document.getElementById("nav-dropdown-items");
         const itemsWidth =
-            dropdownItems.getBoundingClientRect().width !== 0 ? dropdownItems.getBoundingClientRect().width : 125;
+            dropdownItems.getBoundingClientRect().width !== 0
+                ? dropdownItems.getBoundingClientRect().width
+                : 125;
 
         // Get dimensions of the container
         const center = (temp.left + temp.right) / 2;
         const bottom = temp.bottom - 10;
         const dropdown = container.current;
 
-        dropdown.style.left = `-${Math.floor(itemsWidth / 2 - (center - temp.left)) + 4}px`;
+        dropdown.style.left = `-${
+            Math.floor(itemsWidth / 2 - (center - temp.left)) + 4
+        }px`;
         dropdown.style.top = `${Math.floor(bottom)}px`;
 
         setShowDropdown(true);
@@ -93,11 +105,20 @@ export default function Navbar() {
                 </Link>
                 <ul className="nav-links">
                     {categories.map((category, index) => {
-                        let url = category.type === "all" ? "/shop" : `/shop/${category.type}`;
+                        let url =
+                            category.type === "all"
+                                ? "/shop"
+                                : `/shop/${category.type}`;
                         return (
                             <li key={index}>
-                                <NavLink activeClassName="active-nav" to={url} exact>
-                                    {category.type === "all" ? "Shop All" : category.type}
+                                <NavLink
+                                    activeClassName="active-nav"
+                                    to={url}
+                                    exact
+                                >
+                                    {category.type === "all"
+                                        ? "Shop All"
+                                        : category.type}
                                 </NavLink>
                             </li>
                         );
@@ -105,24 +126,32 @@ export default function Navbar() {
                 </ul>
                 <div className="nav-icon-container">
                     <ul className="nav-icons">
-                        {isLoggedIn.user ? (
+                        {authenticated ? (
                             <div className="nav-dropdown">
                                 <span onClick={handleDropdownClick}>
                                     <FaUserCircle className="nav-icon nav-icon-loggedin" />
                                 </span>
                                 <ul
-                                    className={`dropdown-items ${showDropdown && "dropdown-items show"}`}
+                                    className={`dropdown-items ${
+                                        showDropdown && "dropdown-items show"
+                                    }`}
                                     ref={container}
                                     id="nav-dropdown-items"
                                 >
                                     <h4>{user.username}</h4>
                                     <li>
-                                        <button onClick={handleAccountClick} className="btn dropdown-btn">
+                                        <button
+                                            onClick={handleAccountClick}
+                                            className="btn dropdown-btn"
+                                        >
                                             Account
                                         </button>
                                     </li>
                                     <li>
-                                        <button onClick={handleLogoutClick} className="btn dropdown-btn">
+                                        <button
+                                            onClick={handleLogoutClick}
+                                            className="btn dropdown-btn"
+                                        >
                                             Logout
                                         </button>
                                     </li>
@@ -139,7 +168,11 @@ export default function Navbar() {
                         <li className="cart-link">
                             <Link to="/cart">
                                 <IoCart className="nav-icon" />
-                                {cartItemAmount > 0 && <span className="cart-icon-amount">{cartItemAmount}</span>}
+                                {cartItemAmount > 0 && (
+                                    <span className="cart-icon-amount">
+                                        {cartItemAmount}
+                                    </span>
+                                )}
                             </Link>
                         </li>
                     </ul>

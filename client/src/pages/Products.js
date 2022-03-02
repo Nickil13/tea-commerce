@@ -14,7 +14,6 @@ import {
 import { teaProductCategories } from "../resources/teaInfoData";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../context";
-import { productDeletedReset } from "../reducers/productsSlice";
 
 const TABLE_HEADERS = [
     "Id",
@@ -38,8 +37,9 @@ export default function Products() {
     const pageNumber = location.search.split("=")[1] || 1;
 
     const dispatch = useDispatch();
-    const { products, page, pages, loading, error, successDelete } =
-        useSelector((state) => state.productsSlice);
+    const { products, page, pages, loading, error } = useSelector(
+        (state) => state.productsSlice
+    );
 
     useEffect(() => {
         dispatch(
@@ -50,10 +50,7 @@ export default function Products() {
                 keyword
             )
         );
-        if (successDelete) {
-            dispatch(productDeletedReset());
-        }
-    }, [dispatch, pageNumber, category, productType, keyword, successDelete]);
+    }, [dispatch, pageNumber, category, productType, keyword]);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -166,57 +163,59 @@ export default function Products() {
             ) : error ? (
                 <Message>{error}</Message>
             ) : (
-                <div className="search-container">
-                    {products && products.length > 0 ? (
-                        <Table headers={TABLE_HEADERS}>
-                            {products.map((product) => {
-                                return (
-                                    <tr key={product._id}>
-                                        <td>{product._id}</td>
-                                        <td>{product.name}</td>
-                                        <td>{product.category}</td>
-                                        <td>{product.productType}</td>
-                                        <td>
-                                            {product.countInStock === 0 ? (
-                                                <span className="tag tag-not">
-                                                    out of stock
-                                                </span>
-                                            ) : (
-                                                product.countInStock
-                                            )}
-                                        </td>
-                                        <td>
-                                            <Link
-                                                className="btn"
-                                                to={`/admin/products/${product._id}/edit`}
-                                            >
-                                                Edit
-                                            </Link>
-                                        </td>
-                                        <td>
-                                            <button
-                                                className="btn"
-                                                onClick={() =>
-                                                    handleDelete(
-                                                        product._id,
-                                                        product.name
-                                                    )
-                                                }
-                                            >
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </Table>
-                    ) : (
-                        <Message>No products found.</Message>
-                    )}
-                </div>
+                <>
+                    <div className="search-container">
+                        {products && products.length > 0 ? (
+                            <Table headers={TABLE_HEADERS}>
+                                {products.map((product) => {
+                                    return (
+                                        <tr key={product._id}>
+                                            <td>{product._id}</td>
+                                            <td>{product.name}</td>
+                                            <td>{product.category}</td>
+                                            <td>{product.productType}</td>
+                                            <td>
+                                                {product.countInStock === 0 ? (
+                                                    <span className="tag tag-not">
+                                                        out of stock
+                                                    </span>
+                                                ) : (
+                                                    product.countInStock
+                                                )}
+                                            </td>
+                                            <td>
+                                                <Link
+                                                    className="btn"
+                                                    to={`/admin/products/${product._id}/edit`}
+                                                >
+                                                    Edit
+                                                </Link>
+                                            </td>
+                                            <td>
+                                                <button
+                                                    className="btn"
+                                                    onClick={() =>
+                                                        handleDelete(
+                                                            product._id,
+                                                            product.name
+                                                        )
+                                                    }
+                                                >
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </Table>
+                        ) : (
+                            <Message>No products found.</Message>
+                        )}
+                    </div>
+                    <Pagination page={page} pages={pages} />
+                    {isDeleteConfirmationShowing && <DeleteConfirmation />}
+                </>
             )}
-            <Pagination page={page} pages={pages} />
-            {isDeleteConfirmationShowing && <DeleteConfirmation />}
         </div>
     );
 }
