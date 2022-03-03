@@ -9,15 +9,14 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
 
-    const { user, authenticated, loggingIn, loginError } = useSelector(
+    const { authenticated, loginError } = useSelector(
         (state) => state.usersSlice
     );
-    // const user = useSelector((state) => state.user.userLogin);
-    // const { userInfo, error } = user;
+
     const { cartItems: localCartItems } = useSelector(
         (state) => state.localCartSlice
     );
-    // const localCart = useSelector((state) => state.localCart);
+
     const history = useHistory();
     const location = useLocation();
 

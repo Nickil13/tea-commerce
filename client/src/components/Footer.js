@@ -4,8 +4,6 @@ import { FaTwitter, FaInstagram, FaPinterest } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 export default function Footer() {
-    // const user = useSelector((state)=>state.user.userLogin);
-    // const {userInfo} = user;
     const { authenticated } = useSelector((state) => state.usersSlice);
 
     return (

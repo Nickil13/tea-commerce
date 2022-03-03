@@ -46,7 +46,7 @@ export default function EditUserProfile() {
             dispatch(userUpdatingReset());
             history.push("/account");
         }
-    }, [dispatch, user, userUpdatingSuccess]);
+    }, [dispatch, user, userUpdatingSuccess, history]);
 
     const handlePersonalSubmit = (e) => {
         let validEmail = true;

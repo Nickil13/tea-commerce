@@ -5,7 +5,7 @@ import productReducer from "./reducers/productsSlice";
 import orderReducer from "./reducers/ordersSlice";
 import localCartReducer from "./reducers/localCartSlice";
 
-import { checkoutReducer } from "./reducers/checkoutReducers";
+import checkoutReducer from "./reducers/checkoutSlice";
 
 import { isUserLoggedIn } from "./actions/userActions";
 
@@ -14,7 +14,7 @@ const store = configureStore({
         usersSlice: userReducer,
         productsSlice: productReducer,
         ordersSlice: orderReducer,
-        checkout: checkoutReducer,
+        checkoutSlice: checkoutReducer,
         localCartSlice: localCartReducer,
     },
 });

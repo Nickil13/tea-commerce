@@ -52,7 +52,7 @@ export default function EditProduct() {
     useEffect(() => {
         // On page load
         dispatch(productUploadImageReset());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         //Load the  product
@@ -99,6 +99,7 @@ export default function EditProduct() {
                 setImageName(uploadedFile.name);
                 setImagePath(productImage.secure_url);
             }
+            dispatch(productUploadImageReset());
         }
     }, [
         id,

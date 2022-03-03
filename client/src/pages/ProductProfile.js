@@ -39,7 +39,7 @@ export default function ProductProfile() {
     const [quantity, setQuantity] = useState(1);
     const [isHigherQuantity, setIsHigherQuantity] = useState(false);
     const [message, setMessage] = useState("");
-    const [cartItems, setCartItems] = useState([]);
+    // const [cartItems, setCartItems] = useState([]);
 
     const { id } = useParams();
     const location = useLocation();
@@ -47,8 +47,22 @@ export default function ProductProfile() {
     const { showAlert } = useGlobalContext();
     const dispatch = useDispatch();
 
-    const { product, productReviewAddedSuccess, topReview, loading, error } =
-        useSelector((state) => state.productsSlice);
+    const {
+        product,
+        productReviewAddedSuccess,
+        addingProductReview,
+        productReviewAddedError,
+        topReview,
+        loading,
+        error,
+    } = useSelector((state) => state.productsSlice);
+
+    const { user, wishlistItemAddedSuccess, authenticated } = useSelector(
+        (state) => state.usersSlice
+    );
+    const { cartItems: localCartItems } = useSelector(
+        (state) => state.localCartSlice
+    );
 
     const tea = product.productType
         ? teaInfo.filter((tea) =>
@@ -56,21 +70,14 @@ export default function ProductProfile() {
           )[0]
         : {};
 
-    const { user, wishlistItemAddedSuccess, authenticated } = useSelector(
-        (state) => state.usersSlice
-    );
-
     const reviewedByUser =
         product.reviews && user
-            ? product.reviews.find(
-                  (product) => product.username === user.username
-              )
+            ? product.reviews.find((product) => product._id === user._id)
             : false;
 
-    const { cartItems: localCartItems } = useSelector(
-        (state) => state.localCartSlice
-    );
-    const existsInCart = cartItems.find((item) => item._id === id);
+    const existsInCart = authenticated
+        ? user.cartItems.find((item) => item.Id === id)
+        : localCartItems.find((item) => item._id === id);
 
     const checkWishlist = useCallback(() => {
         if (user && user.wishlist) {
@@ -85,34 +92,29 @@ export default function ProductProfile() {
     }, [user, id]);
 
     useEffect(() => {
-        // if(!product.name || product._id!==id || reviewSuccess){
+        // If there is no product information, or the information is not correct, fetch the product.
         if (!product.name || product._id !== id) {
             dispatch(getProductDetails(id));
             dispatch(getTopProductReview(id));
+        }
 
-            if (productReviewAddedSuccess) {
-                setRating(0);
-                setComment("");
-                dispatch(productReviewReset());
-            }
-        } else {
-            if (authenticated) {
-                setCartItems(localCartItems);
+        // If the product was successfully reviewed, clear the form details
+        if (productReviewAddedSuccess) {
+            setRating(0);
+            setComment("");
+            dispatch(productReviewReset());
+        }
 
-                // Load the user information if its not already in state.
-                if (user.username) {
-                    checkWishlist();
-                    setCartItems(user.cartItems);
+        // If the user is authenticated but not yet loaded, load and check wishlist.
+        if (authenticated && !user.username) {
+            checkWishlist();
+            dispatch(getUserProfile());
+        }
 
-                    if (wishlistItemAddedSuccess) {
-                        dispatch(wishlistSuccessReset());
-                        showAlert(product.name, "wishlist");
-                        dispatch(getUserProfile());
-                    }
-                } else {
-                    dispatch(getUserProfile());
-                }
-            }
+        // If the wishlist item was added successfully, alert and reset success value;
+        if (wishlistItemAddedSuccess) {
+            dispatch(wishlistSuccessReset());
+            showAlert(product.name, "wishlist");
         }
     }, [
         id,
@@ -158,7 +160,14 @@ export default function ProductProfile() {
 
     const handleSubmitReview = (e) => {
         e.preventDefault();
-        dispatch(createProductReview(id, { rating, comment }));
+        const args = {
+            id,
+            review: {
+                rating,
+                comment,
+            },
+        };
+        dispatch(createProductReview(args));
     };
 
     const handleQuantitySelect = (e) => {
@@ -467,7 +476,11 @@ export default function ProductProfile() {
                                 >
                                     Submit
                                 </button>
-                                {/* {reviewError && <Message>{reviewError}</Message>} */}
+                                {productReviewAddedError ? (
+                                    <Message>{productReviewAddedError}</Message>
+                                ) : (
+                                    addingProductReview && <LoadingSpinner />
+                                )}
                             </form>
                         ) : (
                             <p>

@@ -42,6 +42,7 @@ const ordersSlice = createSlice({
         },
         orderAdded(state, action) {
             state.orders.push(action.payload);
+            state.createdOrder = action.payload;
         },
         orderPaid(state, action) {
             state.currentOrder = action.payload;

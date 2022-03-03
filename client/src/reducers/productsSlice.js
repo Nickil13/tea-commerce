@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
     createProduct,
+    createProductReview,
     editProduct,
     uploadProductImage,
 } from "../actions/productActions";
@@ -60,11 +61,9 @@ const productsSlice = createSlice({
             state.productEditedError = "";
             state.productEditedLoading = false;
         },
-        productReviewAdded(state) {
-            state.productReviewAddedSuccess = true;
-        },
         productReviewReset(state) {
             state.productReviewAddedSuccess = false;
+            state.productReviewAddedError = "";
         },
     },
 
@@ -107,7 +106,7 @@ const productsSlice = createSlice({
             const newProducts = [...state.products];
             newProducts[index] = action.payload;
             state.products = newProducts;
-
+            state.product = action.payload;
             state.productEditedSuccess = true;
             state.productEditedLoading = false;
         });
@@ -115,6 +114,20 @@ const productsSlice = createSlice({
             state.productEditedError = action.payload;
             state.productEditedLoading = false;
             state.productEditedSuccess = false;
+        });
+
+        // Add Product builders
+        builder.addCase(createProductReview.pending, (state) => {
+            state.addingProductReview = true;
+        });
+        builder.addCase(createProductReview.fulfilled, (state, action) => {
+            state.product = action.payload;
+            state.productReviewAddedSuccess = true;
+            state.addingProductReview = false;
+        });
+        builder.addCase(createProductReview.rejected, (state, action) => {
+            state.productReviewAddedError = action.payload;
+            state.addingProductReview = false;
         });
     },
 });
@@ -131,7 +144,6 @@ export const {
     productUploadImageReset,
     productAddedReset,
     productEditedReset,
-    productReviewAdded,
     productReviewReset,
 } = productsSlice.actions;
 

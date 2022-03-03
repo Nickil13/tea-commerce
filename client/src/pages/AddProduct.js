@@ -47,7 +47,7 @@ export default function AddProduct() {
         //On page load
         dispatch(productUploadImageReset());
         dispatch(productAddedReset());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         if (productAdded) {

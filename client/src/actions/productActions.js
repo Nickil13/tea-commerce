@@ -4,7 +4,6 @@ import {
     productDeleted,
     productError,
     productLoaded,
-    productReviewAdded,
     productsLoaded,
     productsLoading,
     productTopReviewLoaded,
@@ -33,7 +32,6 @@ export const getProductDetails = (id) => async (dispatch) => {
         dispatch(productsLoading());
 
         const { data } = await axios.get(`/api/products/${id}`);
-
         dispatch(productLoaded(data));
     } catch (error) {
         let errorMessage = error.response?.data.message || error.message;
@@ -42,32 +40,36 @@ export const getProductDetails = (id) => async (dispatch) => {
 };
 
 // Add a product review
-export const createProductReview = (id, review) => async (dispatch) => {
-    try {
-        if (review.comment === "" || review.rating === 0) {
-            throw new Error("Fields not filled in.");
+export const createProductReview = createAsyncThunk(
+    "products/addReview",
+    async (args, { rejectWithValue }) => {
+        const { id, review } = args;
+        try {
+            if (review.comment === "" || review.rating === 0) {
+                throw new Error("Fields not filled in.");
+            }
+
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    // Authorization: `Bearer ${userInfo.token}`,
+                },
+            };
+
+            const { data } = await axios.post(
+                `/api/products/${id}/reviews`,
+                review,
+                config
+            );
+
+            return data;
+        } catch (err) {
+            console.error(err);
+            let error = err;
+            return rejectWithValue(error.response.data);
         }
-
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: `Bearer ${userInfo.token}`,
-            },
-        };
-
-        const { data } = await axios.post(
-            `/api/products/${id}/reviews`,
-            review,
-            config
-        );
-
-        dispatch(editProduct(data));
-        dispatch(productReviewAdded());
-    } catch (error) {
-        let errorMessage = error.response?.data.message || error.message;
-        dispatch(productError(errorMessage));
     }
-};
+);
 
 // Fetch the top review for a product by product ID
 export const getTopProductReview = (id) => async (dispatch) => {

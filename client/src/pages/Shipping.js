@@ -1,119 +1,153 @@
-import React, { useState, useEffect } from 'react'
-import { CheckoutSteps, Message } from '../components';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUserProfile, updateUserProfile } from '../actions/userActions';
-import { useHistory } from 'react-router';
+import React, { useState, useEffect } from "react";
+import { CheckoutSteps, Message } from "../components";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserProfile, updateUserProfile } from "../actions/userActions";
+import { useHistory } from "react-router";
 
 export default function Shipping() {
-    const {userProfile} = useSelector((state)=>state.user);
-    const {user} = userProfile;
-    const[address,setAddress] = useState('');
-    const[city,setCity] = useState('');
-    const[province,setProvince] = useState('');
-    const[country,setCountry] = useState('');
-    const[postalCode, setPostalCode] = useState('');
-    const[error,setError] = useState('');
+    const { user } = useSelector((state) => state.usersSlice);
+    const [address, setAddress] = useState("");
+    const [city, setCity] = useState("");
+    const [province, setProvince] = useState("");
+    const [country, setCountry] = useState("");
+    const [postalCode, setPostalCode] = useState("");
+    const [error, setError] = useState("");
 
     const dispatch = useDispatch();
     const history = useHistory();
-    
-    useEffect(()=>{
-        if(!user.username){
+
+    useEffect(() => {
+        if (!user.username) {
             dispatch(getUserProfile());
-        }else{
-            const {address,city,province,country,postalCode} = user.shippingAddress;
+        } else {
+            const { address, city, province, country, postalCode } =
+                user.shippingAddress;
             setAddress(address);
             setCity(city);
             setProvince(province);
             setCountry(country);
             setPostalCode(postalCode);
         }
-        
-    },[user, dispatch])
+    }, [user, dispatch]);
 
-    const validate = () =>{
-        
+    const validate = () => {
         const form = document.getElementById("shipping-form");
-        
-        if(!address){
+
+        if (!address) {
             form.address.classList.add("invalid-input");
-        }else{
+        } else {
             form.address.classList.remove("invalid-input");
         }
-            
-        if(!city){
+
+        if (!city) {
             form.city.classList.add("invalid-input");
-        }else{
+        } else {
             form.city.classList.remove("invalid-input");
-        } 
-            
-        if(!province){
+        }
+
+        if (!province) {
             form.province.classList.add("invalid-input");
-        }else{
+        } else {
             form.province.classList.remove("invalid-input");
         }
-            
-        if(!country){
+
+        if (!country) {
             form.country.classList.add("invalid-input");
-        }else{
-             form.country.classList.remove("invalid-input");
-        } 
-            
-        if(!postalCode){
+        } else {
+            form.country.classList.remove("invalid-input");
+        }
+
+        if (!postalCode) {
             form.postalcode.classList.add("invalid-input");
-        }else{
+        } else {
             form.postalcode.classList.remove("invalid-input");
         }
-        
-        if(!address || !city || !province || !country || !postalCode){
+
+        if (!address || !city || !province || !country || !postalCode) {
             throw Error("Please fill out all fields.");
         }
-        
-    }
+    };
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = (e) => {
         e.preventDefault();
-        try{
+        try {
             validate();
-            const shippingAddress = {address,city,province,country,postalCode}
-            dispatch(updateUserProfile({shippingAddress}));
-            history.push('/payment');
+            const shippingAddress = {
+                address,
+                city,
+                province,
+                country,
+                postalCode,
+            };
+            dispatch(updateUserProfile({ shippingAddress }));
+            history.push("/payment");
             setError("");
-        }catch(error){
+        } catch (error) {
             setError(error.message);
         }
-    }
-    
+    };
+
     return (
         <div>
-            <CheckoutSteps currentStepNum={2}/>
+            <CheckoutSteps currentStepNum={2} />
             <h1 className="page-title">Shipping</h1>
             <section className="shipping-section">
-                <form id="shipping-form" className="shipping-form" onSubmit={handleSubmit}>
+                <form
+                    id="shipping-form"
+                    className="shipping-form"
+                    onSubmit={handleSubmit}
+                >
                     <div className="input-control">
                         <label htmlFor="address">Address</label>
-                        <input type="text" name="address" value={address} onChange={(e)=>setAddress(e.target.value)}/>
+                        <input
+                            type="text"
+                            name="address"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                        />
                     </div>
                     <div className="input-control">
                         <label htmlFor="city">City</label>
-                        <input type="text" name="city" value={city} onChange={(e)=>setCity(e.target.value)}/>
+                        <input
+                            type="text"
+                            name="city"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                        />
                     </div>
                     <div className="input-control">
                         <label htmlFor="province">Province/State</label>
-                        <input type="text" name="province" value={province} onChange={(e)=>setProvince(e.target.value)}/>
+                        <input
+                            type="text"
+                            name="province"
+                            value={province}
+                            onChange={(e) => setProvince(e.target.value)}
+                        />
                     </div>
                     <div className="input-control">
                         <label htmlFor="country">Country</label>
-                        <input type="text" name="country" value={country} onChange={(e)=>setCountry(e.target.value)}/>
+                        <input
+                            type="text"
+                            name="country"
+                            value={country}
+                            onChange={(e) => setCountry(e.target.value)}
+                        />
                     </div>
                     <div className="input-control">
                         <label htmlFor="postalcode">Postal Code</label>
-                        <input type="text" name="postalcode" value={postalCode} onChange={(e)=>setPostalCode(e.target.value)}/>
+                        <input
+                            type="text"
+                            name="postalcode"
+                            value={postalCode}
+                            onChange={(e) => setPostalCode(e.target.value)}
+                        />
                     </div>
-                    <button className="btn-secondary" type="submit">Submit</button>
+                    <button className="btn-secondary" type="submit">
+                        Submit
+                    </button>
                 </form>
             </section>
             <Message type={"error"}>{error}</Message>
         </div>
-    )
+    );
 }

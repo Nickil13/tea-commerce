@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/ProductModel");
-
 // @desc     Get products
 // @route    GET /api/products
 // @access   Public
@@ -65,7 +64,7 @@ const getProducts = asyncHandler(async (req, res) => {
 // @route    GET /api/products/:id/top-review
 // @access   Public
 
-const getTopProductReview = async (req, res) => {
+const getTopProductReview = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
 
     if (product) {
@@ -80,22 +79,21 @@ const getTopProductReview = async (req, res) => {
         res.status(404);
         throw new Error("Product not found");
     }
-};
+});
 
 // @desc     Get product by ID
 // @route    GET /api/products/:id
 // @access   Public
 
-const getProductById = async (req, res) => {
+const getProductById = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
-
     if (product) {
         res.json(product);
     } else {
         res.status(404);
         throw new Error("Product not found");
     }
-};
+});
 
 // @desc     Create product
 // @route    POST /api/products

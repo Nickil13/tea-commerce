@@ -3,7 +3,6 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { registerUser, updateUserProfile } from "../actions/userActions";
 import { LoadingSpinner, Message } from "../components";
-import { USER_REGISTER_RESET } from "../constants/userConstants";
 
 export default function Signup() {
     const [username, setUsername] = useState("");
