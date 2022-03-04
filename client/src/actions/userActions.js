@@ -8,6 +8,8 @@ import {
     selectedUserDeleted,
     selectedUserLoaded,
     userAuthenticated,
+    userAuthenticatedError,
+    userAuthenticating,
     userError,
     userLoaded,
     userLoggedOut,
@@ -58,12 +60,13 @@ export const logout = () => async (dispatch) => {
 
 export const isUserLoggedIn = () => async (dispatch) => {
     try {
+        dispatch(userAuthenticating());
         const { data } = await axios.get("/api/users/isLoggedIn");
 
         dispatch(userAuthenticated(data));
     } catch (error) {
         let errorMessage = error.response?.data.message || error.message;
-        dispatch(userError(errorMessage));
+        dispatch(userAuthenticatedError(errorMessage));
     }
 };
 

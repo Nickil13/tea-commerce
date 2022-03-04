@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import {
     BrowserRouter as Router,
     Route,
-    Redirect,
     Switch,
     useLocation,
 } from "react-router-dom";
@@ -31,8 +30,7 @@ import {
     EditProduct,
 } from "./pages";
 import { Navbar, Footer, Sidebar, Alert } from "./components";
-import { useDispatch, useSelector } from "react-redux";
-import { isUserLoggedIn } from "./actions/userActions";
+import { PrivateRoute } from "./utils/PrivateRoute";
 
 const ScrollToTop = (props) => {
     const { pathname } = useLocation();
@@ -45,9 +43,6 @@ const ScrollToTop = (props) => {
 };
 
 function App() {
-    const dispatch = useDispatch();
-    const { authenticated } = useSelector((state) => state.usersSlice);
-
     return (
         <Router>
             <ScrollToTop>
@@ -61,26 +56,22 @@ function App() {
                         <Route path="/cart">
                             <Cart />
                         </Route>
-                        <Route path="/account/orders/:id">
+                        <PrivateRoute path="/account/orders/:id">
                             <MyOrder />
-                        </Route>
-                        <Route path="/account/orders/">
+                        </PrivateRoute>
+                        <PrivateRoute path="/account/orders/">
                             <MyOrders />
-                        </Route>
-                        <Route path="/account/edit-profile">
+                        </PrivateRoute>
+                        <PrivateRoute path="/account/edit-profile">
                             <EditUserProfile />
-                        </Route>
-                        <Route path="/account" exact>
+                        </PrivateRoute>
+                        <PrivateRoute path="/account" exact>
                             <UserProfile />
-                            {/* {authenticated ? (
-                                <UserProfile />
-                            ) : (
-                                <Redirect to="/login" />
-                            )} */}
-                        </Route>
-                        <Route path="/account/wishlist">
+                        </PrivateRoute>
+
+                        <PrivateRoute path="/account/wishlist">
                             <MyWishlist />
-                        </Route>
+                        </PrivateRoute>
 
                         <Route path="/login">
                             <Login />
@@ -110,27 +101,47 @@ function App() {
                         </Route>
 
                         {/* Admin Routes */}
-                        <Route path="/admin/orders" exact>
+                        <PrivateRoute
+                            path="/admin/orders"
+                            privacy="admin"
+                            exact
+                        >
                             <Orders />
-                        </Route>
-                        <Route path="/admin/orders/:id/edit">
+                        </PrivateRoute>
+                        <PrivateRoute
+                            path="/admin/orders/:id/edit"
+                            privacy="admin"
+                        >
                             <Order />
-                        </Route>
-                        <Route path="/admin/products" exact>
+                        </PrivateRoute>
+                        <PrivateRoute
+                            path="/admin/products"
+                            privacy="admin"
+                            exact
+                        >
                             <Products />
-                        </Route>
-                        <Route path="/admin/products/:id/edit">
+                        </PrivateRoute>
+                        <PrivateRoute
+                            path="/admin/products/:id/edit"
+                            privacy="admin"
+                        >
                             <EditProduct />
-                        </Route>
-                        <Route path="/admin/products/add">
+                        </PrivateRoute>
+                        <PrivateRoute
+                            path="/admin/products/add"
+                            privacy="admin"
+                        >
                             <AddProduct />
-                        </Route>
-                        <Route path="/admin/users" exact>
+                        </PrivateRoute>
+                        <PrivateRoute path="/admin/users" privacy="admin" exact>
                             <Users />
-                        </Route>
-                        <Route path="/admin/users/:id/edit">
+                        </PrivateRoute>
+                        <PrivateRoute
+                            path="/admin/users/:id/edit"
+                            privacy="admin"
+                        >
                             <EditUser />
-                        </Route>
+                        </PrivateRoute>
                     </Switch>
                 </main>
                 <Footer />

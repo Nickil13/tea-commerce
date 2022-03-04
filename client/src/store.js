@@ -4,7 +4,6 @@ import userReducer from "./reducers/usersSlice";
 import productReducer from "./reducers/productsSlice";
 import orderReducer from "./reducers/ordersSlice";
 import localCartReducer from "./reducers/localCartSlice";
-
 import checkoutReducer from "./reducers/checkoutSlice";
 
 import { isUserLoggedIn } from "./actions/userActions";

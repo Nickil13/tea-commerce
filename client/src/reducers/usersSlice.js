@@ -5,6 +5,7 @@ const initialState = {
     loading: false,
     user: {
         cartItems: [],
+        shippingAddress: {},
     },
     authenticated: false,
     users: [],
@@ -48,6 +49,14 @@ const usersSlice = createSlice({
             } else {
                 state.authenticated = false;
             }
+            state.userAuthenticating = false;
+        },
+        userAuthenticating(state) {
+            state.userAuthenticating = true;
+        },
+        userAuthenticatedError(state, action) {
+            state.userAuthenticating = false;
+            state.error = action.payload;
         },
         userError(state, action) {
             state.error = action.payload;
@@ -151,6 +160,8 @@ export const {
     userRegistered,
     userLoggedOut,
     userAuthenticated,
+    userAuthenticating,
+    userAuthenticatedError,
     userError,
     cartItemAdded,
     cartItemRemoved,

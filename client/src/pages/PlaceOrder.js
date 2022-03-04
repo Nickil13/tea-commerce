@@ -7,15 +7,10 @@ import { Message } from "../components";
 import { getUserProfile } from "../actions/userActions";
 
 export default function PlaceOrder() {
-    // const { userProfile, userPaymentMethod } = useSelector(
-    //     (state) => state.user
-    // );
-    // const { shippingAddress, cartItems } = userProfile.user;
-    // const { paymentMethod } = userPaymentMethod;
-    const {
-        user: { shippingAddress, cartItems },
-        userPaymentMethod,
-    } = useSelector((state) => state.usersSlice);
+    const { user, userPaymentMethod } = useSelector(
+        (state) => state.usersSlice
+    );
+    const { shippingAddress, cartItems } = user;
     const subtotal = cartItems
         ? cartItems
               .reduce((acc, item) => acc + item.price * item.quantity, 0)
@@ -33,8 +28,7 @@ export default function PlaceOrder() {
     const dispatch = useDispatch();
 
     const { checkoutSession } = useSelector((state) => state.checkoutSlice);
-    // const checkout = useSelector((state) => state.checkout);
-    // const { checkoutSession } = checkout;
+
     const {
         url,
         loading: sessionLoading,
@@ -42,25 +36,25 @@ export default function PlaceOrder() {
         error: sessionError,
     } = checkoutSession;
 
-    const { createdOrder } = useSelector((state) => state.ordersSlice);
-    // const createdOrder = useSelector((state) => state.orders.createdOrder);
     const {
-        loading,
-        success: orderSuccess,
-        error: orderError,
-        order,
-    } = createdOrder;
+        createdOrder: order,
+        creatingOrder,
+        orderCreatedSuccess,
+        orderCreatedError,
+    } = useSelector((state) => state.ordersSlice);
 
     useEffect(() => {
-        if (orderSuccess) {
-            dispatch(
-                createCheckoutSession(order._id, cartItems, taxes, shipping)
-            );
-        } else {
+        if (orderCreatedSuccess) {
+            console.log(order._id, cartItems, taxes, shipping);
+            // dispatch(
+            //     createCheckoutSession(order._id, cartItems, taxes, shipping)
+            // );
+        }
+
+        if (!user.username) {
             dispatch(getUserProfile());
         }
-        // eslint-disable-next-line
-    }, [orderSuccess, dispatch]);
+    }, [orderCreatedSuccess, user, dispatch]);
 
     useEffect(() => {
         if (checkoutSessionSuccess && url) {
@@ -120,10 +114,10 @@ export default function PlaceOrder() {
                     Place Order
                 </button>
 
-                {loading ? (
+                {creatingOrder ? (
                     <Message>Placing order...</Message>
                 ) : (
-                    orderError && <Message>{orderError}</Message>
+                    orderCreatedError && <Message>{orderCreatedError}</Message>
                 )}
 
                 {sessionLoading ? (

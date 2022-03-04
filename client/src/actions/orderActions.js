@@ -1,3 +1,4 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 // import {
 //     CREATE_ORDER_FAIL,
@@ -24,7 +25,6 @@ import axios from "axios";
 // } from "../constants/orderConstants";
 import {
     myOrdersLoaded,
-    orderAdded,
     orderDelivered,
     orderError,
     orderLoaded,
@@ -87,21 +87,24 @@ export const listMyOrders = () => async (dispatch) => {
     }
 };
 
-export const createOrder = (order) => async (dispatch) => {
-    try {
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
-        const { data } = await axios.post("/api/orders", order, config);
+export const createOrder = createAsyncThunk(
+    "orders/createOrder",
+    async (order, { rejectWithValue }) => {
+        try {
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            };
+            const { data } = await axios.post("/api/orders", order, config);
 
-        dispatch(orderAdded(data));
-    } catch (error) {
-        let errorMessage = error.response?.data.message || error.message;
-        dispatch(orderError(errorMessage));
+            return data;
+        } catch (err) {
+            let error = err;
+            return rejectWithValue(error.response.data);
+        }
     }
-};
+);
 
 export const getOrderDetails = (id) => async (dispatch) => {
     try {

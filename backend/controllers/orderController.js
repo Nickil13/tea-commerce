@@ -78,7 +78,7 @@ const getMyOrderById = async (req, res) => {
 // @desc     Create a new order
 // @route    POST /api/orders
 // @access   Private
-const createOrder = async (req, res) => {
+const createOrder = asyncHandler(async (req, res) => {
     const {
         cartItems,
         shippingAddress,
@@ -105,7 +105,7 @@ const createOrder = async (req, res) => {
         const createdOrder = await order.save();
         res.status(201).json(createdOrder);
     }
-};
+});
 
 // @desc     Update order to paid
 // @route    PUT /api/orders/:id/pay
