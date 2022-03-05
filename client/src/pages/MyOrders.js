@@ -12,8 +12,8 @@ export default function MyOrders() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!orders) dispatch(listMyOrders());
-    }, [orders, dispatch]);
+        dispatch(listMyOrders());
+    }, [dispatch]);
 
     return (
         <div>

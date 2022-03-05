@@ -11,6 +11,9 @@ const initialState = {
     users: [],
     selectedUser: {},
     error: "",
+    userPaymentMethod: localStorage.getItem("tc-preferredPaymentMethod")
+        ? JSON.parse(localStorage.getItem("tc-preferredPaymentMethod"))
+        : "Stripe",
 };
 
 const usersSlice = createSlice({

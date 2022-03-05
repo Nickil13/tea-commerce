@@ -5,6 +5,7 @@ import { createCheckoutSession } from "../actions/checkoutActions";
 import { createOrder } from "../actions/orderActions";
 import { Message } from "../components";
 import { getUserProfile } from "../actions/userActions";
+import { orderCreatedReset } from "../reducers/ordersSlice";
 
 export default function PlaceOrder() {
     const { user, userPaymentMethod } = useSelector(
@@ -27,14 +28,14 @@ export default function PlaceOrder() {
 
     const dispatch = useDispatch();
 
-    const { checkoutSession } = useSelector((state) => state.checkoutSlice);
-
     const {
-        url,
+        checkoutSession,
+        checkoutSessionSuccess,
         loading: sessionLoading,
-        success: checkoutSessionSuccess,
         error: sessionError,
-    } = checkoutSession;
+    } = useSelector((state) => state.checkoutSlice);
+
+    const { url } = checkoutSession;
 
     const {
         createdOrder: order,
@@ -45,16 +46,24 @@ export default function PlaceOrder() {
 
     useEffect(() => {
         if (orderCreatedSuccess) {
-            console.log(order._id, cartItems, taxes, shipping);
-            // dispatch(
-            //     createCheckoutSession(order._id, cartItems, taxes, shipping)
-            // );
+            dispatch(
+                createCheckoutSession(order._id, cartItems, taxes, shipping)
+            );
+            dispatch(orderCreatedReset());
         }
 
         if (!user.username) {
             dispatch(getUserProfile());
         }
-    }, [orderCreatedSuccess, user, dispatch]);
+    }, [
+        orderCreatedSuccess,
+        user,
+        dispatch,
+        order,
+        cartItems,
+        taxes,
+        shipping,
+    ]);
 
     useEffect(() => {
         if (checkoutSessionSuccess && url) {
@@ -63,17 +72,17 @@ export default function PlaceOrder() {
     }, [checkoutSessionSuccess, url]);
 
     const handlePlaceOrder = () => {
-        dispatch(
-            createOrder({
-                cartItems,
-                shippingAddress,
-                userPaymentMethod,
-                subtotal,
-                taxes,
-                shipping,
-                total,
-            })
-        );
+        const newOrder = {
+            cartItems,
+            shippingAddress,
+            userPaymentMethod,
+            subtotal,
+            taxes,
+            shipping,
+            total,
+        };
+
+        dispatch(createOrder(newOrder));
     };
 
     return (

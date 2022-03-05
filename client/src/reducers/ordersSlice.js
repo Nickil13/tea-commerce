@@ -7,6 +7,7 @@ const initialState = {
     currentOrder: {
         orderItems: [],
         shippingAddress: {},
+        user: {},
     },
     myOrders: [],
     error: "",
@@ -30,7 +31,8 @@ const ordersSlice = createSlice({
             state.loading = false;
         },
         myOrdersLoaded(state, action) {
-            state.orders = [...action.payload];
+            const { orders } = action.payload;
+            state.myOrders = [...orders];
             state.loading = false;
         },
         orderLoaded(state, action) {
@@ -41,16 +43,16 @@ const ordersSlice = createSlice({
             state.loading = true;
             state.error = "";
         },
-        // orderAdded(state, action) {
-        //     state.orders.push(action.payload);
-        //     state.createdOrder = action.payload;
-        // },
         orderPaid(state, action) {
             state.currentOrder = action.payload;
         },
         orderDelivered(state, action) {
             state.currentOrder = action.payload;
             state.orderDeliveredSuccess = true;
+        },
+        orderCreatedReset(state) {
+            state.orderCreatedError = "";
+            state.orderCreatedSuccess = false;
         },
     },
     extraReducers: (builder) => {
@@ -80,6 +82,7 @@ export const {
     orderAdded,
     orderPaid,
     orderDelivered,
+    orderCreatedReset,
 } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

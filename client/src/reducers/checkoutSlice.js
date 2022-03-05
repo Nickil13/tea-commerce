@@ -17,10 +17,15 @@ const checkoutSlice = createSlice({
         checkoutSessionLoaded(state, action) {
             state.loading = false;
             state.checkoutSession = action.payload;
+            state.checkoutSessionSuccess = true;
         },
         checkoutError(state, action) {
             state.loading = false;
             state.error = action.payload;
+        },
+        checkoutDetailsReset(state) {
+            state.checkoutDetailsLoadedError = "";
+            state.checkoutDetailsLoadedSuccess = false;
         },
     },
     extraReducers: (builder) => {
@@ -31,15 +36,20 @@ const checkoutSlice = createSlice({
         builder.addCase(getCheckoutDetails.fulfilled, (state, { payload }) => {
             state.checkoutDetails = payload;
             state.loadingCheckoutDetails = false;
+            state.checkoutDetailsLoadedSuccess = true;
         });
         builder.addCase(getCheckoutDetails.rejected, (state, action) => {
-            state.checkoutDetailsError = action.payload;
+            state.checkoutDetailsLoadedError = action.payload;
             state.loadingCheckoutDetails = false;
         });
     },
 });
 
-export const { checkoutLoading, checkoutSessionLoaded, checkoutError } =
-    checkoutSlice.actions;
+export const {
+    checkoutLoading,
+    checkoutSessionLoaded,
+    checkoutError,
+    checkoutDetailsReset,
+} = checkoutSlice.actions;
 
 export default checkoutSlice.reducer;

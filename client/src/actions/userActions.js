@@ -51,7 +51,7 @@ export const logout = () => async (dispatch) => {
 
         dispatch(userLoggedOut());
 
-        localStorage.removeItem("paymentMethod");
+        localStorage.removeItem("tc-preferredPaymentMethod");
     } catch (error) {
         let errorMessage = error.response?.data.message || error.message;
         dispatch(userError(errorMessage));
@@ -281,7 +281,11 @@ export const clearCartItems = () => async (dispatch) => {
 
 export const savePaymentMethod = (paymentMethod) => (dispatch) => {
     dispatch(userPaymentMethodSaved(paymentMethod));
-    localStorage.setItem("paymentMethod", JSON.stringify(paymentMethod));
+
+    localStorage.setItem(
+        "tc-preferredPaymentMethod",
+        JSON.stringify(paymentMethod)
+    );
 };
 
 export const addToWishlist = (id) => async (dispatch) => {

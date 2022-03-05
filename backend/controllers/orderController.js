@@ -82,7 +82,7 @@ const createOrder = asyncHandler(async (req, res) => {
     const {
         cartItems,
         shippingAddress,
-        paymentMethod,
+        userPaymentMethod: paymentMethod,
         subtotal,
         taxes,
         shipping,
