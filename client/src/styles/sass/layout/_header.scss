@@ -1,64 +1,63 @@
-@use '../abstracts';
+@use "../abstracts";
 
-.nav-container{
+.nav-container {
     position: fixed;
-    display:grid;
+    display: grid;
     align-items: center;
-    top:0;
+    top: 0;
     z-index: 1;
     padding: 1rem;
     width: 100%;
     height: abstracts.$nav-height;
     background-color: abstracts.$color-neutral;
     box-shadow: 0 2px 7px -5px rgb(0 0 0 / 90%);
-  }
+}
 
-  nav{
+nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     max-width: 70rem;
     margin: 0 auto;
-  }
-  
-  .nav-links{
-    display:none;
-    align-self: center;
-    
-    & li{
-      position: relative;
-      margin: 0 0.25rem;
-      padding: 1rem;
+}
 
-      & a {
-        font-family: abstracts.$ff-secondary;
-        color:abstracts.$color-dark;
-        text-transform: capitalize;
-      }
-      
+.nav-links {
+    display: none;
+    align-self: center;
+
+    & li {
+        position: relative;
+        margin: 0 0.25rem;
+        padding: 1rem;
+
+        & a {
+            font-family: abstracts.$ff-secondary;
+            color: abstracts.$color-dark;
+            text-transform: capitalize;
+        }
     }
-    
-    @include abstracts.respond-to('large'){
+
+    @include abstracts.respond-to("large") {
         display: flex;
     }
-  }
-  
-  .active-nav{
-    &::after{
-      position:absolute;
-      content: "";
-      bottom:0;
-      left:0;
-      width: 100%;
-      height: 3px;
-      background: abstracts.$color-primary-dark;
+}
+
+.active-nav {
+    &::after {
+        position: absolute;
+        content: "";
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: abstracts.$color-primary-dark;
     }
-  }
-  .cart-link{
+}
+.cart-link {
     position: relative;
-  }
-  .cart-icon-amount{
+}
+.cart-icon-amount {
     position: absolute;
     display: grid;
     place-items: center;
@@ -69,84 +68,83 @@
     border-radius: 15px;
     color: abstracts.$color-neutral;
     background-color: abstracts.$color-primary;
-  }
-  
-  
-  .nav-icon-container{
-    display:flex;
+}
+
+.nav-icon-container {
+    display: flex;
     align-items: center;
     justify-self: flex-end;
 
-    .nav-icons{
-      display: flex;
-      align-items: center;
-  
-      & >li{
-        padding: 1rem;
-      }
+    .nav-icons {
+        display: flex;
+        align-items: center;
+
+        & > li {
+            padding: 1rem;
+        }
     }
-  }
-  
-  .nav-icon{
+}
+
+.nav-icon {
     font-size: 25px;
     color: abstracts.$color-dark;
-    cursor:pointer;
+    cursor: pointer;
 
-    &:hover{
-      color: abstracts.$color-primary-light;
+    &:hover {
+        color: abstracts.$color-primary-light;
     }
 
-    &-loggedin{
-      color: abstracts.$color-secondary;
-      &:hover{
-        color: abstracts.$color-secondary-light;
-      }
+    &-loggedin {
+        color: abstracts.$color-secondary;
+        &:hover {
+            color: abstracts.$color-secondary-light;
+        }
     }
 
-    @include abstracts.respond-to('small'){
-      font-size: 28px;
+    @include abstracts.respond-to("small") {
+        font-size: 28px;
     }
-  }
-  
-  .nav-dropdown{
+}
+
+.nav-dropdown {
     position: relative;
-  }
+}
 
-
-  //Menu toggle
-  .sidebar-toggle{
+//Menu toggle
+.sidebar-toggle {
     font-size: 25px;
     cursor: pointer;
     padding: 1rem;
 
-    @include abstracts.respond-to('small'){
-      font-size: 28px;
+    @include abstracts.respond-to("small") {
+        font-size: 28px;
     }
-    @include abstracts.respond-to('large'){
-      display:none;
+    @include abstracts.respond-to("large") {
+        display: none;
     }
-  }
+}
 
-  //Logo
-  .logo, .sidebar-toggle{
+//Logo
+.logo,
+.sidebar-toggle {
     color: abstracts.$color-dark;
 
-    &:hover{
-      color: abstracts.$color-neutral-dark;
+    &:hover {
+        color: abstracts.$color-neutral-dark;
     }
-  }
-  
-  .logo{
+}
+
+.logo {
     font-size: 22px;
     font-family: abstracts.$ff-secondary;
     text-align: center;
 
-    @include abstracts.respond-to('small'){
-      font-size: 25px;
+    @include abstracts.respond-to("small") {
+        font-size: 25px;
     }
-  }
+}
 
-  //Hero
-  .hero{
+//Hero
+.hero {
     height: abstracts.$hero-height;
-  }
+}

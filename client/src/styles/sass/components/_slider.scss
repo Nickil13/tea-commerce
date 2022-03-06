@@ -1,133 +1,129 @@
-@use '../abstracts'; 
+@use "../abstracts";
 
-.slider{
-    position:relative;
-    background-color: abstracts.$color-dark;
-  }
-  
-  .slide{
+.slider {
     position: relative;
-    width:100%;
+    background-color: abstracts.$color-dark;
+}
+
+.slide {
+    position: relative;
+    width: 100%;
     background-color: lavender;
-    height:abstracts.$hero-height;
+    height: abstracts.$hero-height;
     display: none;
     animation: fade-in 1s ease-in;
-    
 
-    &-active{
-      display: block;
+    &-active {
+        display: block;
     }
 
-    & .slide-title{
-      max-width: 25ch;
-      font-size: 25px;
-      margin-bottom: 0.25rem;
-      color: abstracts.$color-neutral;
+    & .slide-title {
+        max-width: 25ch;
+        font-size: 25px;
+        margin-bottom: 0.25rem;
+        color: abstracts.$color-neutral;
     }
 
-    & img{
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
+    & img {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
     }
 
-    & .slide-content{
-      position: absolute;
-      display:grid;
-      height: 100%;
-      width: 100%;
-      justify-content: center;
-      align-content: center;
-      padding: 0 3.5rem;
-      text-align: center;
-        
-        & p{
-          color:abstracts.$color-neutral;
+    & .slide-content {
+        position: absolute;
+        display: grid;
+        height: 100%;
+        width: 100%;
+        justify-content: center;
+        align-content: center;
+        padding: 0 3.5rem;
+        text-align: center;
+
+        & p {
+            color: abstracts.$color-neutral;
         }
     }
 
-    @include abstracts.respond-to('small'){
-      & .slide-title{
-        font-size: 30px;
-      }
-      & .slide-content{
-        padding: 0 5rem;
-
-        & p{
-          font-size: 20px;
+    @include abstracts.respond-to("small") {
+        & .slide-title {
+            font-size: 30px;
         }
-      }
+        & .slide-content {
+            padding: 0 5rem;
+
+            & p {
+                font-size: 20px;
+            }
+        }
     }
 
-    @include abstracts.respond-to('medium'){
-      & .slide-title{
-        font-size: 38px;
-      }
+    @include abstracts.respond-to("medium") {
+        & .slide-title {
+            font-size: 38px;
+        }
     }
-  }
-  
-  .slide-darken{
-    img{
-      filter: brightness(70%);
+}
+
+.slide-darken {
+    img {
+        filter: brightness(70%);
     }
-  }
+}
 
-
-  #matcha-slide .slide-content{
-    @include abstracts.respond-to('large'){
-
-      justify-self: start;
-      margin-left: 8rem;
-      max-width: 35ch;
-      padding: 0;
+#matcha-slide .slide-content {
+    @include abstracts.respond-to("large") {
+        left: 25%;
+        transform: translateX(-50%);
+        max-width: 40ch;
+        padding: 0;
     }
-  }
+}
 
-  .slide-dots{
-    display:flex;
+.slide-dots {
+    display: flex;
     position: absolute;
-    bottom:0;
-    width:100%;
+    bottom: 15px;
+    width: 100%;
     justify-content: center;
     color: abstracts.$color-neutral;
 
-      & li{
+    & li {
         padding: 0.25em;
         cursor: pointer;
         transition: abstracts.$btn-transition;
 
-        &:hover{
-          color: abstracts.$color-neutral-gray; 
+        &:hover {
+            color: abstracts.$color-neutral-gray;
         }
-      }
-  
-  }
-  
-  .slider-arrow{
+    }
+}
+
+.slider-arrow {
     position: absolute;
-    display:grid;
+    display: grid;
     height: 100%;
     justify-content: center;
     align-content: center;
     padding: 1rem;
-    top:0;
+    top: 0;
     color: abstracts.$color-neutral;
     font-size: 30px;
     cursor: pointer;
     transition: abstracts.$btn-transition;
 
-      &:hover{
+    &:hover {
         color: abstracts.$color-neutral-gray;
-      }
-      @include abstracts.respond-to('small'){
+    }
+    @include abstracts.respond-to("small") {
         font-size: 50px;
-      }
-  }
- 
-  .arrow-left{
-    left:0;
-  }
-  .arrow-right{
-    right:0;
-  }
+    }
+}
+
+.arrow-left {
+    left: 0;
+}
+.arrow-right {
+    right: 0;
+}

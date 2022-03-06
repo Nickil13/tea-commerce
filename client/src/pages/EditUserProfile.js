@@ -36,11 +36,13 @@ export default function EditUserProfile() {
         } else {
             setUsername(user.username);
             setEmail(user.email);
-            setAddress(user.shippingAddress.address);
-            setCity(user.shippingAddress.city);
-            setCountry(user.shippingAddress.country);
-            setProvince(user.shippingAddress.province);
-            setPostalCode(user.shippingAddress.postalCode);
+            if (user.shippingAddress.address) {
+                setAddress(user.shippingAddress.address);
+                setCity(user.shippingAddress.city);
+                setCountry(user.shippingAddress.country);
+                setProvince(user.shippingAddress.province);
+                setPostalCode(user.shippingAddress.postalCode);
+            }
         }
         if (userUpdatingSuccess) {
             dispatch(userUpdatingReset());

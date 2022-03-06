@@ -18,7 +18,9 @@ const loginUser = asyncHandler(async (req, res) => {
             _id: user._id,
             username: user.username,
             email: user.email,
+            wishlist: user.wishlist,
             cartItems: user.cartItems,
+            shippingAddress: user.shippingAddress,
             isAdmin: user.isAdmin,
             token,
         });

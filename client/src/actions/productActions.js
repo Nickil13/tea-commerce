@@ -52,7 +52,6 @@ export const createProductReview = createAsyncThunk(
             const config = {
                 headers: {
                     "Content-Type": "application/json",
-                    // Authorization: `Bearer ${userInfo.token}`,
                 },
             };
 
@@ -129,7 +128,6 @@ export const editProduct = createAsyncThunk(
             const config = {
                 headers: {
                     "Content-Type": "application/json",
-                    // Authorization: `Bearer ${userInfo.token}`,
                 },
             };
 
@@ -169,7 +167,6 @@ export const uploadProductImage = createAsyncThunk(
             const config = {
                 headers: {
                     "Content-Type": "application/json",
-                    // Authorization: `Bearer ${userInfo.token}`,
                 },
             };
 

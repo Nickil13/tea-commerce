@@ -1,204 +1,217 @@
-@use '../abstracts';
+@use "../abstracts";
 
-.seasonal-section{
-  background-color: abstracts.$color-secondary-light;
-  padding: 4rem 0;
-
-  & p{
-    text-align: center;
-    width: 80%;
-    margin: 0 auto;
-    max-width: 45ch;
-  }
-}
-  .seasonal-box{
+.seasonal-section {
     position: relative;
-    display: grid;
-    width:100%;
-    padding: 2rem;
+    background-color: abstracts.$color-secondary-light;
 
-    @include abstracts.respond-to('medium'){
-      grid-template-columns: repeat(3,1fr);
-      place-items: center;
+    & p {
+        text-align: center;
+        width: 80%;
+        margin: 0 auto;
+        max-width: 45ch;
     }
-  }
+}
+.seasonal-box {
+    display: grid;
+    max-width: 50rem;
+    margin: 2em auto 0 auto;
 
-  .seasonal-item{
-    position:relative;
+    @include abstracts.respond-to("medium") {
+        grid-template-columns: repeat(3, 1fr);
+        place-items: center;
+    }
+}
+
+.seasonal-item {
+    position: relative;
     display: grid;
     place-items: center;
     padding: 1rem;
     text-align: center;
 
-    & h3{
-      margin-top: 1em;
-      font-size: 20px;
+    & h3 {
+        margin-top: 1em;
+        font-size: 20px;
     }
-  }
+}
 
-  .seasonal-polygon{
+.seasonal-polygon {
     position: absolute;
-    top:50%;
+    top: 50%;
     transform: translate(0, -50%);
-    right:0;
+    right: 0;
     height: 600px;
     width: 100%;
     background-color: white;
     clip-path: polygon(0 0, 100% 50%, 100% 100%, 0 50%);
 
-    @include abstracts.respond-to('medium'){
-      clip-path: none;
-      height: 150px;
-      top: 70%;
+    @include abstracts.respond-to("medium") {
+        clip-path: none;
+        height: 180px;
+        top: 75%;
     }
-  }
+}
 
-  .seasonal-thumb{
+.seasonal-thumb {
     background-size: cover;
     background-position: center;
-    height: 150px;
-    width:150px;
-    border-radius: 75px;
-    overflow:hidden;
-    cursor:pointer;
-  }
-  
-  .thumb-cover{
+    height: 180px;
+    width: 180px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+
+    @include abstracts.respond-to("small") {
+        height: 200px;
+        width: 200px;
+    }
+}
+
+.thumb-cover {
     display: none;
     place-items: center;
     background-color: abstracts.$color-dark-transparent;
-    color:abstracts.$color-neutral;
-    width:100%;
+    color: abstracts.$color-neutral;
+    width: 100%;
     height: 100%;
-  }
+}
 
-  .seasonal-thumb:hover .thumb-cover{
-    display:grid;
-  }
-
-  /* Matcha Section*/ 
-  .matcha-section{
-    padding: 0;
-   
-    & .img-container{
-      height: 300px;
-    }
-
-    @include abstracts.respond-to('medium'){
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 450px;
-
-      & .img-container{
-        grid-column: 2;
-        grid-row: 1;
-        height: 100%;
-
-        & img{
-          max-height: none;
-        }
-      }
-    }
-  }
-  .matcha-section-info{
+.seasonal-thumb:hover .thumb-cover {
     display: grid;
-    place-items:center;
+}
+
+/* Matcha Section*/
+.matcha-section {
+    & .img-container {
+        height: 300px;
+    }
+
+    @include abstracts.respond-to("medium") {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 450px;
+
+        & .img-container {
+            grid-column: 2;
+            grid-row: 1;
+            height: 100%;
+
+            & img {
+                max-height: none;
+            }
+        }
+    }
+}
+.matcha-section-info {
+    display: grid;
+    place-items: center;
     padding: 3rem 2rem;
     background-color: abstracts.$color-primary-light;
-    
+
     & p {
-      width: 80%;
-      text-align: center;
+        width: 80%;
+        text-align: center;
     }
 
-    & button{
-      margin-top: 2rem;
+    & button {
+        margin-top: 2rem;
     }
-  }
+}
 
+/*Teaparty Section */
+.teaparty-section {
+    padding-left: 0;
+    padding-right: 0;
+}
+.teaparty-section .section-container {
+    width: 100%;
 
-  /*Teaparty Section */
-  .teaparty-section{
-    padding: 3rem 0 4rem 0;
+    & .title-box {
+        padding-bottom: 4rem;
 
-    & .title-box{
-      & h2{
-        font-size: 25px;
-      }
-      & .party-text{
-        font-family: abstracts.$ff-accent;
-        text-transform: capitalize;
-        font-size: 28px;
-        color: abstracts.$color-secondary;
-  
-      }
-    }
-  
-    img{
-      @include abstracts.fit-image; 
-      clip-path: polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100% );
-    }
-
-    @include abstracts.respond-to('large'){
-      display: grid;
-      grid-template-columns: 3fr 2fr;
-
-      img{
-        grid-row: span 2;
-        align-self: center;
-      }
-    }
-  }
-
-  .teaparty-section-info{
-    display: grid;
-    place-items:center;
-    padding: 0 1rem;
-
-    & p{
-      text-align: center;
-      max-width: 50ch;
-    }
-
-    .tea-party-text{
-      padding: 1rem;
-    }
-
-    .tea-party-list{
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-      font-family: abstracts.$ff-accent;
-      padding: 1rem;
-      width: 90%;
-      max-width: 25rem;
-
-      & li{
-        margin-bottom: 1rem;
-
-        &:first-child{
-          align-self: flex-start;
+        & h2 {
+            font-size: 25px;
         }
-        &:last-child{
-          align-self: flex-end;
+        & .party-text {
+            font-family: abstracts.$ff-accent;
+            text-transform: capitalize;
+            font-size: 28px;
+            color: abstracts.$color-secondary;
         }
 
-        @include abstracts.respond-to('large'){
-          &:first-child{
+        @include abstracts.respond-to("large") {
+            padding-bottom: 1rem;
+        }
+    }
+
+    img {
+        @include abstracts.fit-image;
+        clip-path: polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%);
+    }
+
+    @include abstracts.respond-to("large") {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+
+        img {
+            grid-row: span 2;
             align-self: center;
-          }
-          &:last-child{
-            align-self: center;         
-          }
         }
-      }
-
-      & a {
-        color: abstracts.$color-secondary;
-
-        &:hover{
-          color: abstracts.$color-error;
-        }
-      }
     }
-  }
+}
+
+.teaparty-section-info {
+    display: grid;
+    place-items: center;
+    margin: 3rem 2rem 0 2rem;
+
+    & p {
+        text-align: center;
+        max-width: 50ch;
+    }
+
+    .tea-party-text {
+        padding: 1rem;
+    }
+
+    .tea-party-list {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        font-family: abstracts.$ff-accent;
+        padding: 1rem;
+        width: 90%;
+        max-width: 25rem;
+
+        & li {
+            margin-bottom: 1rem;
+
+            &:first-child {
+                align-self: flex-start;
+            }
+            &:last-child {
+                align-self: flex-end;
+            }
+
+            @include abstracts.respond-to("large") {
+                &:first-child {
+                    align-self: center;
+                }
+                &:last-child {
+                    align-self: center;
+                }
+            }
+        }
+
+        & a {
+            color: abstracts.$color-secondary;
+
+            &:hover {
+                color: abstracts.$color-error;
+            }
+        }
+    }
+    @include abstracts.respond-to("large") {
+        margin: 0;
+    }
+}

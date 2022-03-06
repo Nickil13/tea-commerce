@@ -39,7 +39,6 @@ export default function ProductProfile() {
     const [quantity, setQuantity] = useState(1);
     const [isHigherQuantity, setIsHigherQuantity] = useState(false);
     const [message, setMessage] = useState("");
-    // const [cartItems, setCartItems] = useState([]);
 
     const { id } = useParams();
     const location = useLocation();
@@ -106,9 +105,11 @@ export default function ProductProfile() {
         }
 
         // If the user is authenticated but not yet loaded, load and check wishlist.
-        if (authenticated && !user.username) {
+        if (authenticated) {
             checkWishlist();
-            dispatch(getUserProfile());
+            if (!user.username) {
+                dispatch(getUserProfile());
+            }
         }
 
         // If the wishlist item was added successfully, alert and reset success value;
@@ -198,119 +199,125 @@ export default function ProductProfile() {
                         />
                     </div>
                     <section className="product-profile">
-                        <div className="title-box">
-                            <h2>{product.name}</h2>
-                            <span>{product.productType}</span>
-                        </div>
-                        <div className="img-container">
-                            <img src={product.image} alt={product.name} />
-                            {product.flavourImage && (
-                                <div className="flavour-container">
-                                    <img
-                                        src={product.flavourImage}
-                                        alt={product.name}
-                                    />
-                                </div>
-                            )}
-                        </div>
+                        <div className="section-container">
+                            <div className="title-box">
+                                <h2>{product.name}</h2>
+                                <span>{product.productType}</span>
+                            </div>
+                            <div className="img-container">
+                                <img src={product.image} alt={product.name} />
+                                {product.flavourImage && (
+                                    <div className="flavour-container">
+                                        <img
+                                            src={product.flavourImage}
+                                            alt={product.name}
+                                        />
+                                    </div>
+                                )}
+                            </div>
 
-                        <div className="product-profile-info">
-                            <p>{product.description}</p>
-                            <p>
-                                <span>
-                                    ${product.price && product.price.toFixed(2)}
-                                </span>{" "}
-                                / 50g
-                            </p>
-
-                            {product.countInStock === 0 ? (
+                            <div className="product-profile-info">
+                                <p>{product.description}</p>
                                 <p>
-                                    Sorry, this product is currently{" "}
-                                    <u>out of stock.</u>
+                                    <span>
+                                        $
+                                        {product.price &&
+                                            product.price.toFixed(2)}
+                                    </span>{" "}
+                                    / 50g
                                 </p>
-                            ) : existsInCart &&
-                              Number(existsInCart.quantity) ===
-                                  Number(product.countInStock) ? (
-                                <p className="max-cart-message">
-                                    You have added the max amount of this
-                                    product to your cart.
-                                </p>
-                            ) : (
-                                <div className="product-btn-container">
-                                    {!isHigherQuantity ? (
-                                        <select
-                                            name="qty"
-                                            id="qty"
-                                            className="product-quantity-select"
-                                            value={quantity}
-                                            onChange={handleQuantitySelect}
-                                        >
-                                            {product.countInStock &&
-                                                [
-                                                    ...Array(
-                                                        product.countInStock
-                                                    ).keys(),
-                                                ]
-                                                    .slice(1, 11)
-                                                    .map((num, index) => {
-                                                        return (
-                                                            <option
-                                                                key={index}
-                                                                value={num}
-                                                            >
-                                                                {num}
-                                                            </option>
-                                                        );
-                                                    })}
-                                            {product.countInStock > 10 && (
-                                                <option value="higher quantity">
-                                                    higher quantity
-                                                </option>
-                                            )}
-                                        </select>
-                                    ) : (
-                                        <div className="product-quantity-input">
-                                            <input
-                                                type="number"
-                                                min="1"
-                                                max={product.countInStock}
-                                                onChange={(e) =>
-                                                    setQuantity(e.target.value)
-                                                }
-                                            />{" "}
-                                            <p>of {product.countInStock}</p>
-                                        </div>
-                                    )}
-                                    <button
-                                        className="btn-secondary"
-                                        onClick={handleAddToCart}
-                                    >
-                                        Add to Cart
-                                    </button>
-                                </div>
-                            )}
-                            {message && (
-                                <Message type="error">{message}</Message>
-                            )}
-                            {authenticated &&
-                                (!isInWishlist ? (
-                                    <div
-                                        className="btn add-wishlist-btn"
-                                        onClick={handleAddToWishlistClick}
-                                    >
-                                        <span>
-                                            <FaRegHeart />
-                                        </span>
-                                        <p>Add to wishlist</p>
-                                    </div>
+
+                                {product.countInStock === 0 ? (
+                                    <p>
+                                        Sorry, this product is currently
+                                        <u>out of stock.</u>
+                                    </p>
+                                ) : existsInCart &&
+                                  Number(existsInCart.quantity) ===
+                                      Number(product.countInStock) ? (
+                                    <p className="max-cart-message">
+                                        You have added the max amount of this
+                                        product to your cart.
+                                    </p>
                                 ) : (
-                                    <div className="btn add-wishlist-btn wishlisted">
-                                        <span>
-                                            <FaHeart />
-                                        </span>
-                                        <p>On your wishlist!</p>
+                                    <div className="product-btn-container">
+                                        {!isHigherQuantity ? (
+                                            <select
+                                                name="qty"
+                                                id="qty"
+                                                className="product-quantity-select"
+                                                value={quantity}
+                                                onChange={handleQuantitySelect}
+                                            >
+                                                {product.countInStock &&
+                                                    [
+                                                        ...Array(
+                                                            product.countInStock
+                                                        ).keys(),
+                                                    ]
+                                                        .slice(1, 11)
+                                                        .map((num, index) => {
+                                                            return (
+                                                                <option
+                                                                    key={index}
+                                                                    value={num}
+                                                                >
+                                                                    {num}
+                                                                </option>
+                                                            );
+                                                        })}
+                                                {product.countInStock > 10 && (
+                                                    <option value="higher quantity">
+                                                        higher quantity
+                                                    </option>
+                                                )}
+                                            </select>
+                                        ) : (
+                                            <div className="product-quantity-input">
+                                                <input
+                                                    type="number"
+                                                    min="1"
+                                                    max={product.countInStock}
+                                                    onChange={(e) =>
+                                                        setQuantity(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />{" "}
+                                                <p>of {product.countInStock}</p>
+                                            </div>
+                                        )}
+                                        <button
+                                            className="btn-secondary"
+                                            onClick={handleAddToCart}
+                                        >
+                                            Add to Cart
+                                        </button>
                                     </div>
-                                ))}
+                                )}
+                                {message && (
+                                    <Message type="error">{message}</Message>
+                                )}
+                                {authenticated &&
+                                    (!isInWishlist ? (
+                                        <div
+                                            className="btn add-wishlist-btn"
+                                            onClick={handleAddToWishlistClick}
+                                        >
+                                            <span>
+                                                <FaRegHeart />
+                                            </span>
+                                            <p>Add to wishlist</p>
+                                        </div>
+                                    ) : (
+                                        <div className="btn add-wishlist-btn wishlisted">
+                                            <span>
+                                                <FaHeart />
+                                            </span>
+                                            <p>On your wishlist!</p>
+                                        </div>
+                                    ))}
+                            </div>
                         </div>
                     </section>
 
@@ -333,7 +340,7 @@ export default function ProductProfile() {
                                 })}
                         </ul>
                     </section>
-                    <section className="brewing-instruction-section section-wide">
+                    <section className="brewing-instruction-section">
                         <h2>Brewing instructions</h2>
                         <div className="brewing-steps">
                             {tea.brewingInstructions &&
