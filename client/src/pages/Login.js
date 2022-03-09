@@ -3,6 +3,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { Message } from "../components";
 import { useDispatch, useSelector } from "react-redux";
 import { login, updateCurrentUser } from "../actions/userActions";
+import { Helmet } from "react-helmet";
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -49,6 +50,10 @@ export default function Login() {
     };
     return (
         <div className="login-container" onSubmit={handleSubmit}>
+            <Helmet>
+                <title>Login | Tea-Commerce</title>
+                <meta name="description" content="User login" />
+            </Helmet>
             <h1>Login</h1>
             <form className="login-form">
                 <div className="input-control">

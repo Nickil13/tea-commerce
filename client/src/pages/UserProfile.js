@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile } from "../actions/userActions";
 import { AccountBar, LoadingSpinner, Message } from "../components";
+import { Helmet } from "react-helmet";
 
 export default function UserProfile() {
     const dispatch = useDispatch();
@@ -17,6 +18,13 @@ export default function UserProfile() {
 
     return (
         <div>
+            <Helmet>
+                <title>My Account | Tea-Commerce</title>
+                <meta
+                    name="description"
+                    content="User profile and information."
+                />
+            </Helmet>
             {loading ? (
                 <div className="content-container">
                     <LoadingSpinner />

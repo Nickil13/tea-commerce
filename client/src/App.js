@@ -29,6 +29,7 @@ import {
     UserProfile,
     EditProduct,
 } from "./pages";
+import { Helmet } from "react-helmet";
 import { Navbar, Footer, Sidebar, Alert } from "./components";
 import { PrivateRoute } from "./utils/PrivateRoute";
 
@@ -45,6 +46,14 @@ const ScrollToTop = (props) => {
 function App() {
     return (
         <Router>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Tea-Commerce</title>
+                <link
+                    rel="canonical"
+                    href="https://tea-commerce-app.herokuapp.com/"
+                />
+            </Helmet>
             <ScrollToTop>
                 <Navbar />
                 <Sidebar />

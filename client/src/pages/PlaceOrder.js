@@ -6,6 +6,7 @@ import { createOrder } from "../actions/orderActions";
 import { Message } from "../components";
 import { getUserProfile } from "../actions/userActions";
 import { orderCreatedReset } from "../reducers/ordersSlice";
+import { Helmet } from "react-helmet";
 
 export default function PlaceOrder() {
     const { user, userPaymentMethod } = useSelector(
@@ -87,6 +88,10 @@ export default function PlaceOrder() {
 
     return (
         <div>
+            <Helmet>
+                <title>Place Order | Tea-Commerce</title>
+                <meta name="description" content="Place an order." />
+            </Helmet>
             <CheckoutSteps currentStepNum={4} />
             <h1 className="page-title">Place Order</h1>
             <section className="order-shipping-section">

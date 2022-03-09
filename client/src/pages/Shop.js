@@ -10,6 +10,7 @@ import { useParams, useHistory, useLocation } from "react-router-dom";
 import { teaProductCategories as categories } from "../resources/teaInfoData";
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../actions/productActions";
+import { Helmet } from "react-helmet";
 import Pagination from "../components/Pagination";
 import LoadingSpinner from "../components/LoadingSpinner";
 
@@ -80,6 +81,13 @@ export default function Shop() {
 
     return (
         <div>
+            <Helmet>
+                <title>Shop | Tea-Commerce</title>
+                <meta
+                    name="description"
+                    content="Store for loose leaf, tea mixes and matcha."
+                />
+            </Helmet>
             <Banner
                 category={category ? category : "all"}
                 productType={type ? type : ""}

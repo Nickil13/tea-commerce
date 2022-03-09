@@ -3,7 +3,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { registerUser, updateCurrentUser } from "../actions/userActions";
 import { LoadingSpinner, Message } from "../components";
-
+import { Helmet } from "react-helmet";
 export default function Signup() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -74,6 +74,13 @@ export default function Signup() {
             className="login-container signup-container"
             onSubmit={handleSubmit}
         >
+            <Helmet>
+                <title>Signup | Tea-Commerce</title>
+                <meta
+                    name="description"
+                    content="Create a Tea-Commerce account."
+                />
+            </Helmet>
             <h1>Sign up</h1>
             <form className="login-form">
                 <div className="input-control">

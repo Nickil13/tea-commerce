@@ -21,10 +21,8 @@
     "helmet": "^5.0.2",
     "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
-    "moment": "^2.29.1",
     "mongoose": "^6.2.2",
     "morgan": "^1.10.0",
-    "react-moment": "^1.1.1",
     "stripe": "^8.181.0"
   },
   "devDependencies": {

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getUserProfile, clearCartItems } from "../actions/userActions";
 import { LoadingSpinner, CartCard } from "../components";
 import { clearLocalCart } from "../actions/localCartActions";
+import { Helmet } from "react-helmet";
 
 export default function Cart() {
     const dispatch = useDispatch();
@@ -57,6 +58,13 @@ export default function Cart() {
     if (!cartItems.length > 0) {
         return (
             <div>
+                <Helmet>
+                    <title>Cart | Tea-Commerce</title>
+                    <meta
+                        name="description"
+                        content="Cart with products and a total."
+                    />
+                </Helmet>
                 <div className="shipping-info-bar">
                     <p>Free shipping on orders over $80!</p>
                 </div>
@@ -78,6 +86,13 @@ export default function Cart() {
 
     return (
         <div>
+            <Helmet>
+                <title>Cart | Tea-Commerce</title>
+                <meta
+                    name="description"
+                    content="Cart with products and a total."
+                />
+            </Helmet>
             <div className="shipping-info-bar">
                 <p>Free shipping on orders over $80!</p>
             </div>

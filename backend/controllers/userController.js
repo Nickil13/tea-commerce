@@ -22,7 +22,6 @@ const loginUser = asyncHandler(async (req, res) => {
             wishlist: user.wishlist,
             cartItems: user.cartItems,
             shippingAddress: user.shippingAddress,
-            // isAdmin: user.isAdmin,
             token,
         });
     } else {
