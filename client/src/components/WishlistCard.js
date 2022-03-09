@@ -18,7 +18,7 @@ export default function WishlistCard({
     const handleWishlistRemoveItem = (id) => {
         dispatch(removeWishlistItem(id));
     };
-    console.log(flavourImage);
+
     return (
         <div className="wishlist-card">
             <div className="img-container">
