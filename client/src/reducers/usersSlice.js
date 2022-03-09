@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, updateUserProfile, updateUser } from "../actions/userActions";
+import {
+    login,
+    updateUserProfile,
+    updateUser,
+    updateCurrentUser,
+} from "../actions/userActions";
 
 const initialState = {
     loading: false,
@@ -49,6 +54,7 @@ const usersSlice = createSlice({
         userAuthenticated(state, action) {
             if (action.payload) {
                 state.authenticated = true;
+                state.user = action.payload;
             } else {
                 state.authenticated = false;
             }
@@ -106,6 +112,10 @@ const usersSlice = createSlice({
             state.userUpdatingError = "";
             state.userUpdatingSuccess = false;
         },
+        userProfileUpdatingReset(state) {
+            state.userUpdatingProfileError = "";
+            state.userUpdatingProfileSuccess = false;
+        },
         userPaymentMethodSaved(state, action) {
             state.userPaymentMethod = action.payload;
         },
@@ -127,14 +137,28 @@ const usersSlice = createSlice({
 
         // User update builders
         builder.addCase(updateUserProfile.pending, (state) => {
-            state.userUpdating = true;
+            state.userProfileUpdating = true;
         });
         builder.addCase(updateUserProfile.fulfilled, (state, { payload }) => {
+            state.user = payload;
+            state.userProfileUpdating = false;
+            state.userProfileUpdatingSuccess = true;
+        });
+        builder.addCase(updateUserProfile.rejected, (state, action) => {
+            state.userProfileUpdatingError = action.payload;
+            state.userProfileUpdating = false;
+        });
+
+        // Current user update builders
+        builder.addCase(updateCurrentUser.pending, (state) => {
+            state.userUpdating = true;
+        });
+        builder.addCase(updateCurrentUser.fulfilled, (state, { payload }) => {
             state.user = payload;
             state.userUpdating = false;
             state.userUpdatingSuccess = true;
         });
-        builder.addCase(updateUserProfile.rejected, (state, action) => {
+        builder.addCase(updateCurrentUser.rejected, (state, action) => {
             state.userUpdatingError = action.payload;
             state.userUpdating = false;
         });
@@ -176,6 +200,7 @@ export const {
     wishlistSuccessReset,
     selectedUserDeleted,
     selectedUserReset,
+    userProfileUpdatingReset,
     userUpdatingReset,
     userPaymentMethodSaved,
 } = usersSlice.actions;

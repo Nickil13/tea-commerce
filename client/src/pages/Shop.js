@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { ShopCard, Breadcrumbs, Banner, SearchBar, Message } from "../components";
+import {
+    ShopCard,
+    Breadcrumbs,
+    Banner,
+    SearchBar,
+    Message,
+} from "../components";
 import { useParams, useHistory, useLocation } from "react-router-dom";
 import { teaProductCategories as categories } from "../resources/teaInfoData";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +15,9 @@ import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function Shop() {
     const dispatch = useDispatch();
-    const { products, pages, page, loading, error } = useSelector((state) => state.productsSlice);
+    const { products, pages, page, loading, error } = useSelector(
+        (state) => state.productsSlice
+    );
     // const productList = useSelector((state)=>state.products.productList);
     const [keyword, setKeyword] = useState("");
     // const {products, pages, page, loading, error} = productList;
@@ -24,19 +32,30 @@ export default function Shop() {
     const updateShopButtons = useCallback(() => {
         let newShopButtons = [];
         if (category) {
-            newShopButtons = categories.filter((cat) => cat.type === category)[0].items;
+            newShopButtons = categories.filter(
+                (cat) => cat.type === category
+            )[0].items;
 
             if (type) {
                 newShopButtons = [];
             }
         } else {
-            newShopButtons = categories.filter((category) => category.type !== "all").map((category) => category.type);
+            newShopButtons = categories
+                .filter((category) => category.type !== "all")
+                .map((category) => category.type);
         }
         setShopButtons(newShopButtons);
     }, [category, type]);
 
     useEffect(() => {
-        dispatch(listProducts(category ? category : "", type ? type : "", pageNumber, keyword));
+        dispatch(
+            listProducts(
+                category ? category : "",
+                type ? type : "",
+                pageNumber,
+                keyword
+            )
+        );
         updateShopButtons();
     }, [category, type, pageNumber, keyword, updateShopButtons, dispatch]);
 
@@ -61,7 +80,10 @@ export default function Shop() {
 
     return (
         <div>
-            <Banner category={category ? category : "all"} productType={type ? type : ""} />
+            <Banner
+                category={category ? category : "all"}
+                productType={type ? type : ""}
+            />
             <Breadcrumbs path={location.pathname} />
 
             <div className="filter-bar">
@@ -75,13 +97,18 @@ export default function Shop() {
                     {shopButtons.length > 0 &&
                         shopButtons.map((category, index) => {
                             return (
-                                <button key={index} className="btn" onClick={() => handleShopButtonClick(category)}>
+                                <button
+                                    key={index}
+                                    className="btn"
+                                    onClick={() =>
+                                        handleShopButtonClick(category)
+                                    }
+                                >
                                     {category}
                                 </button>
                             );
                         })}
                 </div>
-                <Pagination page={page} pages={pages} />
             </div>
 
             {loading ? (
@@ -89,17 +116,22 @@ export default function Shop() {
             ) : error ? (
                 <Message>{error}</Message>
             ) : (
-                <div className="shop-list">
-                    {products && products.length > 0 ? (
-                        products.map((item, index) => {
-                            return <ShopCard key={index} item={item} />;
-                        })
-                    ) : (
-                        <Message>No items found.</Message>
-                    )}
-                </div>
+                <section>
+                    <div className="section-container">
+                        <Pagination page={page} pages={pages} />
+                        <div className="shop-list">
+                            {products && products.length > 0 ? (
+                                products.map((item, index) => {
+                                    return <ShopCard key={index} item={item} />;
+                                })
+                            ) : (
+                                <Message>No items found.</Message>
+                            )}
+                        </div>
+                        <Pagination page={page} pages={pages} />
+                    </div>
+                </section>
             )}
-            <Pagination page={page} pages={pages} />
         </div>
     );
 }

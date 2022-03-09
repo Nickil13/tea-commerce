@@ -48,9 +48,9 @@ export const createOrder = createAsyncThunk(
             const { data } = await axios.post("/api/orders", order, config);
 
             return data;
-        } catch (err) {
-            let error = err;
-            return rejectWithValue(error.response.data);
+        } catch (error) {
+            let errorMessage = error.response?.data.message || error.message;
+            return rejectWithValue(errorMessage);
         }
     }
 );

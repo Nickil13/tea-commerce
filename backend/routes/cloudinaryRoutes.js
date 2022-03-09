@@ -1,5 +1,5 @@
 const express = require("express");
-const { protect, admin } = require("../middleware/authMiddleware");
+const { protect, restrictTo } = require("../middleware/authMiddleware");
 const { cloudinary } = require("../utils/cloudinary");
 
 const router = express.Router();
@@ -9,7 +9,7 @@ const router = express.Router();
 // @desc    Upload an image to cloudinary
 // @route   POST /api/cloudinary/upload
 // @access  Private/Admin
-router.post("/upload", async (req, res) => {
+router.post("/upload", protect, restrictTo("admin"), async (req, res) => {
     const fileStr = req.body.data;
     const fileName = req.body.name;
 

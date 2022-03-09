@@ -62,10 +62,9 @@ export const createProductReview = createAsyncThunk(
             );
 
             return data;
-        } catch (err) {
-            console.error(err);
-            let error = err;
-            return rejectWithValue(error.response.data);
+        } catch (error) {
+            let errorMessage = error.response?.data.message || error.message;
+            return rejectWithValue(errorMessage);
         }
     }
 );
@@ -113,9 +112,9 @@ export const createProduct = createAsyncThunk(
             const { data } = await axios.post("/api/products", product, config);
 
             return data;
-        } catch (err) {
-            let error = err;
-            return rejectWithValue(error.response.data);
+        } catch (error) {
+            let errorMessage = error.response?.data.message || error.message;
+            return rejectWithValue(errorMessage);
         }
     }
 );
@@ -138,9 +137,9 @@ export const editProduct = createAsyncThunk(
             );
 
             return data;
-        } catch (err) {
-            let error = err;
-            return rejectWithValue(error.response.data);
+        } catch (error) {
+            let errorMessage = error.response?.data.message || error.message;
+            return rejectWithValue(errorMessage);
         }
     }
 );
@@ -177,9 +176,9 @@ export const uploadProductImage = createAsyncThunk(
             );
 
             return data;
-        } catch (err) {
-            let error = err;
-            return rejectWithValue(error.response.data);
+        } catch (error) {
+            let errorMessage = error.response?.data.message || error.message;
+            return rejectWithValue(errorMessage);
         }
     }
 );

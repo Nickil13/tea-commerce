@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { registerUser, updateUserProfile } from "../actions/userActions";
+import { registerUser, updateCurrentUser } from "../actions/userActions";
 import { LoadingSpinner, Message } from "../components";
 
 export default function Signup() {
@@ -32,7 +32,7 @@ export default function Signup() {
             if (location.search.includes("redirect")) {
                 history.push(location.search.split("=")[1]);
                 dispatch(
-                    updateUserProfile({
+                    updateCurrentUser({
                         cartItems: localCartItems,
                     })
                 );

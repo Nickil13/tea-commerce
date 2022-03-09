@@ -54,7 +54,7 @@ export default function CartCard({
             </div>
 
             <div className="cart-card-description">
-                <h3>{name}</h3>
+                <h2>{name}</h2>
                 <ul>
                     <li>
                         {category} - {productType}{" "}

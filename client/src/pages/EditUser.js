@@ -32,7 +32,10 @@ export default function EditUser() {
             } else {
                 setUsername(user.username);
                 setEmail(user.email);
-                setIsAdmin(user.isAdmin);
+                if (user.role === "admin") {
+                    setIsAdmin(true);
+                }
+                // setIsAdmin(user.isAdmin);
             }
         }
     }, [id, user, selectedUserUpdateSuccess, dispatch, history]);
@@ -103,7 +106,7 @@ export default function EditUser() {
                             type="checkbox"
                             id="admin-checkbox"
                             name="admin-checkbox"
-                            defaultChecked={user.isAdmin}
+                            defaultChecked={user.role === "admin"}
                             onChange={(e) => setIsAdmin(e.target.checked)}
                         />
                         <label htmlFor="admin-checkbox">Admin</label>

@@ -38,9 +38,9 @@ export const login = createAsyncThunk(
             );
 
             return data;
-        } catch (err) {
-            let error = err;
-            return rejectWithValue(error.response.data);
+        } catch (error) {
+            let errorMessage = error.response?.data.message || error.message;
+            return rejectWithValue(errorMessage);
         }
     }
 );
@@ -109,8 +109,32 @@ export const registerUser =
         }
     };
 
-export const updateUserProfile = createAsyncThunk(
+export const updateCurrentUser = createAsyncThunk(
     "users/updateUser",
+    async (user, { rejectWithValue }) => {
+        try {
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            };
+
+            const { data } = await axios.put(
+                "/api/users/currentUser",
+                user,
+                config
+            );
+
+            return data;
+        } catch (error) {
+            let errorMessage = error.response?.data.message || error.message;
+            return rejectWithValue(errorMessage);
+        }
+    }
+);
+
+export const updateUserProfile = createAsyncThunk(
+    "users/updateUserProfile",
     async (user, { rejectWithValue }) => {
         try {
             const config = {
@@ -126,9 +150,9 @@ export const updateUserProfile = createAsyncThunk(
             );
 
             return data;
-        } catch (err) {
-            let error = err;
-            return rejectWithValue(error.response.data);
+        } catch (error) {
+            let errorMessage = error.response?.data.message || error.message;
+            return rejectWithValue(errorMessage);
         }
     }
 );
@@ -201,7 +225,7 @@ export const addToCart = (id, quantity) => async (dispatch) => {
             },
         };
         const { data } = await axios.put(
-            "/api/users/profile",
+            "/api/users/currentUser",
             { cartItems: newCartItems },
             config
         );
@@ -227,7 +251,11 @@ export const removeFromCart = (id) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.put("/api/users/profile", newUser, config);
+        const { data } = await axios.put(
+            "/api/users/currentUser",
+            newUser,
+            config
+        );
 
         dispatch(cartItemRemoved(data.cartItems));
     } catch (error) {
@@ -257,7 +285,7 @@ export const updateCartItemQuantity = (id, quantity) => async (dispatch) => {
         };
 
         await axios.put(
-            "/api/users/profile",
+            "/api/users/currentUser",
             { cartItems: newCartItems },
             config
         );
@@ -318,7 +346,7 @@ export const addToWishlist = (id) => async (dispatch) => {
             },
         };
         const { data } = await axios.put(
-            "/api/users/profile",
+            "/api/users/currentUser",
             newUser,
             putConfig
         );
@@ -346,7 +374,7 @@ export const removeWishlistItem = (id) => async (dispatch) => {
         };
 
         const { data } = await axios.put(
-            "/api/users/profile",
+            "/api/users/currentUser",
             newUser,
             putConfig
         );
@@ -406,9 +434,9 @@ export const updateUser = createAsyncThunk(
             const { data } = await axios.put(`/api/users/${id}`, user, config);
 
             return data;
-        } catch (err) {
-            let error = err;
-            return rejectWithValue(error.response.data);
+        } catch (error) {
+            let errorMessage = error.response?.data.message || error.message;
+            return rejectWithValue(errorMessage);
         }
     }
 );

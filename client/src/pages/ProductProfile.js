@@ -182,6 +182,7 @@ export default function ProductProfile() {
         setRating(e.target.value);
         setComment("");
     };
+
     return (
         <div>
             {loading ? (
@@ -255,14 +256,16 @@ export default function ProductProfile() {
                                                             product.countInStock
                                                         ).keys(),
                                                     ]
-                                                        .slice(1, 11)
+                                                        .slice(0, 11)
                                                         .map((num, index) => {
                                                             return (
                                                                 <option
                                                                     key={index}
-                                                                    value={num}
+                                                                    value={
+                                                                        num + 1
+                                                                    }
                                                                 >
-                                                                    {num}
+                                                                    {num + 1}
                                                                 </option>
                                                             );
                                                         })}
@@ -357,147 +360,159 @@ export default function ProductProfile() {
                     </section>
 
                     <section className="review-section">
-                        <h2>Reviews</h2>
-                        <span>
-                            ({product.reviews && product.reviews.length} review
-                            {product.reviews && product.reviews.length !== 1
-                                ? "s"
-                                : ""}
-                            )
-                        </span>
-                        <div>
-                            {product.reviews && product.reviews.length > 0 ? (
-                                <div className="average-rating">
-                                    <span>Average stars:</span>
-                                    <Rating value={product.rating} />
-                                </div>
-                            ) : (
-                                <p className="product-not-reviewed">
-                                    This product has not been reviewed yet!
-                                </p>
-                            )}
-                            <div className="product-review-list">
-                                {topReview && (
-                                    <ProductReview
-                                        review={topReview}
-                                        topReview
-                                    />
-                                )}
+                        <div className="section-container">
+                            <h2>Reviews</h2>
+                            <span>
+                                ({product.reviews && product.reviews.length}{" "}
+                                review
+                                {product.reviews && product.reviews.length !== 1
+                                    ? "s"
+                                    : ""}
+                                )
+                            </span>
+                            <div>
                                 {product.reviews &&
-                                    product.reviews
-                                        .filter(
-                                            (r) =>
-                                                topReview &&
-                                                r._id !== topReview._id
-                                        )
-                                        .slice(0)
-                                        .reverse()
-                                        .map((review) => {
-                                            return (
-                                                <ProductReview
-                                                    key={review._id}
-                                                    review={review}
-                                                />
-                                            );
-                                        })}
-                            </div>
-                        </div>
-                        {reviewedByUser ? (
-                            <p>You have already reviewed this product.</p>
-                        ) : authenticated ? (
-                            <form
-                                onSubmit={handleSubmitReview}
-                                className="customer-review-form"
-                            >
-                                <h3>Write a Customer Review</h3>
-                                <div className="input-control">
-                                    <label htmlFor="rating">Rating</label>
-                                    <select
-                                        name="rating"
-                                        id="rating"
-                                        value={rating}
-                                        onChange={handleSelectRating}
-                                    >
-                                        <option value="" hidden>
-                                            Select...
-                                        </option>
-                                        <option value="1">Poor</option>
-                                        <option value="2">Fair</option>
-                                        <option value="3">Good</option>
-                                        <option value="4">Very Good</option>
-                                        <option value="5">Excellent</option>
-                                    </select>
-                                </div>
-                                {user.isAdmin ? (
-                                    <div className="input-control">
-                                        <label htmlFor="comment">Comment</label>
-                                        <textarea
-                                            rows="6"
-                                            type="text"
-                                            name="comment"
-                                            id="comment"
-                                            value={comment}
-                                            onChange={(e) =>
-                                                setComment(e.target.value)
-                                            }
-                                        />
+                                product.reviews.length > 0 ? (
+                                    <div className="average-rating">
+                                        <span>Average stars:</span>
+                                        <Rating value={product.rating} />
                                     </div>
                                 ) : (
-                                    rating !== 0 && (
+                                    <p className="product-not-reviewed">
+                                        This product has not been reviewed yet!
+                                    </p>
+                                )}
+                                <div className="product-review-list">
+                                    {topReview && (
+                                        <ProductReview
+                                            review={topReview}
+                                            topReview
+                                        />
+                                    )}
+                                    {product.reviews &&
+                                        product.reviews
+                                            .filter(
+                                                (r) =>
+                                                    topReview &&
+                                                    r._id !== topReview._id
+                                            )
+                                            .slice(0)
+                                            .reverse()
+                                            .map((review) => {
+                                                return (
+                                                    <ProductReview
+                                                        key={review._id}
+                                                        review={review}
+                                                    />
+                                                );
+                                            })}
+                                </div>
+                            </div>
+                            {reviewedByUser ? (
+                                <p>You have already reviewed this product.</p>
+                            ) : authenticated ? (
+                                <form
+                                    onSubmit={handleSubmitReview}
+                                    className="customer-review-form"
+                                >
+                                    <h3>Write a Customer Review</h3>
+                                    <div className="input-control">
+                                        <label htmlFor="rating">Rating</label>
+                                        <select
+                                            name="rating"
+                                            id="rating"
+                                            value={rating}
+                                            onChange={handleSelectRating}
+                                        >
+                                            <option value="" hidden>
+                                                Select...
+                                            </option>
+                                            <option value="1">Poor</option>
+                                            <option value="2">Fair</option>
+                                            <option value="3">Good</option>
+                                            <option value="4">Very Good</option>
+                                            <option value="5">Excellent</option>
+                                        </select>
+                                    </div>
+                                    {user.role === "admin" ? (
                                         <div className="input-control">
                                             <label htmlFor="comment">
                                                 Comment
                                             </label>
-                                            <p>
-                                                *In order to regulate comments
-                                                for this personal website,
-                                                select your favourite from the
-                                                dropdown!
-                                            </p>
-                                            <CustomSelect
-                                                optionList={
-                                                    reviewComments.find(
-                                                        (comment) =>
-                                                            Number(
-                                                                comment.rating
-                                                            ) === Number(rating)
-                                                    ) &&
-                                                    reviewComments.find(
-                                                        (comment) =>
-                                                            Number(
-                                                                comment.rating
-                                                            ) === Number(rating)
-                                                    ).comments
-                                                }
-                                                defaultOption="Select a comment"
+                                            <textarea
+                                                rows="6"
+                                                type="text"
+                                                name="comment"
+                                                id="comment"
                                                 value={comment}
-                                                setValue={setComment}
+                                                onChange={(e) =>
+                                                    setComment(e.target.value)
+                                                }
                                             />
                                         </div>
-                                    )
-                                )}
+                                    ) : (
+                                        rating !== 0 && (
+                                            <div className="input-control">
+                                                <label htmlFor="comment">
+                                                    Comment
+                                                </label>
+                                                <p>
+                                                    *In order to regulate
+                                                    comments for this personal
+                                                    website, select your
+                                                    favourite from the dropdown!
+                                                </p>
+                                                <CustomSelect
+                                                    optionList={
+                                                        reviewComments.find(
+                                                            (comment) =>
+                                                                Number(
+                                                                    comment.rating
+                                                                ) ===
+                                                                Number(rating)
+                                                        ) &&
+                                                        reviewComments.find(
+                                                            (comment) =>
+                                                                Number(
+                                                                    comment.rating
+                                                                ) ===
+                                                                Number(rating)
+                                                        ).comments
+                                                    }
+                                                    defaultOption="Select a comment"
+                                                    value={comment}
+                                                    setValue={setComment}
+                                                />
+                                            </div>
+                                        )
+                                    )}
 
-                                <button
-                                    className="btn btn-primary"
-                                    type="submit"
-                                >
-                                    Submit
-                                </button>
-                                {productReviewAddedError ? (
-                                    <Message>{productReviewAddedError}</Message>
-                                ) : (
-                                    addingProductReview && <LoadingSpinner />
-                                )}
-                            </form>
-                        ) : (
-                            <p>
-                                Please{" "}
-                                <Link to="/login">
-                                    <u>log in</u>
-                                </Link>{" "}
-                                to leave a review.
-                            </p>
-                        )}
+                                    <button
+                                        className="btn btn-primary"
+                                        type="submit"
+                                    >
+                                        Submit
+                                    </button>
+                                    {productReviewAddedError ? (
+                                        <Message>
+                                            {productReviewAddedError}
+                                        </Message>
+                                    ) : (
+                                        addingProductReview && (
+                                            <LoadingSpinner />
+                                        )
+                                    )}
+                                </form>
+                            ) : (
+                                <p>
+                                    Please{" "}
+                                    <Link to="/login">
+                                        <u>log in</u>
+                                    </Link>{" "}
+                                    to leave a review.
+                                </p>
+                            )}
+                        </div>
                     </section>
                 </>
             )}

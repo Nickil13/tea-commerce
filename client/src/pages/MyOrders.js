@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { listMyOrders } from "../actions/orderActions";
-import { OrderCard, Message, LoadingSpinner } from "../components";
+import { OrderCard, Message, LoadingSpinner, AccountBar } from "../components";
 
 export default function MyOrders() {
     const {
@@ -9,6 +9,7 @@ export default function MyOrders() {
         loading,
         error,
     } = useSelector((state) => state.ordersSlice);
+    const { user } = useSelector((state) => state.usersSlice);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -17,6 +18,11 @@ export default function MyOrders() {
 
     return (
         <div>
+            <AccountBar
+                username={user.username}
+                email={user.email}
+                role={user.role}
+            />
             <h1 className="page-title">My Orders</h1>
             <div className="page-description">
                 <p>All orders made. For more details, click the order card.</p>

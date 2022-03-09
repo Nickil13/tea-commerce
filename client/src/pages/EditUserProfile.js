@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile, updateUserProfile } from "../actions/userActions";
 import { LoadingSpinner, Message } from "../components";
-import { userUpdatingReset } from "../reducers/usersSlice";
+import { userProfileUpdatingReset } from "../reducers/usersSlice";
 
 export default function EditUserProfile() {
     const dispatch = useDispatch();
@@ -11,9 +11,9 @@ export default function EditUserProfile() {
         user,
         loading,
         error,
-        userUpdating,
-        userUpdatingError,
-        userUpdatingSuccess,
+        userProfileUpdating,
+        userProfileUpdatingError,
+        userProfileUpdatingSuccess,
     } = useSelector((state) => state.usersSlice);
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -44,11 +44,11 @@ export default function EditUserProfile() {
                 setPostalCode(user.shippingAddress.postalCode);
             }
         }
-        if (userUpdatingSuccess) {
-            dispatch(userUpdatingReset());
+        if (userProfileUpdatingSuccess) {
+            dispatch(userProfileUpdatingReset());
             history.push("/account");
         }
-    }, [dispatch, user, userUpdatingSuccess, history]);
+    }, [dispatch, user, userProfileUpdatingSuccess, history]);
 
     const handlePersonalSubmit = (e) => {
         let validEmail = true;
@@ -170,11 +170,11 @@ export default function EditUserProfile() {
                             Edit
                         </button>
                         {formEdited === "personal" &&
-                            (userUpdating ? (
+                            (userProfileUpdating ? (
                                 <LoadingSpinner />
-                            ) : userUpdatingError ? (
-                                <Message>{userUpdatingError}</Message>
-                            ) : userUpdatingSuccess ? (
+                            ) : userProfileUpdatingError ? (
+                                <Message>{userProfileUpdatingError}</Message>
+                            ) : userProfileUpdatingSuccess ? (
                                 <Message>Personal information updated.</Message>
                             ) : (
                                 message && <Message>{message}</Message>
@@ -240,11 +240,11 @@ export default function EditUserProfile() {
                             Edit
                         </button>
                         {formEdited === "address" &&
-                            (userUpdating ? (
+                            (userProfileUpdating ? (
                                 <LoadingSpinner />
-                            ) : userUpdatingError ? (
-                                <Message>{userUpdatingError}</Message>
-                            ) : userUpdatingSuccess ? (
+                            ) : userProfileUpdatingError ? (
+                                <Message>{userProfileUpdatingError}</Message>
+                            ) : userProfileUpdatingSuccess ? (
                                 <Message>Address updated.</Message>
                             ) : (
                                 message && <Message>{message}</Message>

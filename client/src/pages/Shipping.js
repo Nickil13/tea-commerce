@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CheckoutSteps, Message } from "../components";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserProfile, updateUserProfile } from "../actions/userActions";
+import { getUserProfile, updateCurrentUser } from "../actions/userActions";
 import { useHistory } from "react-router";
 
 export default function Shipping() {
@@ -79,7 +79,7 @@ export default function Shipping() {
                 country,
                 postalCode,
             };
-            dispatch(updateUserProfile({ shippingAddress }));
+            dispatch(updateCurrentUser({ shippingAddress }));
             history.push("/payment");
             setError("");
         } catch (error) {

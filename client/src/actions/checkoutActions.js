@@ -13,9 +13,9 @@ export const getCheckoutDetails = createAsyncThunk(
             const { data } = await axios.get(`/api/stripe/sessions/${id}`);
 
             return data;
-        } catch (err) {
-            let error = err;
-            return rejectWithValue(error.response.data);
+        } catch (error) {
+            let errorMessage = error.response?.data.message || error.message;
+            return rejectWithValue(errorMessage);
         }
     }
 );

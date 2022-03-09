@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
-import { FaRegHeart } from "react-icons/fa";
-import { GoPackage } from "react-icons/go";
 import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile } from "../actions/userActions";
-import { AdminBar, LoadingSpinner, Message } from "../components";
+import { AccountBar, LoadingSpinner, Message } from "../components";
 
 export default function UserProfile() {
     const dispatch = useDispatch();
@@ -28,35 +25,11 @@ export default function UserProfile() {
                 <Message>{error}</Message>
             ) : (
                 <>
-                    <div className="account-banner">
-                        <div className="user-bar">
-                            <div>
-                                <h3>{user.username}</h3>
-                                <p>{user.email}</p>
-                            </div>
-
-                            <ul className="banner-links">
-                                <li>
-                                    <Link to="/account/wishlist">
-                                        <span>
-                                            <FaRegHeart />
-                                        </span>
-                                        <p>Wishlist</p>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/account/orders">
-                                        <span>
-                                            <GoPackage />
-                                        </span>
-                                        <p>Orders</p>
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                        {user.isAdmin && <AdminBar />}
-                    </div>
-
+                    <AccountBar
+                        username={user.username}
+                        email={user.email}
+                        role={user.role}
+                    />
                     <h1 className="page-title">My Account</h1>
 
                     <section className="account-section">

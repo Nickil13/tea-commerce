@@ -90,52 +90,65 @@ export default function PlaceOrder() {
             <CheckoutSteps currentStepNum={4} />
             <h1 className="page-title">Place Order</h1>
             <section className="order-shipping-section">
-                <h3>Shipping Information</h3>
-                <ul>
-                    <li>{shippingAddress.address}</li>
-                    <li>
-                        {shippingAddress.city}, {shippingAddress.province}
-                    </li>
-                    <li>{shippingAddress.country}</li>
-                    <li>{shippingAddress.postalCode}</li>
-                </ul>
+                <div className="section-container">
+                    <h3>Shipping Information</h3>
+                    <ul>
+                        <li>{shippingAddress.address}</li>
+                        <li>
+                            {shippingAddress.city}, {shippingAddress.province}
+                        </li>
+                        <li>{shippingAddress.country}</li>
+                        <li>{shippingAddress.postalCode}</li>
+                    </ul>
+                </div>
             </section>
 
             <section className="order-payment-section">
-                <h3>Payment Information</h3>
-                <p>Transaction type: {userPaymentMethod}</p>
+                <div className="section-container">
+                    <h3>Payment Information</h3>
+                    <p>Transaction type: {userPaymentMethod}</p>
+                </div>
             </section>
 
             <section className="order-items-section">
-                <h3>Order Items</h3>
-                <OrderTable orderItems={cartItems} />
+                <div className="section-container">
+                    <h3>Order Items</h3>
+                    <OrderTable orderItems={cartItems} />
+                </div>
             </section>
 
             <section className="order-summary">
-                <h3>Order Summary</h3>
-                <ul>
-                    <li>Subtotal: ${subtotal}</li>
-                    <li>Shipping cost: ${shipping}</li>
-                    <li>Taxes: ${taxes}</li>
-                    <li>Total: ${total}</li>
-                </ul>
-                <button className="btn-secondary" onClick={handlePlaceOrder}>
-                    Place Order
-                </button>
+                <div className="section-container">
+                    <h3>Order Summary</h3>
+                    <ul>
+                        <li>Subtotal: ${subtotal}</li>
+                        <li>Shipping cost: ${shipping}</li>
+                        <li>Taxes: ${taxes}</li>
+                        <li>Total: ${total}</li>
+                    </ul>
+                    <button
+                        className="btn-secondary"
+                        onClick={handlePlaceOrder}
+                    >
+                        Place Order
+                    </button>
 
-                {creatingOrder ? (
-                    <Message>Placing order...</Message>
-                ) : (
-                    orderCreatedError && <Message>{orderCreatedError}</Message>
-                )}
+                    {creatingOrder ? (
+                        <Message>Placing order...</Message>
+                    ) : (
+                        orderCreatedError && (
+                            <Message>{orderCreatedError}</Message>
+                        )
+                    )}
 
-                {sessionLoading ? (
-                    <Message>Loading Stripe session...</Message>
-                ) : (
-                    sessionError && (
-                        <Message>Error loading Stripe session.</Message>
-                    )
-                )}
+                    {sessionLoading ? (
+                        <Message>Loading Stripe session...</Message>
+                    ) : (
+                        sessionError && (
+                            <Message>Error loading Stripe session.</Message>
+                        )
+                    )}
+                </div>
             </section>
         </div>
     );

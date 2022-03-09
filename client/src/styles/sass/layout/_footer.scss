@@ -1,77 +1,81 @@
-@use '../abstracts';
+@use "../abstracts";
 
-footer{
+footer {
     position: absolute;
     color: abstracts.$color-neutral-dark;
     bottom: 0;
-    width:100%;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
     height: abstracts.$footer-height;
-  }
-
-.footer-container{
-  width: 80%;
-  max-width: 60rem;
-  margin: 2rem auto 0 auto;
-  padding: 2rem 1rem 1rem;
-  border-top: 1px solid abstracts.$color-neutral-dark;
+    border-top: 1px solid abstracts.$color-neutral-dark;
 }
 
-.footer-items{
-  display: grid;
-  justify-content:center;
-  grid-template-columns: 1fr;
+.footer-container {
+    width: 90%;
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 2rem 1rem 1rem;
+}
 
-    & li{
-      padding: 0.25rem;
+.footer-items {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 1fr;
+
+    & li {
+        padding: 0.25rem;
     }
 
-    & a{
-      color:abstracts.$color-neutral-dark;
-      &:hover{
+    & a {
+        color: abstracts.$color-neutral-dark;
+        &:hover {
+            color: abstracts.$color-primary;
+        }
+    }
+
+    @include abstracts.respond-to("small") {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include abstracts.respond-to("medium") {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.quick-links,
+.account-links,
+.about-links {
+    padding: 1rem;
+
+    & h4 {
+        font-size: 19px;
+        margin-bottom: 0.25rem;
+    }
+}
+
+.media-links {
+    padding: 2rem 0;
+    width: 80%;
+    max-width: 200px;
+    margin: 0 auto;
+
+    & ul {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    & a {
+        display: inline-block;
+        font-size: 22px;
         color: abstracts.$color-primary;
-      }
+
+        &:hover {
+            color: abstracts.$color-primary-dark;
+        }
     }
-    
-    @include abstracts.respond-to('small'){
-      grid-template-columns: repeat(2,1fr);
-    }
-
-    @include abstracts.respond-to('medium'){
-      grid-template-columns: repeat(3,1fr);
-    }
-  }
-
-.quick-links,.account-links,.about-links{
-  padding: 1rem;
-
-  & h4{
-    font-size: 19px;
-    margin-bottom: 0.25rem;
-  }
-}
- 
-.media-links{
-  padding: 1rem 0;
-  width: 80%;
-  max-width: 200px;
-  margin: 0 auto;
-
-  & ul {
-    display:flex;
-    justify-content: space-around;
-  }
-
-  & a{
-    display: inline-block;
-    font-size: 22px;
-    color: abstracts.$color-primary;
-      
-    &:hover{
-        color: abstracts.$color-primary-dark;
-    }
-  }
 }
 
-.copyright-text{
-  text-align: center;
+.copyright-text {
+    text-align: center;
 }

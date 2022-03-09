@@ -77,7 +77,7 @@ export default function Users() {
                                             <td>{user._id}</td>
                                             <td>{user.username}</td>
                                             <td>
-                                                {user.isAdmin ? (
+                                                {user.role === "admin" ? (
                                                     <span className="tag tag-admin">
                                                         admin
                                                     </span>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { Message } from "../components";
 import { useDispatch, useSelector } from "react-redux";
-import { login, updateUserProfile } from "../actions/userActions";
+import { login, updateCurrentUser } from "../actions/userActions";
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -27,7 +27,7 @@ export default function Login() {
             if (location.search.includes("redirect")) {
                 history.push(location.search.split("=")[1]);
                 dispatch(
-                    updateUserProfile({
+                    updateCurrentUser({
                         cartItems: localCartItems,
                     })
                 );
@@ -44,7 +44,8 @@ export default function Login() {
     };
 
     const handleDemoLogin = () => {
-        dispatch(login("demoUser1", "d3m0us3r"));
+        const demoInfo = { username: "demoUser1", password: "d3m0us3r" };
+        dispatch(login(demoInfo));
     };
     return (
         <div className="login-container" onSubmit={handleSubmit}>

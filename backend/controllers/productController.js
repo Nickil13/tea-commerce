@@ -1,9 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/ProductModel");
+
 // @desc     Get products
 // @route    GET /api/products
 // @access   Public
-
 const getProducts = asyncHandler(async (req, res) => {
     const pageSize = 8;
     const page = Number(req.query.page) || 1;
@@ -63,7 +63,6 @@ const getProducts = asyncHandler(async (req, res) => {
 // @desc     Get top product review
 // @route    GET /api/products/:id/top-review
 // @access   Public
-
 const getTopProductReview = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
 
@@ -84,7 +83,6 @@ const getTopProductReview = asyncHandler(async (req, res) => {
 // @desc     Get product by ID
 // @route    GET /api/products/:id
 // @access   Public
-
 const getProductById = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
     if (product) {
@@ -98,7 +96,6 @@ const getProductById = asyncHandler(async (req, res) => {
 // @desc     Create product
 // @route    POST /api/products
 // @access   Private/Admin
-
 const createProduct = asyncHandler(async (req, res) => {
     const productExists = await Product.find({ name: req.body.name });
 
@@ -131,7 +128,6 @@ const createProduct = asyncHandler(async (req, res) => {
 // @desc     Update product
 // @route    PUT /api/products/:id
 // @access   Private/Admin
-
 const updateProduct = asyncHandler(async (req, res) => {
     const {
         name,
@@ -177,7 +173,6 @@ const updateProduct = asyncHandler(async (req, res) => {
 // @desc     Delete product
 // @route    DELETE /api/products/:id
 // @access   Private/Admin
-
 const deleteProduct = async (req, res) => {
     const product = await Product.findById(req.params.id);
 
@@ -193,7 +188,6 @@ const deleteProduct = async (req, res) => {
 // @desc     Create a product review
 // @route    POST /api/products/:id/reviews
 // @access   Private
-
 const createProductReview = asyncHandler(async (req, res) => {
     const { rating, comment } = req.body;
 

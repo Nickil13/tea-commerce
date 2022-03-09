@@ -1,4 +1,5 @@
 import Alert from "./Alert";
+import AccountBar from "./AccountBar";
 import AdminBar from "./AdminBar";
 import Banner from "./Banner";
 import Breadcrumbs from "./Breadcrumbs";
@@ -27,6 +28,7 @@ import WishlistCard from "./WishlistCard";
 
 export {
     Alert,
+    AccountBar,
     AdminBar,
     Banner,
     Breadcrumbs,

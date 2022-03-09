@@ -21,7 +21,7 @@ export function PrivateRoute({ children, privacy, ...rest }) {
             {...rest}
             render={({ location }) =>
                 authenticated &&
-                ((adminRequired && user.isAdmin) || !adminRequired) ? (
+                ((adminRequired && user.role === "admin") || !adminRequired) ? (
                     children
                 ) : (
                     <Redirect

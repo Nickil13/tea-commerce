@@ -1,5 +1,5 @@
 const express = require("express");
-const rateLimit = require("express-rate-limit");
+const { loginLimiter } = require("../utils/limiters");
 const {
     loginUser,
     getUsers,
@@ -9,29 +9,37 @@ const {
     deleteUser,
     getUserById,
     updateUser,
+    updateCurrentUser,
 } = require("../controllers/userController");
-const { protect, admin, isLoggedIn, logout } = require("../middleware/authMiddleware");
+const {
+    protect,
+    restrictTo,
+    isLoggedIn,
+    logout,
+} = require("../middleware/authMiddleware");
 const router = express.Router();
-
-const loginLimiter = rateLimit({
-    max: 5,
-    windowMs: 60 * 60 * 1000,
-    message: "Exceeded number of login attempts. Try again in an hour.",
-});
 
 router.post("/login", loginLimiter, loginUser);
 
 router.get("/isLoggedIn", isLoggedIn);
 router.get("/logout", logout);
 
-router.route("/").get(protect, admin, getUsers).post(registerUser);
+router
+    .route("/")
+    .get(protect, restrictTo("admin"), getUsers)
+    .post(registerUser);
 
-router.route("/profile").get(protect, getUserProfile).put(protect, updateUserProfile);
+router
+    .route("/profile")
+    .get(protect, getUserProfile)
+    .put(protect, restrictTo("admin", "user"), updateUserProfile);
+
+router.route("/currentUser").put(protect, updateCurrentUser);
 
 router
     .route("/:id")
-    .delete(protect, admin, deleteUser)
-    .get(protect, admin, getUserById)
-    .put(protect, admin, updateUser);
+    .delete(protect, restrictTo("admin"), deleteUser)
+    .get(protect, restrictTo("admin"), getUserById)
+    .put(protect, restrictTo("admin"), updateUser);
 
 module.exports = router;

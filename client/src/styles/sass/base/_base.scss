@@ -28,7 +28,7 @@ body {
     min-height: 100vh;
     position: relative;
     padding-top: abstracts.$nav-height;
-    padding-bottom: abstracts.$footer-height;
+    padding-bottom: calc(abstracts.$footer-height + 50px);
 }
 
 p {

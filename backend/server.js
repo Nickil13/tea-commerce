@@ -7,7 +7,7 @@ const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
 const hpp = require("hpp");
 const cookieParser = require("cookie-parser");
-
+const cors = require("cors");
 const connectDB = require("./config/db");
 const { errorHandler } = require("./middleware/errorMiddleware");
 
@@ -16,6 +16,7 @@ const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const stripeRoutes = require("./routes/stripeRoutes");
 const cloudinaryRoutes = require("./routes/cloudinaryRoutes");
+const { APILimiter } = require("./utils/limiters");
 
 dotenv.config();
 connectDB();
@@ -31,12 +32,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 //  Limit number of API requests
-const limiter = rateLimit({
-    max: 1000,
-    windowMs: 60 * 60 * 1000,
-    message: "Too many requests from this IP, please try again in an hour.",
-});
-app.use("/api", limiter);
+app.use("/api", APILimiter);
 
 // Body & Cookie parsers
 app.use(express.json({ limit: "50mb" }));
@@ -47,6 +43,13 @@ app.use(mongoSanitize());
 
 // Prevent parameter pollution
 app.use(hpp());
+
+// Cors
+const corsOptions = {
+    origin: process.env.CLIENT_URL,
+    optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 // Routes
 app.use("/api/users", userRoutes);

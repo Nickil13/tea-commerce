@@ -5,7 +5,9 @@ const Order = require("../models/OrderModel");
 // @route    GET /api/orders/myorders
 // @access   Private
 const getMyOrders = asyncHandler(async (req, res) => {
-    const orders = await Order.find({ user: req.user._id });
+    const orders = await Order.find({ user: req.user._id }).sort({
+        createdAt: -1,
+    });
     res.json({ orders });
 });
 
