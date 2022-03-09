@@ -108,10 +108,6 @@ const usersSlice = createSlice({
             state.selectedUserUpdateSuccess = false;
             state.selectedUserUpdateError = "";
         },
-        userUpdatingReset(state) {
-            state.userUpdatingError = "";
-            state.userUpdatingSuccess = false;
-        },
         userProfileUpdatingReset(state) {
             state.userUpdatingProfileError = "";
             state.userUpdatingProfileSuccess = false;
@@ -201,7 +197,6 @@ export const {
     selectedUserDeleted,
     selectedUserReset,
     userProfileUpdatingReset,
-    userUpdatingReset,
     userPaymentMethodSaved,
 } = usersSlice.actions;
 

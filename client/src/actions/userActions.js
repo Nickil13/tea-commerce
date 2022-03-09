@@ -331,11 +331,12 @@ export const addToWishlist = (id) => async (dispatch) => {
             wishlist: [
                 ...user.wishlist,
                 {
+                    _id: product._id,
                     name: product.name,
                     image: product.image,
                     category: product.category,
                     productType: product.productType,
-                    _id: product._id,
+                    flavourImage: product.flavourImage,
                 },
             ],
         };
