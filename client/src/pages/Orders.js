@@ -12,6 +12,7 @@ import {
 import { Link } from "react-router-dom";
 import { listOrders } from "../actions/orderActions";
 import Moment from "react-moment";
+import { Helmet } from "react-helmet";
 
 const TABLE_HEADERS = [
     "Id",
@@ -54,6 +55,13 @@ export default function Orders() {
 
     return (
         <div>
+            <Helmet>
+                <title>Orders | Tea-Commerce</title>
+                <meta
+                    name="description"
+                    content="Search and manage user orders."
+                />
+            </Helmet>
             <AdminBar />
 
             <h1 className="page-title">Orders</h1>

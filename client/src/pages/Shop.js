@@ -13,6 +13,7 @@ import { listProducts } from "../actions/productActions";
 import { Helmet } from "react-helmet";
 import Pagination from "../components/Pagination";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { capitalize } from "../utils/capitalize";
 
 export default function Shop() {
     const dispatch = useDispatch();
@@ -82,7 +83,10 @@ export default function Shop() {
     return (
         <div>
             <Helmet>
-                <title>Shop | Tea-Commerce</title>
+                <title>
+                    Shop {capitalize(type ? type : category ? category : "")} |
+                    Tea-Commerce
+                </title>
                 <meta
                     name="description"
                     content="Store for loose leaf, tea mixes and matcha."

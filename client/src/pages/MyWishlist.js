@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserProfile } from "../actions/userActions";
 import {
@@ -20,6 +21,10 @@ export default function MyWishlist() {
 
     return (
         <div>
+            <Helmet>
+                <title>My Wishlist | Tea-Commerce</title>
+                <meta name="description" content="User wishlist." />
+            </Helmet>
             <AccountBar
                 username={user.username}
                 email={user.email}

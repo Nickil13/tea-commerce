@@ -13,6 +13,7 @@ import {
     productEditedReset,
     productUploadImageReset,
 } from "../reducers/productsSlice";
+import { Helmet } from "react-helmet";
 
 export default function EditProduct() {
     const [name, setName] = useState("");
@@ -190,6 +191,13 @@ export default function EditProduct() {
     };
     return (
         <div>
+            <Helmet>
+                <title>Edit Product | Tea-Commerce</title>
+                <meta
+                    name="description"
+                    content="Edit the details of a product."
+                />
+            </Helmet>
             <div className="page-title">
                 <h1>Edit Product</h1>
                 <p>{product.name}</p>

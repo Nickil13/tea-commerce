@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CheckoutSteps } from "../components";
 import { useHistory } from "react-router";
 import { savePaymentMethod } from "../actions/userActions";
+import { Helmet } from "react-helmet";
 
 export default function Payment() {
     const { userPaymentMethod } = useSelector((state) => state.usersSlice);
@@ -31,6 +32,13 @@ export default function Payment() {
 
     return (
         <div>
+            <Helmet>
+                <title>Payment | Tea-Commerce</title>
+                <meta
+                    name="description"
+                    content="Select payment method for the order."
+                />
+            </Helmet>
             <CheckoutSteps currentStepNum={3} />
             <h1 className="page-title">Payment Method</h1>
             <section className="payment-section">

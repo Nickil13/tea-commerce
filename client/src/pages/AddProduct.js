@@ -10,6 +10,7 @@ import {
     productAddedReset,
     productUploadImageReset,
 } from "../reducers/productsSlice";
+import { Helmet } from "react-helmet";
 
 export default function AddProduct() {
     const [name, setName] = useState("");
@@ -161,6 +162,13 @@ export default function AddProduct() {
 
     return (
         <div>
+            <Helmet>
+                <title>Add Product | Tea-Commerce</title>
+                <meta
+                    name="description"
+                    content="Add a new product to the store."
+                />
+            </Helmet>
             <div className="page-title">
                 <h1>Add Product</h1>
             </div>

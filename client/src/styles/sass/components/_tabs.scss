@@ -5,7 +5,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    padding: 1em 0 3em 0;
+    padding: 1em 0 4em 0;
 
     & li {
         position: relative;
@@ -36,7 +36,6 @@
 
 .tea-tabs-img-container {
     padding: 0 1em;
-    min-height: 300px;
 
     & img {
         border: 6px solid abstracts.$color-primary-light;
@@ -45,9 +44,14 @@
 }
 
 .tea-tabs-content {
+    max-width: 70rem;
+    margin: 0 auto;
+
     & p {
         width: 90%;
+        max-width: 50ch;
         margin: 0 auto;
+        text-align: center;
     }
 
     @include abstracts.respond-to("medium") {
@@ -58,9 +62,9 @@
 
 .tea-tabs-info {
     margin-top: 2em;
-    display: grid;
-    align-content: center;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     & span {
         font-size: 12px;
@@ -71,6 +75,6 @@
     }
 
     @include abstracts.respond-to("medium") {
-        margin-top: 0;
+        // margin-top: 0;
     }
 }

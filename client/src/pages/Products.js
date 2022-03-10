@@ -14,6 +14,7 @@ import {
 import { teaProductCategories } from "../resources/teaInfoData";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../context";
+import { Helmet } from "react-helmet";
 
 const TABLE_HEADERS = [
     "Id",
@@ -82,6 +83,13 @@ export default function Products() {
     };
     return (
         <div>
+            <Helmet>
+                <title>Products | Tea-Commerce</title>
+                <meta
+                    name="description"
+                    content="Search and manage store products."
+                />
+            </Helmet>
             <AdminBar />
             <h1 className="page-title">Products</h1>
 

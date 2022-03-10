@@ -13,6 +13,7 @@ import {
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../context";
 import { listUsers } from "../actions/userActions";
+import { Helmet } from "react-helmet";
 
 const TABLE_HEADERS = ["Id", "Name", "Role", "Edit", "Delete"];
 
@@ -52,6 +53,13 @@ export default function Users() {
 
     return (
         <div>
+            <Helmet>
+                <title>Users | Tea-Commerce</title>
+                <meta
+                    name="description"
+                    content="Search and manage all users as admin."
+                />
+            </Helmet>
             <AdminBar />
             <h1 className="page-title">Users</h1>
 

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile, updateUserProfile } from "../actions/userActions";
 import { LoadingSpinner, Message } from "../components";
 import { userProfileUpdatingReset } from "../reducers/usersSlice";
+import { Helmet } from "react-helmet";
 
 export default function EditUserProfile() {
     const dispatch = useDispatch();
@@ -110,6 +111,13 @@ export default function EditUserProfile() {
 
     return (
         <div>
+            <Helmet>
+                <title>Edit Profile | Tea-Commerce</title>
+                <meta
+                    name="description"
+                    content="Edit user information and shipping address."
+                />
+            </Helmet>
             <h1 className="page-title">Edit User Profile</h1>
             {loading ? (
                 <LoadingSpinner />

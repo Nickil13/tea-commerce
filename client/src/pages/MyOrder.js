@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import Moment from "react-moment";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router";
@@ -41,6 +42,10 @@ export default function MyOrder() {
 
     return (
         <div>
+            <Helmet>
+                <title>Order Details | Tea-Commerce</title>
+                <meta name="description" content="Order details and status." />
+            </Helmet>
             <h1 className="page-title">Order Details</h1>
             {loading ? (
                 <LoadingSpinner />

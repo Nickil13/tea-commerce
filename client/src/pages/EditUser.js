@@ -4,6 +4,7 @@ import { getUserDetails, updateUser } from "../actions/userActions";
 import { useParams, useHistory } from "react-router";
 import { LoadingSpinner, Message } from "../components";
 import { selectedUserReset } from "../reducers/usersSlice";
+import { Helmet } from "react-helmet";
 
 export default function EditUser() {
     const {
@@ -68,6 +69,13 @@ export default function EditUser() {
 
     return (
         <div>
+            <Helmet>
+                <title>Edit User | Tea-Commerce</title>
+                <meta
+                    name="description"
+                    content="Edit user information and shipping address."
+                />
+            </Helmet>
             <div className="page-title">
                 <h1>Edit User</h1>
                 <p>{user?.username}</p>

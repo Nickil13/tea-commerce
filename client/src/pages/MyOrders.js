@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { useSelector, useDispatch } from "react-redux";
 import { listMyOrders } from "../actions/orderActions";
 import { OrderCard, Message, LoadingSpinner, AccountBar } from "../components";
@@ -18,6 +19,13 @@ export default function MyOrders() {
 
     return (
         <div>
+            <Helmet>
+                <title>My Orders | Tea-Commerce</title>
+                <meta
+                    name="description"
+                    content="User orders with basic information."
+                />
+            </Helmet>
             <AccountBar
                 username={user.username}
                 email={user.email}

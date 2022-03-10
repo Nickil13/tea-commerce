@@ -6,6 +6,7 @@ import { updateOrderToPaid } from "../actions/orderActions";
 import { clearCartItems } from "../actions/userActions";
 import { Message } from "../components";
 import { checkoutDetailsReset } from "../reducers/checkoutSlice";
+import { Helmet } from "react-helmet";
 
 export default function OrderSuccess() {
     const {
@@ -48,6 +49,10 @@ export default function OrderSuccess() {
     }
     return (
         <div>
+            <Helmet>
+                <title>Successful Order | Tea-Commerce</title>
+                <meta name="description" content="Order success page." />
+            </Helmet>
             <h1 className="page-title">Order Successful</h1>
             <div className="order-success-info">
                 <p>Thank you for you order!</p>

@@ -31,6 +31,7 @@ import { reviewComments } from "../resources/reviewComments";
 import { addToLocalCart } from "../actions/localCartActions";
 import { wishlistSuccessReset } from "../reducers/usersSlice";
 import { productReviewReset } from "../reducers/productsSlice";
+import { capitalize } from "../utils/capitalize";
 
 export default function ProductProfile() {
     const [isInWishlist, setIsInWishlist] = useState(false);
@@ -183,25 +184,11 @@ export default function ProductProfile() {
         setComment("");
     };
 
-    const upperCase = (str) => {
-        if (str === undefined) return str;
-        const strList = str.split(" ");
-        let newStr = "";
-        strList.forEach((str, index) => {
-            newStr += str[0].toUpperCase() + str.substring(1);
-            // If the str is not the last word in the list, add a space.
-            if (index !== strList.length - 1) {
-                newStr += " ";
-            }
-        });
-        return newStr;
-    };
-
     return (
         <div>
             <Helmet>
                 <title>
-                    {upperCase(product.name) || "Product"} | Tea-Commerce
+                    {capitalize(product.name) || "Product"} | Tea-Commerce
                 </title>
                 <meta
                     name="description"
